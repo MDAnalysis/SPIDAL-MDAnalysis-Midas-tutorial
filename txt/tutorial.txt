@@ -1,0 +1,85 @@
+.. -*- mode: rst; coding: utf-8 -*-
+
+=========================================
+ Tutorial: MDAnalysis with radical.pilot
+=========================================
+
+
+Setting up packages
+===================
+
+conda
+-----
+
+Use ``conda`` (with Python 2) with the anaconda or miniconda distribution (Python 2.7). https://www.continuum.io/downloads
+
+MDAnalysis
+----------
+
+https://github.com/MDAnalysis/mdanalysis/wiki/Installing%20from%20binary%20packages
+
+Install numpy and other packages::
+  
+   conda config --add channels MDAnalysis
+   conda config --add channels conda-forge
+   conda update --yes conda
+   conda create --yes -n mdaenv python=2.7 numpy mmtf-python nose=1.3.7 mock sphinx=1.3 six biopython networkx cython joblib griddataformats  
+   conda install --yes -n mdaenv matplotlib netcdf4 scikit-learn scipy seaborn coveralls
+   conda install --yes -n mdaenv -c biobuilds --yes clustalw=2.1
+   
+   source activate mdaenv
+      
+`Install MDAnalysis devel <https://github.com/MDAnalysis/mdanalysis/wiki/Setup-Development-Environment>`_ manually (for the tutorial we will have a snapshot tar ball or perhaps even a conda package)::
+
+  git clone --depth=50 https://github.com/MDAnalysis/mdanalysis.git
+  cd mdanalysis
+  
+Check that you are on develop::
+  git branch
+Should show::
+  * develop
+
+Install development version::
+  
+  pip install package/
+  pip install testsuite/
+
+Check success::
+
+  $ python -c 'import MDAnalysis as mda; print(mda.__version__)'
+  0.16.0-dev0
+  
+
+Radical Pilot
+-------------
+
+http://radicalpilot.readthedocs.io/en/latest/installation.html
+
+In the same env::
+
+  source activate mdaenv
+  pip install radical.pilot
+
+Check success::
+  $    radicalpilot-version
+  0.44
+  
+You also need a MongoDB. ::
+
+  export RADICAL_PILOT_DBURL="mongodb://user:pass@host:port/dbname"
+  export RADICAL_PILOT_DBURL="mongodb://host:port/dbname"
+
+Password-less ssh: http://radicalpilot.readthedocs.io/en/latest/installation.html#setup-ssh-access-to-target-resources
+
+  
+.. NOTE:: 
+
+    Many installation problems boil down to one of two causes: an
+    Anaconda based Python distribution, or an incompatible version of
+    pip/setuptools.
+
+    Many recent systems, specifically in the academic community,
+    install Python in its incarnation as Anaconda Distribution. RP is
+    not yet able to function in that environment. While support of
+    Anaconda is planned in the near future, you will have to revert to
+    a ‘normal’ Python distribution to use RP.
