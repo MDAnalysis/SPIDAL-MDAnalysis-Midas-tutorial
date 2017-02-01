@@ -1,3 +1,5 @@
+# radical.pilot script to run MDAnalysis Path Similarity Analysis
+
 import os
 import time
 os.environ['RADICAL_PILOT_VERBOSE']='DEBUG'
