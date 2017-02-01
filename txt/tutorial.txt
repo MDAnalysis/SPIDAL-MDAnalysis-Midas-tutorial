@@ -83,3 +83,15 @@ Password-less ssh: http://radicalpilot.readthedocs.io/en/latest/installation.htm
     not yet able to function in that environment. While support of
     Anaconda is planned in the near future, you will have to revert to
     a ‘normal’ Python distribution to use RP.
+
+
+Scripts
+=======
+
+Provide topology and trajectory files to the psa script as two lists
+in a JSON file ::
+  
+ python mdanalysis_psa.py --inputfile ../notebooks/files.json 
+
+(alternatively, use ``--topologies`` and  ``--trajectories`` arguments.)
+
