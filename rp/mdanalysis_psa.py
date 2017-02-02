@@ -68,6 +68,8 @@ if __name__ == "__main__":
     if len(topologies) != len(trajectories):
         raise ValueError("Need exactly one topology file for each trajectory")
 
+    print("Processing {} trajectories.".format(len(trajectories)))
+
     timer = StopWatch()
     timer.tic('init')
     
