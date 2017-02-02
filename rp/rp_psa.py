@@ -7,18 +7,23 @@ os.environ['RADICAL_PILOT_VERBOSE']='DEBUG'
 import sys
 import radical.pilot as rp
 
+import json
+
 #----------------------------------------------------------------------------
 if __name__ == "__main__":
 
-    NUMBER_OF_TRAJECTORIES = 
-    ATOM_SEL = 
-    TRAJ_SIZE=
     MY_STAGING_AREA = 'staging:///'
     TRJ_LOCATION =  #Path that points to the folder the trajectories are
-    SHARED_HAUSDORFF = 'hausdorff_opt.py'
-    WINDOW_SIZE = int(sys.argv[1])
-    cores = int(sys.argv[2])
-    session_name = sys.argv[3]
+    SHARED_HAUSDORFF = 'mdanalysis_psa.py'
+    filelist = sys.argv([1])
+    WINDOW_SIZE = int(sys.argv[2])
+    cores = int(sys.argv[3])
+    session_name = sys.argv[4]
+
+    # get ALL topology and trajectory files
+    # (should this be inside the try: block?)
+    with open(filelist) as inp:
+        topologies, trajectories = json.load(inp)
 
     try:
         session   = rp.Session (name=session_name)
@@ -61,11 +66,11 @@ if __name__ == "__main__":
         # Synchronously stage the data to the pilot
         pilot.stage_in(fname_stage)
 
-        # we create one CU for each unique pair of trajectories
+        # we create one CU for a block of the distance matrix
         cudesc_list = []
 
-        for i in range(1,NUMBER_OF_TRAJECTORIES+1,WINDOW_SIZE):
-            for j in range(i,NUMBER_OF_TRAJECTORIES+1,WINDOW_SIZE):
+        for i in range(1, len(trajectories) + 1, WINDOW_SIZE):
+            for j in range(i, len(trajectories) + 1, WINDOW_SIZE):
                 fshared = list()
                 shared = {'source': os.path.join(MY_STAGING_AREA, SHARED_HAUSDORFF),
                          'target': SHARED_HAUSDORFF,
@@ -73,26 +78,35 @@ if __name__ == "__main__":
                 fshared.append(shared)
 
                 if i == j:
-                    shared = [{'source': 'file://%s/trj_%s_%03i.npz.npy' % (TRJ_LOCATION,ATOM_SEL,k),
-                              'target' : 'trj_%s_%03i.npz.npy' % (ATOM_SEL,k),
-                              'action' : rp.LINK} for k in range(i,i+WINDOW_SIZE)]
+                    shared = [{'source': 'file://{0}/{1}'.format(TRJ_LOCATION, trajectories[k]),
+                              'target' : trajectories[k],
+                              'action' : rp.LINK} for k in range(i, i+WINDOW_SIZE)]
                     fshared.extend(shared)
                 else:
-                    shared = [{'source': 'file://%s/trj_%s_%03i.npz.npy' % (TRJ_LOCATION,ATOM_SEL,k),
-                              'target' : 'trj_%s_%03i.npz.npy' % (ATOM_SEL,k),
-                              'action' : rp.LINK} for k in range(i,i+WINDOW_SIZE)]
+                    shared = [{'source': 'file://{0}/{1}'.format(TRJ_LOCATION, trajectories[k]),
+                              'target' : trajectories[k],
+                              'action' : rp.LINK} for k in range(i, i+WINDOW_SIZE)]
                     fshared.extend(shared)
-                    shared = [{'source': 'file://%s/trj_%s_%03i.npz.npy' % (TRJ_LOCATION,ATOM_SEL,k),
-                              'target' : 'trj_%s_%03i.npz.npy' % (ATOM_SEL,k),
-                              'action' : rp.LINK} for k in range(j,j+WINDOW_SIZE)]
+                    shared = [{'source': 'file://{0}/{1}'.format(TRJ_LOCATION, trajectories[k]),
+                              'target' : trajectories[k],
+                              'action' : rp.LINK} for k in range(j, j+WINDOW_SIZE)]
                     fshared.extend(shared)
+                # always copy all unique topology files
+                shared = [{'source': 'file://{0}/{1}'.format(TRJ_LOCATION, topology),
+                           'target' : topology,
+                           'action' : rp.LINK} for topology in set(topologies)]
+                fshared.extend(shared)
+
+                # block of topology / trajectory pairs
+                block_files = XXX
+ 
 
             # define the compute unit, to compute over the trajectory pair
                 cudesc = rp.ComputeUnitDescription()
                 cudesc.executable    = "python"
                 cudesc.pre_exec      = ["module load python"] #Only for Stampede
                 cudesc.input_staging = fshared
-                cudesc.arguments     = ['hausdorff_opt.py', range(i,i+WINDOW_SIZE), range(j,j+WINDOW_SIZE), ATOM_SEL, TRAJ_SIZE]
+                cudesc.arguments     = [SHARED_HAUSDORFF, '--inputfile', block_json]
                 cudesc.cores         = 1
 
                 cudesc_list.append (cudesc)
