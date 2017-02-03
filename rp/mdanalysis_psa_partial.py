@@ -135,6 +135,8 @@ if __name__ == "__main__":
         raise ValueError("Need exactly one topology file for each trajectory")
 
     print("Processing {} trajectories.".format(len(trajectories)))
+    print("Splitting trajectories in two blocks of length {0} and {1}".format(
+         args.nsplit, len(trajectories) - args.nsplit))
 
     timer = StopWatch()
     timer.tic('init')
@@ -145,9 +147,14 @@ if __name__ == "__main__":
     timer.tic("load Universes")
 
     # run distance calculation and produce submatrix
+         
     uA = universes[:args.nsplit]
     uB = universes[args.nsplit:]
+    print("Calculating D (shape {0} x {1}) with {2} entries".format(
+         len(uA), len(uB), len(uA) * len(uB)))
+
     D = psa_partial(uA, uB, metric="discrete_frechet", selection="name CA")
+
     timer.tic("PSA distance matrix")
 
     np.save(args.outfile, D)
