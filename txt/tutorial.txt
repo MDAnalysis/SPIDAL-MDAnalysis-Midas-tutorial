@@ -96,7 +96,8 @@ Tutorial files
 Input files and scripts
 -----------------------
 
-::
+Get the latest version of the tutorial::
+
   git clone https://github.com/Becksteinlab/SPIDAL-MDAnalysis-Midas-tutorial.git
 
 
@@ -104,9 +105,9 @@ Input files and scripts
 Data
 ----
 
-TODO: Make data publicly available on dropbox or elsewhere (~1.5 GiB)
+**TODO:** Make data publicly available on dropbox or elsewhere (~1.5 GiB)
 
-The data should be in a directory
+The data should be in a directory ::
 
     tutorial-data
 
@@ -141,16 +142,63 @@ script ``./rp/generate_file_list.py``::
    cd WORK  # if you are not already in WORK
    RPDIR=$PWD/../SPIDAL-MDAnalysis-Midas-tutorial/rp
    
-   $RPDIR/generate_file_list.py -T ../tutorial-data trajectories.json
+   $RPDIR/generate_file_list.py -T .. trajectories.json
+
+(Just needs the path to the directory that contains the data and and
+output file name.) This creates the list with all 2 x 200 = 400
+trajectories.
+
+Also create a smaller list for testing (only 2 x 5 = 10 trajectories)::
+
+   $RPDIR/generate_file_list.py -T .. -e 5 testcase.json
 
 
 Scripts
 =======
 
 Provide topology and trajectory files to the psa script as two lists
-in a JSON file ::
+in a JSON file. Just check that it can process the data ::
   
- python mdanalysis_psa_partial.py --inputfile ../notebooks/files.json 
+ $RPDIR/mdanalysis_psa_partial.py --inputfile testcase.json -n 5
 
-(alternatively, use ``--topologies`` and  ``--trajectories`` arguments.)
+This means
+- use the test case
+- compare the first 5 trajectories against the remaining 5
+  trajectories
 
+(The -n (split) argument is important because we are going to use it
+to decompose the full distance matrix into sub-matrices. If you just
+want to do all-vs-all comparisons, use the ``mdanalysis_psa.py``
+script.)
+
+You should see output like ::
+   
+   Loading paths from JSON file testcase.json
+   Processing 10 trajectories.
+   Splitting trajectories in two blocks of length 5 and 5
+   Calculating D (shape 5 x 5) with 25 entries
+   ----------[ TIMING ]--------------------
+   load Universes           1.076 s
+   PSA distance matrix      2.700 s
+   saving output            0.019 s
+   ----------------------------------------
+   total time               3.795 s
+   ----------------------------------------
+
+This indicates that all MDAnalysis parts are working.
+
+Similarly::
+
+   (mdaenv) orbeckst@login2:WORK$ $RPDIR/mdanalysis_psa_partial.py --inputfile testcase.json -n 7
+   
+   Loading paths from JSON file testcase.json
+   Processing 10 trajectories.
+   Splitting trajectories in two blocks of length 7 and 3
+   Calculating D (shape 7 x 3) with 21 entries
+   ----------[ TIMING ]--------------------
+   load Universes           0.608 s
+   PSA distance matrix      2.325 s
+   saving output            0.003 s
+   ----------------------------------------
+   total time               2.936 s
+   ----------------------------------------
