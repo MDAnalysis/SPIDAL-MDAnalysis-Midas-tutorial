@@ -90,6 +90,59 @@ Password-less ssh: http://radicalpilot.readthedocs.io/en/latest/installation.htm
     Anaconda is planned in the near future, you will have to revert to
     a ‘normal’ Python distribution to use RP.
 
+Tutorial files
+==============
+
+Input files and scripts
+-----------------------
+
+::
+  git clone https://github.com/Becksteinlab/SPIDAL-MDAnalysis-Midas-tutorial.git
+
+
+
+Data
+----
+
+TODO: Make data publicly available on dropbox or elsewhere (~1.5 GiB)
+
+The data should be in a directory
+
+    tutorial-data
+
+with the structure assumed in the ``rp/generate_lists.py``.
+
+Put the ``tutorial-data/`` directory in the same directory as the
+tutorial code.
+
+Work dir
+--------
+
+Perform all runs in a directory ``WORK``::
+
+  mkdir WORK
+  cd WORK
+
+
+Generate json file
+------------------
+
+We need a starting json file that lists the pairs of (topology,
+trajectory) files with absolute paths. This is a short cut for this
+tutorial, in general, managing large collections of simulation
+trajectories are a difficult topic and tools such as MDSynthesis_ can
+be employed.
+
+.. _MDSynthesis: http://mdsynthesis.readthedocs.io/
+
+Generate input file for the RP script ``rp/rp_psa.py`` with the helper
+script ``./rp/generate_file_list.py``::
+
+   cd WORK  # if you are not already in WORK
+   RPDIR=$PWD/../SPIDAL-MDAnalysis-Midas-tutorial/rp
+   
+   $RPDIR/generate_file_list.py -T ../tutorial-data trajectories.json
+
 
 Scripts
 =======
@@ -97,7 +150,7 @@ Scripts
 Provide topology and trajectory files to the psa script as two lists
 in a JSON file ::
   
- python mdanalysis_psa.py --inputfile ../notebooks/files.json 
+ python mdanalysis_psa_partial.py --inputfile ../notebooks/files.json 
 
 (alternatively, use ``--topologies`` and  ``--trajectories`` arguments.)
 

@@ -29,7 +29,7 @@ def make_file_list(method, topdir, start=None, stop=None, step=None):
                      for method, pth in DIRECTORIES.items())
     top_paths = {
         'DIMS': os.path.join(topdir, DIRECTORIES['DIMS'], "topologies", "adk4ake.psf"),
-        'FRODA': os.path.join(topdir, DIRECTORIES['DIMS'], "topologies", "1ake.pdb")
+        'FRODA': os.path.join(topdir, DIRECTORIES['FRODA'], "topologies", "1ake.pdb")
     }
 
     trj = trj_paths[method][start:stop:step]
