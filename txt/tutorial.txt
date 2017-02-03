@@ -11,7 +11,13 @@ Setting up packages
 conda
 -----
 
-Use ``conda`` (with Python 2) with the anaconda or miniconda distribution (Python 2.7). https://www.continuum.io/downloads
+Use ``conda`` (with Python 2) with the anaconda_ or miniconda_
+ distribution (Python 2.7).
+
+.. _anaconda: https://www.continuum.io/downloads
+.. _miniconda: https://conda.io/miniconda.html
+
+
 
 MDAnalysis
 ----------
