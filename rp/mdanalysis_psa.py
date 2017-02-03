@@ -1,11 +1,14 @@
 #!/usr/bin/env python
-# Perform Path Similarity Analysis on a submatrix
+# Perform Path Similarity Analysis on all trajectories
 
 """Perform Path Similarity Analysis (PSA) using
-MDAnalysis.analysis.psa.PSAnalysis. 
+MDAnalysis.analysis.psa.PSAnalysis.
 
-Provide all trajectories and topology files on the command line. There
-*must* be one topology file TOPOL for each trajectory file TRAJ.
+Provide all trajectories and topology files in a JSON input file (two
+lists, one with topology files, the other with trajectory files) or on
+the command line. There *must* be one topology file TOPOL for each
+trajectory file TRAJ. The full symmetric distance matrix D[i, j] is
+calculated from the distances between all trajectories.
 
 """
 
@@ -23,7 +26,7 @@ import MDAnalysis.analysis.psa
 
 class StopWatch(OrderedDict):
     fmt = "{0:20s}  {1:8.3f} s"
-    
+
     def tic(self, label):
         if label in self:
             raise ValueError("label {} already exists".format(label))
@@ -43,12 +46,12 @@ class StopWatch(OrderedDict):
         print("----------------------------------------")
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--inputfile", 
+    parser.add_argument("--inputfile",
                         help="JSON file with lists of topologies and "
                         "trajectories (or use --trajectories/--topologies)")
     parser.add_argument("--topologies", required=False, nargs="+",
                         metavar="TOPOLOGY",
-                        help="List of topology files"), 
+                        help="List of topology files"),
     parser.add_argument("--trajectories", required=False, nargs="+",
                         metavar="TRAJ",
                         help="List of trajectory files")
@@ -58,13 +61,13 @@ if __name__ == "__main__":
 
     if args.inputfile:
         print("Loading paths from JSON file {}".format(args.inputfile))
-        with open(args.inputfile) as inp:            
+        with open(args.inputfile) as inp:
             topologies, trajectories = json.load(inp)
     else:
         print("Using paths from command line")
         topologies = args.topologies
         trajectories = args.trajectories
-        
+
     if len(topologies) != len(trajectories):
         raise ValueError("Need exactly one topology file for each trajectory")
 
@@ -72,10 +75,10 @@ if __name__ == "__main__":
 
     timer = StopWatch()
     timer.tic('init')
-    
+
     # load trajectories
     universes = [mda.Universe(topology, trajectory) for topology, trajectory in
-                 zip(topologies, trajectories)]    
+                 zip(topologies, trajectories)]
     timer.tic("load Universes")
 
     # set up PSA
@@ -90,10 +93,10 @@ if __name__ == "__main__":
     # run distance calculation and produce submatrix
     P.run(metric="discrete_frechet")
     timer.tic("PSA distance matrix")
-    
+
     np.save(args.outfile, P.D)
-    timer.tic("saving output")    
-              
+    timer.tic("saving output")
+
     timer.show()
 
-    
+
