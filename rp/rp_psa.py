@@ -1,7 +1,28 @@
 # radical.pilot script to run MDAnalysis Path Similarity Analysis
+#
+# Provide a JSON file with two lists of files:
+#
+# [
+#  [topol1, topol1, topol1, ..., topol2, ...],
+#  [trj1, trj2, trj3, ...]
+# ]
+#
+# where each trj file name has a corresponding topology filename;
+# the topology filenames can (and should) be repeated as often as
+# necessary.
+#
+# The entries must be absolute paths.
+#
+# For this example, no additional superposition is performed and
+# the trajectories are used as is. CA atoms are selected.
+#
+# The Frechet distance matrix between ALL trajectories (all-vs-all)
+# is calculated.
 
 import os
+from os.path import basename
 import time
+
 os.environ['RADICAL_PILOT_VERBOSE']='DEBUG'
 
 import sys
@@ -13,17 +34,11 @@ import json
 if __name__ == "__main__":
 
     MY_STAGING_AREA = 'staging:///'
-    TRJ_LOCATION =  #Path that points to the folder the trajectories are
-    SHARED_HAUSDORFF = 'mdanalysis_psa.py'
+    SHARED_MDA_SCRIPT = 'mdanalysis_psa_partial.py'
     filelist = sys.argv([1])
     WINDOW_SIZE = int(sys.argv[2])
     cores = int(sys.argv[3])
     session_name = sys.argv[4]
-
-    # get ALL topology and trajectory files
-    # (should this be inside the try: block?)
-    with open(filelist) as inp:
-        topologies, trajectories = json.load(inp)
 
     try:
         session   = rp.Session (name=session_name)
@@ -50,63 +65,95 @@ if __name__ == "__main__":
         #add pilot to unit manager
         umgr.add_pilots(pilot)
 
+        # get ALL topology and trajectory files
+        with open(filelist) as inp:
+            topologies, trajectories = json.load(inp)
+
         fshared_list   = list()
         fname_stage = []
         # stage all files to the staging area
-        src_url = 'file://%s/%s' % (os.getcwd(), SHARED_HAUSDORFF)
+        src_url = 'file://%s/%s' % (os.getcwd(), SHARED_MDA_SCRIPT)
 
         #print src_url
 
         sd_pilot = {'source': src_url,
-                    'target': os.path.join(MY_STAGING_AREA, SHARED_HAUSDORFF),
+                    'target': os.path.join(MY_STAGING_AREA, SHARED_MDA_SCRIPT),
                     'action': rp.TRANSFER,
         }
         fname_stage.append (sd_pilot)
-           
+
         # Synchronously stage the data to the pilot
         pilot.stage_in(fname_stage)
 
         # we create one CU for a block of the distance matrix
         cudesc_list = []
 
-        for i in range(1, len(trajectories) + 1, WINDOW_SIZE):
-            for j in range(i, len(trajectories) + 1, WINDOW_SIZE):
+        for i in range(len(trajectories), WINDOW_SIZE):
+            for j in range(i+1, len(trajectories), WINDOW_SIZE):
                 fshared = list()
-                shared = {'source': os.path.join(MY_STAGING_AREA, SHARED_HAUSDORFF),
-                         'target': SHARED_HAUSDORFF,
+                shared = {'source': os.path.join(MY_STAGING_AREA, SHARED_MDA_SCRIPT),
+                         'target': SHARED_MDA_SCRIPT,
                          'action': rp.LINK}
                 fshared.append(shared)
 
-                if i == j:
-                    shared = [{'source': 'file://{0}/{1}'.format(TRJ_LOCATION, trajectories[k]),
-                              'target' : trajectories[k],
-                              'action' : rp.LINK} for k in range(i, i+WINDOW_SIZE)]
+                if i == j: # never happesn since j >= i+1
+                    shared = [{'source': 'file://{0}'.format(trajectory),
+                              'target' : basename(trajectory),
+                               'action' : rp.LINK}
+                              for trajectory in trajectories[i:i+WINDOW_SIZE]]
                     fshared.extend(shared)
                 else:
-                    shared = [{'source': 'file://{0}/{1}'.format(TRJ_LOCATION, trajectories[k]),
-                              'target' : trajectories[k],
-                              'action' : rp.LINK} for k in range(i, i+WINDOW_SIZE)]
+                    shared = [{'source': 'file://{0}'.format(trajectory),
+                              'target' : basename(trajectory),
+                              'action' : rp.LINK}
+                              for trajectory in trajectories[i:i+WINDOW_SIZE]]
                     fshared.extend(shared)
-                    shared = [{'source': 'file://{0}/{1}'.format(TRJ_LOCATION, trajectories[k]),
-                              'target' : trajectories[k],
-                              'action' : rp.LINK} for k in range(j, j+WINDOW_SIZE)]
+                    shared = [{'source': 'file://{0}'.format(trajectory),
+                              'target' : basename(trajectory),
+                              'action' : rp.LINK}
+                              for trajectory in trajectories[j:j+WINDOW_SIZE]]
                     fshared.extend(shared)
                 # always copy all unique topology files
-                shared = [{'source': 'file://{0}/{1}'.format(TRJ_LOCATION, topology),
-                           'target' : topology,
-                           'action' : rp.LINK} for topology in set(topologies)]
+                shared = [{'source': 'file://{0}'.format(topology),
+                           'target' : basename(topology),
+                           'action' : rp.LINK}
+                          for topology in set(topologies)]
                 fshared.extend(shared)
 
                 # block of topology / trajectory pairs
-                block_files = XXX
- 
+                #   block[:nsplit] + block[nsplit:]
+                block_top = topologies[i:i+WINDOW_SIZE] + topologies[j:j+WINDOW_SIZE]
+                block_trj = trajectories[i:i+WINDOW_SIZE] + trajectories[j:j+WINDOW_SIZE]
+                block = [block_top, block_trj]
+                nsplit = len(trajectories[i:i+WINDOW_SIZE])
+                delta_i = len(trajectories[i:i+WINDOW_SIZE]) - i + 1
+                delta_j = len(trajectories[j:j+WINDOW_SIZE]) - j + 1
+                # should remember i, delta_i and j_delta_j because we calculat the
+                # submatrix D[i:i+di, j:j+dj] in this CU.
+                block_json = "block-{0}-{1}__{2}-{3}.json".format(
+                    i, delta_i, j, delta_j)
+                block_matrixfile = 'subdistances_{0}-{1}__{2}-{3}.npy'.format(
+                    i, delta_i, j, delta_j)
+
+                with open(block_json, "w") as out:
+                    json.dump(block, out)
+
+                # share input json file
+                shared = [{'source': 'file://{0}'.format(os.path.realpath(block_json)),
+                           'target' : basename(block_json),
+                           'action' : rp.LINK}
+                ]
+                fshared.extend(shared)
 
             # define the compute unit, to compute over the trajectory pair
                 cudesc = rp.ComputeUnitDescription()
                 cudesc.executable    = "python"
                 cudesc.pre_exec      = ["module load python"] #Only for Stampede
                 cudesc.input_staging = fshared
-                cudesc.arguments     = [SHARED_HAUSDORFF, '--inputfile', block_json]
+                cudesc.arguments     = [SHARED_MDA_SCRIPT, '--nsplit', nsplit,
+                                        '--inputfile', block_json,
+                                        '--outfile', block_matrixfile,
+                ]
                 cudesc.cores         = 1
 
                 cudesc_list.append (cudesc)
@@ -119,35 +166,29 @@ if __name__ == "__main__":
         umgr.wait_units()
 
         print "Creating Profile"
-        ProfFile = open('{0}.csv'.format(session.name),'w')
-        ProfFile.write('CU,New,StageIn,Allocate,Exec,StageOut,Done\n')
-        for cu in units:
-            timing_str=[cu.uid,'N/A','N/A','N/A','N/A','N/A','N/A']
-            for states in cu.state_history:
-                if states.as_dict()['state']=='Scheduling':
-                    timing_str[1]= (states.as_dict()['timestamp']-pilot.start_time).__str__()
-                elif states.as_dict()['state']=='AgentStagingInput':
-                    timing_str[2]= (states.as_dict()['timestamp']-pilot.start_time).__str__()
-                elif states.as_dict()['state']=='Allocating':
-                    timing_str[3]= (states.as_dict()['timestamp']-pilot.start_time).__str__()
-                elif states.as_dict()['state']=='Executing':
-                    timing_str[4]= (states.as_dict()['timestamp']-pilot.start_time).__str__()
-                elif states.as_dict()['state']=='AgentStagingOutput':
-                    timing_str[5]= (states.as_dict()['timestamp']-pilot.start_time).__str__()
-                elif states.as_dict()['state']=='Done':
-                    timing_str[6]= (states.as_dict()['timestamp']-pilot.start_time).__str__()
+        with open('{0}.csv'.format(session.name),'w') as ProfFile:
+            ProfFile.write('CU,New,StageIn,Allocate,Exec,StageOut,Done\n')
+            for cu in units:
+                timing_str=[cu.uid,'N/A','N/A','N/A','N/A','N/A','N/A']
+                for states in cu.state_history:
+                    if states.as_dict()['state']=='Scheduling':
+                        timing_str[1]= (states.as_dict()['timestamp']-pilot.start_time).__str__()
+                    elif states.as_dict()['state']=='AgentStagingInput':
+                        timing_str[2]= (states.as_dict()['timestamp']-pilot.start_time).__str__()
+                    elif states.as_dict()['state']=='Allocating':
+                        timing_str[3]= (states.as_dict()['timestamp']-pilot.start_time).__str__()
+                    elif states.as_dict()['state']=='Executing':
+                        timing_str[4]= (states.as_dict()['timestamp']-pilot.start_time).__str__()
+                    elif states.as_dict()['state']=='AgentStagingOutput':
+                        timing_str[5]= (states.as_dict()['timestamp']-pilot.start_time).__str__()
+                    elif states.as_dict()['state']=='Done':
+                        timing_str[6]= (states.as_dict()['timestamp']-pilot.start_time).__str__()
 
-            ProfFile.write(timing_str[0]+','+timing_str[1]+','+
-                           timing_str[2]+','+timing_str[3]+','+
-                           timing_str[4]+','+timing_str[5]+','+
-                           timing_str[6]+'\n')
-        ProfFile.close()
+                ProfFile.write(timing_str[0]+','+timing_str[1]+','+
+                               timing_str[2]+','+timing_str[3]+','+
+                               timing_str[4]+','+timing_str[5]+','+
+                               timing_str[6]+'\n')
 
-
-    except Exception as e:
-        # Something unexpected happened in the pilot code above
-        print "caught Exception: %s" % e
-        raise
 
     except (KeyboardInterrupt, SystemExit) as e:
         # the callback called sys.exit(), and we can here catch the
@@ -155,6 +196,11 @@ if __name__ == "__main__":
         # SystemExit (which gets raised if the main threads exits for some other
         # reason).
         print "need to exit now: %s" % e
+
+    except Exception as e:
+        # Something unexpected happened in the pilot code above
+        print "caught Exception: %s" % e
+        raise
 
     finally :
         print "Closing session, exiting now ..."
