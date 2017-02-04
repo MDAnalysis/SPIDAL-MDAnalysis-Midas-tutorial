@@ -30,7 +30,7 @@ if __name__ == "__main__":
 
     D = combine(traj, manifest)
 
-    np.save(D, outfilename)
+    np.save(outfilename, D)
     print("Created full distance matrix '{0}'".format(outfilename))
 
 
