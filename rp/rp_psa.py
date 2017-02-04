@@ -1,5 +1,17 @@
 # radical.pilot script to run MDAnalysis Path Similarity Analysis
 #
+# =======================================
+# configured for XSEDE TACC stampede
+# =======================================
+#
+# USAGE: python rp_psa.py trajectories.json <blocksize> <cores> <session-name>
+#
+# ENVIRONMENT VARIABLES must be set:
+#
+#   export RADICAL_PILOT_PROJECT=TG-xxxxxx
+#   export RADICAL_PILOT_DBURL="mongodb://user:pass@host:port/dbname"
+#
+#
 # Provide a JSON file with two lists of files:
 #
 # [
@@ -35,10 +47,17 @@ if __name__ == "__main__":
 
     MY_STAGING_AREA = 'staging:///'
     SHARED_MDA_SCRIPT = 'mdanalysis_psa_partial.py'
-    filelist = sys.argv([1])
+    FILELIST = sys.argv[1]
     WINDOW_SIZE = int(sys.argv[2])
     cores = int(sys.argv[3])
     session_name = sys.argv[4]
+
+    try:
+    	PROJECT = os.environ['RADICAL_PILOT_PROJECT']
+        if not PROJECT:
+	    raise ValueError
+    except (KeyError, ValueError):
+	raise RuntimeError("Set RADICAL_PILOT_PROJECT to your XSEDE allocation")        
 
     try:
         session   = rp.Session (name=session_name)
@@ -50,10 +69,10 @@ if __name__ == "__main__":
         #pmgr.register_callback (pilot_state_cb)
 
         pdesc = rp.ComputePilotDescription ()
-        pdesc.resource = ""
+        pdesc.resource = "xsede.stampede"   # xsede.stampede or xsede.comet or ... check docs!
         pdesc.runtime  = 20 # minutes
         pdesc.cores    = cores
-        pdesc.project  = "" #Project allocation
+        pdesc.project  = PROJECT #Project allocation, pass through env var PROJECT
         pdesc.cleanup  = False
 
         # submit the pilot.
@@ -66,10 +85,10 @@ if __name__ == "__main__":
         umgr.add_pilots(pilot)
 
         # get ALL topology and trajectory files
-        with open(filelist) as inp:
+        with open(FILELIST) as inp:
             topologies, trajectories = json.load(inp)
 
-        fshared_list   = list()
+        fshared_list   = []
         fname_stage = []
         # stage all files to the staging area
         src_url = 'file://%s/%s' % (os.getcwd(), SHARED_MDA_SCRIPT)
@@ -80,7 +99,7 @@ if __name__ == "__main__":
                     'target': os.path.join(MY_STAGING_AREA, SHARED_MDA_SCRIPT),
                     'action': rp.TRANSFER,
         }
-        fname_stage.append (sd_pilot)
+        fname_stage.append(sd_pilot)
 
         # Synchronously stage the data to the pilot
         pilot.stage_in(fname_stage)
@@ -122,19 +141,23 @@ if __name__ == "__main__":
 
                 # block of topology / trajectory pairs
                 #   block[:nsplit] + block[nsplit:]
+                # The MDA script wants one long list of trajectories and the index nsplit
+                # that indicates where to split the list to create the two groups of 
+                # trajectories that are compared against each other.
                 block_top = topologies[i:i+WINDOW_SIZE] + topologies[j:j+WINDOW_SIZE]
                 block_trj = trajectories[i:i+WINDOW_SIZE] + trajectories[j:j+WINDOW_SIZE]
                 block = [block_top, block_trj]
                 nsplit = len(trajectories[i:i+WINDOW_SIZE])
                 delta_i = len(trajectories[i:i+WINDOW_SIZE]) - i + 1
                 delta_j = len(trajectories[j:j+WINDOW_SIZE]) - j + 1
-                # should remember i, delta_i and j_delta_j because we calculat the
+                # should remember i, delta_i and j_delta_j because we calculate the
                 # submatrix D[i:i+di, j:j+dj] in this CU.
                 block_json = "block-{0}-{1}__{2}-{3}.json".format(
                     i, delta_i, j, delta_j)
                 block_matrixfile = 'subdistances_{0}-{1}__{2}-{3}.npy'.format(
                     i, delta_i, j, delta_j)
 
+                # create input file for the cu and add share it
                 with open(block_json, "w") as out:
                     json.dump(block, out)
 
