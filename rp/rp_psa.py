@@ -51,6 +51,7 @@ if __name__ == "__main__":
     WINDOW_SIZE = int(sys.argv[2])
     cores = int(sys.argv[3])
     session_name = sys.argv[4]
+    MANIFEST_NAME = "manifest.json"
 
     try:
     	PROJECT = os.environ['RADICAL_PILOT_PROJECT']
@@ -88,6 +89,10 @@ if __name__ == "__main__":
         with open(FILELIST) as inp:
             topologies, trajectories = json.load(inp)
 
+        # list of outputfiles <--> submatrix indices
+        # (built during CU creation)
+        manifest = []
+
         fshared_list   = []
         fname_stage = []
         # stage all files to the staging area
@@ -107,31 +112,24 @@ if __name__ == "__main__":
         # we create one CU for a block of the distance matrix
         cudesc_list = []
 
-        for i in range(0,len(trajectories), WINDOW_SIZE):
+        for i in range(0, len(trajectories), WINDOW_SIZE):
             for j in range(i+1, len(trajectories), WINDOW_SIZE):
                 fshared = list()
                 shared = {'source': os.path.join(MY_STAGING_AREA, SHARED_MDA_SCRIPT),
-                         'target': SHARED_MDA_SCRIPT,
-                         'action': rp.LINK}
+                          'target': SHARED_MDA_SCRIPT,
+                          'action': rp.LINK}
                 fshared.append(shared)
 
-                if i == j: # never happesn since j >= i+1
-                    shared = [{'source': 'file://{0}'.format(trajectory),
-                              'target' : basename(trajectory),
-                               'action' : rp.LINK}
+                shared = [{'source': 'file://{0}'.format(trajectory),
+                           'target' : basename(trajectory),
+                           'action' : rp.LINK}
                               for trajectory in trajectories[i:i+WINDOW_SIZE]]
-                    fshared.extend(shared)
-                else:
-                    shared = [{'source': 'file://{0}'.format(trajectory),
-                              'target' : basename(trajectory),
-                              'action' : rp.LINK}
-                              for trajectory in trajectories[i:i+WINDOW_SIZE]]
-                    fshared.extend(shared)
-                    shared = [{'source': 'file://{0}'.format(trajectory),
-                              'target' : basename(trajectory),
-                              'action' : rp.LINK}
+                fshared.extend(shared)
+                shared = [{'source': 'file://{0}'.format(trajectory),
+                           'target' : basename(trajectory),
+                           'action' : rp.LINK}
                               for trajectory in trajectories[j:j+WINDOW_SIZE]]
-                    fshared.extend(shared)
+                fshared.extend(shared)
                 # always copy all unique topology files
                 shared = [{'source': 'file://{0}'.format(topology),
                            'target' : basename(topology),
@@ -157,6 +155,8 @@ if __name__ == "__main__":
                 block_matrixfile = 'subdistances_{0}-{1}__{2}-{3}.npy'.format(
                     i, imax, j, jmax)
 
+                manifest.append((block_matrixfile, block_json, (i, imax), (j, jmax)))
+
                 # create input file for the cu and add share it
                 with open(block_json, "w") as out:
                     json.dump(block, out)
@@ -168,20 +168,28 @@ if __name__ == "__main__":
                 ]
                 fshared.extend(shared)
 
-                # TODO: need to stage outputfile block_matrixfile back!
-
                 # define the compute unit, to compute over the trajectory submatrix
+                # TODO: store the offsets WITH the returned matrix (pkl or arrach archive) instead
+                #       of encoding in filename
                 cudesc = rp.ComputeUnitDescription()
-                cudesc.executable    = "python"
-                cudesc.pre_exec      = ["module load python; source activate mdaenv"] #Only for Stampede and with our conda env
-                cudesc.input_staging = fshared
-                cudesc.arguments     = [SHARED_MDA_SCRIPT, '--nsplit', nsplit,
-                                        '--inputfile', block_json,
-                                        '--outfile', block_matrixfile,
-                ]
-                cudesc.cores         = 1
+                cudesc.executable     = "python"
+                cudesc.pre_exec       = ["module load python; source activate mdaenv"] #Only for Stampede and with our conda env
+                cudesc.input_staging  = fshared
+                cudesc.output_staging = {'source': block_matrixfile,
+                                        'target': block_matrixfile,
+                                        'action': rp.TRANSFER}
+                cudesc.arguments      = [SHARED_MDA_SCRIPT, '--nsplit', nsplit,
+                                         '--inputfile', block_json,
+                                         '--outfile', block_matrixfile, ]
+                cudesc.cores          = 1
 
                 cudesc_list.append(cudesc)
+
+        # write manifest json file: use it later to piece submatrices back
+        # together
+        with open(MANIFEST_NAME, "w") as outfile:
+            json.dump(manifest, outfile)
+        print("Created manifest '{0}': (block_D, block_trj, (i, i+w), (j, j+w))".format(MANIFEST_NAME))    	
 
         # submit, run and wait and...
         #print "submit units to unit manager ..."
