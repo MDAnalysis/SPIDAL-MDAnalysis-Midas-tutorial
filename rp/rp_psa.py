@@ -176,8 +176,8 @@ if __name__ == "__main__":
                 cudesc.pre_exec       = ["module load python; source activate mdaenv"] #Only for Stampede and with our conda env
                 cudesc.input_staging  = fshared
                 cudesc.output_staging = {'source': block_matrixfile,
-                                        'target': block_matrixfile,
-                                        'action': rp.TRANSFER}
+                                         'target': block_matrixfile,
+                                         'action': rp.TRANSFER}
                 cudesc.arguments      = [SHARED_MDA_SCRIPT, '--nsplit', nsplit,
                                          '--inputfile', block_json,
                                          '--outfile', block_matrixfile, ]
