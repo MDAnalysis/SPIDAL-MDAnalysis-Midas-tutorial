@@ -3,8 +3,8 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-SPIDAL Tutorial: MDAnalysis with Midas's documentation!
-=======================================================
+SPIDAL Tutorial: MDAnalysis with Midas/radical.pilot
+====================================================
 
 .. toctree::
    :maxdepth: 2
