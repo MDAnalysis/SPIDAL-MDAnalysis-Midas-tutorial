@@ -1,5 +1,17 @@
 # radical.pilot script to run MDAnalysis Path Similarity Analysis
 #
+# =======================================
+# configured for XSEDE TACC stampede
+# =======================================
+#
+# USAGE: python rp_psa.py trajectories.json <blocksize> <cores> <session-name>
+#
+# ENVIRONMENT VARIABLES must be set:
+#
+#   export RADICAL_PILOT_PROJECT=TG-xxxxxx
+#   export RADICAL_PILOT_DBURL="mongodb://user:pass@host:port/dbname"
+#
+#
 # Provide a JSON file with two lists of files:
 #
 # [
@@ -35,10 +47,17 @@ if __name__ == "__main__":
 
     MY_STAGING_AREA = 'staging:///'
     SHARED_MDA_SCRIPT = 'mdanalysis_psa_partial.py'
-    FILELIST = sys.argv([1])
+    FILELIST = sys.argv[1]
     WINDOW_SIZE = int(sys.argv[2])
     cores = int(sys.argv[3])
     session_name = sys.argv[4]
+
+    try:
+    	PROJECT = os.environ['RADICAL_PILOT_PROJECT']
+        if not PROJECT:
+	    raise ValueError
+    except (KeyError, ValueError):
+	raise RuntimeError("Set RADICAL_PILOT_PROJECT to your XSEDE allocation")        
 
     try:
         session   = rp.Session (name=session_name)
@@ -50,10 +69,10 @@ if __name__ == "__main__":
         #pmgr.register_callback (pilot_state_cb)
 
         pdesc = rp.ComputePilotDescription ()
-        pdesc.resource = ""
+        pdesc.resource = "xsede.stampede"   # xsede.stampede or xsede.comet or ... check docs!
         pdesc.runtime  = 20 # minutes
         pdesc.cores    = cores
-        pdesc.project  = "" #Project allocation
+        pdesc.project  = PROJECT #Project allocation, pass through env var PROJECT
         pdesc.cleanup  = False
 
         # submit the pilot.
