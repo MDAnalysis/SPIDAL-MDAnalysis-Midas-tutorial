@@ -142,12 +142,12 @@ be employed.
 .. _MDSynthesis: http://mdsynthesis.readthedocs.io/
 
 Generate input file for the RP script ``rp/rp_psa.py`` with the helper
-script ``./rp/generate_file_list.py``::
+script ``./util/generate_file_list.py``::
 
    cd WORK  # if you are not already in WORK
    RPDIR=$PWD/../SPIDAL-MDAnalysis-Midas-tutorial/rp
    
-   $RPDIR/generate_file_list.py -T .. trajectories.json
+   $RPDIR/../util/generate_file_list.py -T .. trajectories.json
 
 (Just needs the path to the directory that contains the data and and
 output file name.) This creates the list with all 2 x 200 = 400
@@ -155,7 +155,7 @@ trajectories.
 
 Also create a smaller list for testing (only 2 x 5 = 10 trajectories)::
 
-   $RPDIR/generate_file_list.py -T .. -e 5 testcase.json
+   $RPDIR/../util/generate_file_list.py -T .. -e 5 testcase.json
 
 
 Scripts
