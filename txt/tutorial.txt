@@ -202,3 +202,35 @@ Similarly::
    ----------------------------------------
    total time               2.936 s
    ----------------------------------------
+
+
+Launch pilot jobs
+=================
+
+- Make sure all env vars are set (especially MongoDB,
+  :envvar:`RADICAL_PILOT_DBURL`) and password-less ssh works.
+- Set environment variable  :envvar:`RADICAL_PILOT_PROJECT` to your
+  XSEDE allocation::
+
+    export RADICAL_PILOT_PROJECT=TG-xxxxxx
+
+- Activate the *mdaenv* environment.
+- You should have the JSON files in the ``WORK`` directory.
+
+Copy the two scripts to the WORK directory (at the moment, this is a
+limitation of the scripts to keep them simple) ::
+
+   cd WORK
+   cp $RPDIR/{rp_psa.py,mdanalysis_psa_partial.py} .
+   
+and launch the pilot job::
+   
+   python rp_psa.py trajectories.json 20 16 spidal_mda_rp_psa 
+
+The ``rp_psa.py`` radical.pilot script takes as input:
+
+- the JSON file with the trajectories (trajectories.json)
+- number of trajectories per block (20)
+- number of cores to request (16)
+- session name (arbitrary string, spidal_mda_rp_psa)
+
