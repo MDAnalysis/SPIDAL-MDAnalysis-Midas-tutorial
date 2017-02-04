@@ -105,21 +105,26 @@ Get the latest version of the tutorial::
 Data
 ----
 
-**TODO:** Make data publicly available on dropbox or elsewhere (~1.5 GiB)
+Download the whole archive as a 1.2 GiB tar.bz2 from
+https://becksteinlab.physics.asu.edu/pages/download/SPIDAL-tutorial-data.tar.bz2
+and unpack with ::
 
-The data should be in a directory ::
+    tar -jxvf SPIDAL-tutorial-data.tar.bz2
 
-    tutorial-data
 
-with the structure assumed in the ``rp/generate_lists.py``.
+This should create a directory ``tutorial-data``. Do not change the
+contents inside the directory because the ``generate_file_list.py``
+script (see below) has built-in assumptions on the structure.
 
-Put the ``tutorial-data/`` directory in the same directory as the
-tutorial code.
+Put the ``tutorial-data`` directory in the same directory as the
+tutorial code directory ``SPIDAL-MDAnalysis-Midas-tutorial``.
+
 
 Work dir
 --------
 
-Perform all runs in a directory ``WORK``::
+Perform all runs in a directory ``WORK`` (here we assume that ``WORK``
+in the same directory as the data and the tutorial code)::
 
   mkdir WORK
   cd WORK
