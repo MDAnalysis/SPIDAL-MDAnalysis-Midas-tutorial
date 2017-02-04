@@ -107,7 +107,7 @@ if __name__ == "__main__":
         # we create one CU for a block of the distance matrix
         cudesc_list = []
 
-        for i in range(len(trajectories), WINDOW_SIZE):
+        for i in range(0,len(trajectories), WINDOW_SIZE):
             for j in range(i+1, len(trajectories), WINDOW_SIZE):
                 fshared = list()
                 shared = {'source': os.path.join(MY_STAGING_AREA, SHARED_MDA_SCRIPT),
