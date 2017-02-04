@@ -1,0 +1,241 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Tutorial &#8212; SPIDAL Tutorial: MDAnalysis with Midas 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="shortcut icon" href="_static/mdanalysis-logo.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="References" href="references.html" />
+    <link rel="prev" title="Background" href="background.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="tutorial">
+<h1>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="preliminary-test">
+<h2>Preliminary test<a class="headerlink" href="#preliminary-test" title="Permalink to this headline">¶</a></h2>
+<p>Provide topology and trajectory files to the psa script as two lists
+in a JSON file. Just check that it can process the data</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$RPDIR/mdanalysis_psa_partial.py --inputfile testcase.json -n 5
+</pre></div>
+</div>
+<p>This means
+- use the test case
+- compare the first 5 trajectories against the remaining 5</p>
+<blockquote>
+<div>trajectories</div></blockquote>
+<p>(The -n (split) argument is important because we are going to use it
+to decompose the full distance matrix into sub-matrices. If you just
+want to do all-vs-all comparisons, use the <code class="docutils literal"><span class="pre">mdanalysis_psa.py</span></code>
+script.)</p>
+<p>You should see output like</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Loading</span> <span class="n">paths</span> <span class="kn">from</span> <span class="nn">JSON</span> <span class="n">file</span> <span class="n">testcase</span><span class="o">.</span><span class="n">json</span>
+<span class="n">Processing</span> <span class="mi">10</span> <span class="n">trajectories</span><span class="o">.</span>
+<span class="n">Splitting</span> <span class="n">trajectories</span> <span class="ow">in</span> <span class="n">two</span> <span class="n">blocks</span> <span class="n">of</span> <span class="n">length</span> <span class="mi">5</span> <span class="ow">and</span> <span class="mi">5</span>
+<span class="n">Calculating</span> <span class="n">D</span> <span class="p">(</span><span class="n">shape</span> <span class="mi">5</span> <span class="n">x</span> <span class="mi">5</span><span class="p">)</span> <span class="k">with</span> <span class="mi">25</span> <span class="n">entries</span>
+<span class="o">----------</span><span class="p">[</span> <span class="n">TIMING</span> <span class="p">]</span><span class="o">--------------------</span>
+<span class="n">load</span> <span class="n">Universes</span>           <span class="mf">1.076</span> <span class="n">s</span>
+<span class="n">PSA</span> <span class="n">distance</span> <span class="n">matrix</span>      <span class="mf">2.700</span> <span class="n">s</span>
+<span class="n">saving</span> <span class="n">output</span>            <span class="mf">0.019</span> <span class="n">s</span>
+<span class="o">----------------------------------------</span>
+<span class="n">total</span> <span class="n">time</span>               <span class="mf">3.795</span> <span class="n">s</span>
+<span class="o">----------------------------------------</span>
+</pre></div>
+</div>
+<p>This indicates that all MDAnalysis parts are working.</p>
+<p>Similarly:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>(mdaenv) orbeckst@login2:WORK$ $RPDIR/mdanalysis_psa_partial.py --inputfile testcase.json -n 7
+
+Loading paths from JSON file testcase.json
+Processing 10 trajectories.
+Splitting trajectories in two blocks of length 7 and 3
+Calculating D (shape 7 x 3) with 21 entries
+----------[ TIMING ]--------------------
+load Universes           0.608 s
+PSA distance matrix      2.325 s
+saving output            0.003 s
+----------------------------------------
+total time               2.936 s
+----------------------------------------
+</pre></div>
+</div>
+</div>
+<div class="section" id="supercomputer-environment">
+<h2>Supercomputer environment<a class="headerlink" href="#supercomputer-environment" title="Permalink to this headline">¶</a></h2>
+<p>We used <a class="reference external" href="https://www.tacc.utexas.edu/stampede/">TACC Stampede</a> to
+run the calculations on 32 cores but any cluster or even a multicore
+workstation might be sufficient.</p>
+<ul>
+<li><p class="first">Make sure all env vars are set (especially MongoDB,
+<span class="target" id="index-0"></span><code class="xref std std-envvar docutils literal"><span class="pre">RADICAL_PILOT_DBURL</span></code>) and password-less ssh works.</p>
+</li>
+<li><p class="first">On stampede: Set environment variable  <span class="target" id="index-1"></span><code class="xref std std-envvar docutils literal"><span class="pre">RADICAL_PILOT_PROJECT</span></code> to your
+XSEDE allocation:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">export</span> <span class="n">RADICAL_PILOT_PROJECT</span><span class="o">=</span><span class="n">TG</span><span class="o">-</span><span class="n">xxxxxx</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Activate the <em>mdaenv</em> environment.</p>
+</li>
+<li><p class="first">You should have the JSON files in the <code class="docutils literal"><span class="pre">WORK</span></code> directory.</p>
+</li>
+</ul>
+<p>Copy the two scripts to the WORK directory (at the moment, this is a
+limitation of the scripts to keep them simple)</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>cd WORK
+cp $RPDIR/{rp_psa.py,mdanalysis_psa_partial.py} .
+</pre></div>
+</div>
+</div>
+<div class="section" id="radical-pilot-script">
+<h2>Radical.pilot script<a class="headerlink" href="#radical-pilot-script" title="Permalink to this headline">¶</a></h2>
+<p>TODO: describe/show script</p>
+</div>
+<div class="section" id="launch-pilot-jobs">
+<h2>Launch pilot jobs<a class="headerlink" href="#launch-pilot-jobs" title="Permalink to this headline">¶</a></h2>
+<p>and launch the pilot job:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">rp_psa</span><span class="o">.</span><span class="n">py</span> <span class="n">trajectories</span><span class="o">.</span><span class="n">json</span> <span class="mi">20</span> <span class="mi">16</span> <span class="n">spidal_mda_rp_psa</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal"><span class="pre">rp_psa.py</span></code> radical.pilot script takes as input:</p>
+<ul class="simple">
+<li>the JSON file with the trajectories (trajectories.json)</li>
+<li>number of trajectories per block (20)</li>
+<li>number of cores to request (16)</li>
+<li>session name (arbitrary string, spidal_mda_rp_psa)</li>
+</ul>
+</div>
+<div class="section" id="combine-data">
+<h2>Combine data<a class="headerlink" href="#combine-data" title="Permalink to this headline">¶</a></h2>
+<p>TODO</p>
+</div>
+<div class="section" id="analyze-data">
+<h2>Analyze data<a class="headerlink" href="#analyze-data" title="Permalink to this headline">¶</a></h2>
+<p>TODO</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="index.html">
+    <img class="logo" src="_static/logos/mdanalysis-logo-200x150.png" alt="Logo"/>
+    
+  </a>
+</p>
+
+
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=MDAnalysis&repo=mdanalysis&type=star&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datafiles.html">Data files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="background.html">Background</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#preliminary-test">Preliminary test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#supercomputer-environment">Supercomputer environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#radical-pilot-script">Radical.pilot script</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#launch-pilot-jobs">Launch pilot jobs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#combine-data">Combine data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#analyze-data">Analyze data</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">References</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="background.html" title="previous chapter">Background</a></li>
+      <li>Next: <a href="references.html" title="next chapter">References</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Oliver Beckstein, Sean Seyler, Ioannis Paraskevakos, Shantenu Jha.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      
+      |
+      <a href="_sources/tutorial.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+    <a href="https://github.com/MDAnalysis/mdanalysis" class="github">
+        <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"  class="github"/>
+    </a>
+    
+
+    
+  </body>
+</html>
