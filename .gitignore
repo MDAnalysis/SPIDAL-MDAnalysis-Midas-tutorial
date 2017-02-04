@@ -91,3 +91,5 @@ ENV/
 # Rope project settings
 .ropeproject
 
+_build
+txt/installation_stampede_PASSWORD.txt
