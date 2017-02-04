@@ -148,14 +148,14 @@ if __name__ == "__main__":
                 block_trj = trajectories[i:i+WINDOW_SIZE] + trajectories[j:j+WINDOW_SIZE]
                 block = [block_top, block_trj]
                 nsplit = len(trajectories[i:i+WINDOW_SIZE])
-                delta_i = len(trajectories[i:i+WINDOW_SIZE]) - i + 1
-                delta_j = len(trajectories[j:j+WINDOW_SIZE]) - j + 1
-                # should remember i, delta_i and j_delta_j because we calculate the
+                imax = i + len(trajectories[i:i+WINDOW_SIZE])
+                jmax = j + len(trajectories[j:j+WINDOW_SIZE])
+                # should remember i, imax and j_jmax because we calculate the
                 # submatrix D[i:i+di, j:j+dj] in this CU.
                 block_json = "block-{0}-{1}__{2}-{3}.json".format(
-                    i, delta_i, j, delta_j)
+                    i, imax, j, jmax)
                 block_matrixfile = 'subdistances_{0}-{1}__{2}-{3}.npy'.format(
-                    i, delta_i, j, delta_j)
+                    i, imax, j, jmax)
 
                 # create input file for the cu and add share it
                 with open(block_json, "w") as out:
@@ -168,10 +168,12 @@ if __name__ == "__main__":
                 ]
                 fshared.extend(shared)
 
-            # define the compute unit, to compute over the trajectory pair
+                # TODO: need to stage outputfile block_matrixfile back!
+
+                # define the compute unit, to compute over the trajectory submatrix
                 cudesc = rp.ComputeUnitDescription()
                 cudesc.executable    = "python"
-                cudesc.pre_exec      = ["module load python"] #Only for Stampede
+                cudesc.pre_exec      = ["module load python; source activate mdaenv"] #Only for Stampede and with our conda env
                 cudesc.input_staging = fshared
                 cudesc.arguments     = [SHARED_MDA_SCRIPT, '--nsplit', nsplit,
                                         '--inputfile', block_json,
@@ -179,11 +181,11 @@ if __name__ == "__main__":
                 ]
                 cudesc.cores         = 1
 
-                cudesc_list.append (cudesc)
+                cudesc_list.append(cudesc)
 
         # submit, run and wait and...
         #print "submit units to unit manager ..."
-        units = umgr.submit_units (cudesc_list)
+        units = umgr.submit_units(cudesc_list)
 
         #print "wait for units ..."
         umgr.wait_units()
