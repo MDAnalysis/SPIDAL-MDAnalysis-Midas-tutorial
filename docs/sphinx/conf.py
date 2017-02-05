@@ -209,5 +209,15 @@ texinfo_documents = [
 
 
 
-# Example configuration for intersphinx: refer to the Python standard library.
-intersphinx_mapping = {'https://docs.python.org/': None}
+# Configuration for intersphinx: refer to the Python standard library
+# MDAnalysis, radical.pilot, and other packages used by MDAnalysis
+#
+# MDA: use devdocs for the moment
+intersphinx_mapping = {'http://docs.python.org/': None,
+                       'http://docs.scipy.org/doc/numpy/': None,
+                       'http://devdocs.mdanalysis.org/': None,
+                       'https://radicalpilot.readthedocs.io/en/latest/': None,
+                       #'http://docs.scipy.org/doc/scipy/reference/': None,
+                       #'http://matplotlib.org': None,
+                       #'https://networkx.readthedocs.io/en/stable/': None,
+                       }

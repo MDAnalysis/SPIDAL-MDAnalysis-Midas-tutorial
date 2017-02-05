@@ -48,17 +48,17 @@ if __name__ == "__main__":
     MY_STAGING_AREA = 'staging:///'
     SHARED_MDA_SCRIPT = 'mdanalysis_psa_partial.py'
     FILELIST = sys.argv[1]
-    WINDOW_SIZE = int(sys.argv[2])
+    BLOCK_SIZE = int(sys.argv[2])
     cores = int(sys.argv[3])
     session_name = sys.argv[4]
     MANIFEST_NAME = "manifest.json"
 
     try:
-    	PROJECT = os.environ['RADICAL_PILOT_PROJECT']
+        PROJECT = os.environ['RADICAL_PILOT_PROJECT']
         if not PROJECT:
-	    raise ValueError
+            raise ValueError
     except (KeyError, ValueError):
-	raise RuntimeError("Set RADICAL_PILOT_PROJECT to your XSEDE allocation")        
+        raise RuntimeError("Set RADICAL_PILOT_PROJECT to your XSEDE allocation")
 
     try:
         session   = rp.Session (name=session_name)
@@ -112,8 +112,8 @@ if __name__ == "__main__":
         # we create one CU for a block of the distance matrix
         cudesc_list = []
 
-        for i in range(0, len(trajectories), WINDOW_SIZE):
-            for j in range(i+1, len(trajectories), WINDOW_SIZE):
+        for i in range(0, len(trajectories), BLOCK_SIZE):
+            for j in range(i+1, len(trajectories), BLOCK_SIZE):
                 fshared = list()
                 shared = {'source': os.path.join(MY_STAGING_AREA, SHARED_MDA_SCRIPT),
                           'target': SHARED_MDA_SCRIPT,
@@ -123,12 +123,12 @@ if __name__ == "__main__":
                 shared = [{'source': 'file://{0}'.format(trajectory),
                            'target' : basename(trajectory),
                            'action' : rp.LINK}
-                              for trajectory in trajectories[i:i+WINDOW_SIZE]]
+                              for trajectory in trajectories[i:i+BLOCK_SIZE]]
                 fshared.extend(shared)
                 shared = [{'source': 'file://{0}'.format(trajectory),
                            'target' : basename(trajectory),
                            'action' : rp.LINK}
-                              for trajectory in trajectories[j:j+WINDOW_SIZE]]
+                              for trajectory in trajectories[j:j+BLOCK_SIZE]]
                 fshared.extend(shared)
                 # always copy all unique topology files
                 shared = [{'source': 'file://{0}'.format(topology),
@@ -140,14 +140,14 @@ if __name__ == "__main__":
                 # block of topology / trajectory pairs
                 #   block[:nsplit] + block[nsplit:]
                 # The MDA script wants one long list of trajectories and the index nsplit
-                # that indicates where to split the list to create the two groups of 
+                # that indicates where to split the list to create the two groups of
                 # trajectories that are compared against each other.
-                block_top = topologies[i:i+WINDOW_SIZE] + topologies[j:j+WINDOW_SIZE]
-                block_trj = trajectories[i:i+WINDOW_SIZE] + trajectories[j:j+WINDOW_SIZE]
+                block_top = topologies[i:i+BLOCK_SIZE] + topologies[j:j+BLOCK_SIZE]
+                block_trj = trajectories[i:i+BLOCK_SIZE] + trajectories[j:j+BLOCK_SIZE]
                 block = [block_top, block_trj]
-                nsplit = len(trajectories[i:i+WINDOW_SIZE])
-                imax = i + len(trajectories[i:i+WINDOW_SIZE])
-                jmax = j + len(trajectories[j:j+WINDOW_SIZE])
+                nsplit = len(trajectories[i:i+BLOCK_SIZE])
+                imax = i + len(trajectories[i:i+BLOCK_SIZE])
+                jmax = j + len(trajectories[j:j+BLOCK_SIZE])
                 # should remember i, imax and j_jmax because we calculate the
                 # submatrix D[i:i+di, j:j+dj] in this CU.
                 block_json = "block-{0}-{1}__{2}-{3}.json".format(
@@ -189,7 +189,7 @@ if __name__ == "__main__":
         # together
         with open(MANIFEST_NAME, "w") as outfile:
             json.dump(manifest, outfile)
-        print("Created manifest '{0}': (block_D, block_trj, (i, i+w), (j, j+w))".format(MANIFEST_NAME))    	
+        print("Created manifest '{0}': (block_D, block_trj, (i, i+w), (j, j+w))".format(MANIFEST_NAME))
 
         # submit, run and wait and...
         #print "submit units to unit manager ..."
