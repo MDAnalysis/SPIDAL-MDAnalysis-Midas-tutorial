@@ -52,8 +52,8 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'SPIDAL Tutorial: MDAnalysis with Midas'
-copyright = u'2017, Oliver Beckstein, Sean Seyler, Ioannis Paraskevakos, Shantenu Jha'
-author = u'Oliver Beckstein, Sean Seyler, Ioannis Paraskevakos, Shantenu Jha'
+copyright = u'2017, Oliver Beckstein, Ioannis Paraskevakos, Sean Seyler, Shantenu Jha'
+author = u'Oliver Beckstein, Ioannis Paraskevakos, Sean Seyler, Shantenu Jha'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -106,7 +106,7 @@ html_theme_options = {
     'logo' : "logos/mdanalysis-logo-200x150.png",
     'github_user': 'MDAnalysis',
     'github_repo': 'mdanalysis',
-    'github_type': 'star',
+    # 'github_type': 'star',
     'github_banner': True,
     'show_related': True,
     'fixed_sidebar': False,
