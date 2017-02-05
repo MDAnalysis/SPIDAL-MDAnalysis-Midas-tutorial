@@ -10,7 +10,7 @@
    transitions. J. Mol. Biol., 394(1):160–176, 2009. doi:
    `10.1016/j.jmb.2009.09.009 <http://doi.org/10.1016/j.jmb.2009.09.009>`_.
 
-.. [Farell2010] D. W. Farrell, K. Speranskiy, and
+.. [Farrell2010] D. W. Farrell, K. Speranskiy, and
    M. F. Thorpe. Generating stereochemically acceptable protein
    pathways. Proteins, 78(14):2908–21, Nov 2010. doi:
    `10.1002/prot.22810 <http://doi.org/10.1002/prot.22810>`_.
@@ -22,7 +22,7 @@
    <http://doi.org/10.1002/jcc.21564>`_.
 
 .. [Seyler2015] S. L. Seyler, A. Kumar, M. F. Thorpe, and
-   O. Beckstein. Path similarity analysis: A method for quantifying
+   O. Beckstein. Path similarity analysis: A metrhod for quantifying
    macromolecular pathways. PLoS Comput Biol, 11(10):e1004568,
    10 2015. doi: `10.1371/journal.pcbi.1004568
    <http://dx.doi.org/10.1371%2Fjournal.pcbi.1004568>`_.
