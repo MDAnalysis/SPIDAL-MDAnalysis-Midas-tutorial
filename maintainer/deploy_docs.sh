@@ -28,6 +28,8 @@ function die () {
 
 GH_REPOSITORY=git@github.com:Becksteinlab/SPIDAL-MDAnalysis-Midas-tutorial.git
 GH_DOC_BRANCH=master
+# directories relative to repository root
+MDA_BUILDDIR=docs/sphinx
 MDA_DOCDIR=docs/sphinx/_build/html
 
 rev=$(git rev-parse --short HEAD)
@@ -37,8 +39,21 @@ rev=$(git rev-parse --short HEAD)
 test -n "${GH_REPOSITORY}" || die "GH_REPOSITORY must be set in .travis.yml" 100
 test -n "${MDA_DOCDIR}" || die "MDA_DOCDIR must be set in .travis.yml" 100
 
-cd ${MDA_DOCDIR} || die "Failed to 'cd ${MDA_DOCDIR}'. Run from the top level of the repository"
+rootdir="$(git rev-parse --show-toplevel)" || die "Failed to get rootdir"
+cd "${rootdir}" || die "Failed to get to the git root dir ${rootdir}"
 
+#------------------------------------------------------------
+# rebuild docs
+#------------------------------------------------------------
+
+cd ${rootdir}/${MDA_BUILDDIR} || die "Failed to 'cd ${MDA_BUILDDIR}'."
+make html || die "Failed to build 'make html'"
+
+#------------------------------------------------------------
+# update gh-pages branch
+#------------------------------------------------------------
+
+cd ${rootdir}/${MDA_DOCDIR} || die "Failed to 'cd ${MDA_DOCDIR}'."
 rm -rf .git
 
 git init
