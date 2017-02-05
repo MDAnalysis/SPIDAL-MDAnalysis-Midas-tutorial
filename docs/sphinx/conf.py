@@ -102,10 +102,17 @@ color = {'orange': '#FF9200',
          'white': '#FFFFFF',
          'black': '#000000',}
 
+from collections import OrderedDict
+extra_nav_links = OrderedDict()
+extra_nav_links['SPIDAL'] = 'http://spidal.org'
+extra_nav_links['MDAnalysis'] = 'http://mdanalysis.org'
+extra_nav_links['Radical Cybertools'] = 'https://radical-cybertools.github.io/'
+
 html_theme_options = {
     'logo' : "logos/mdanalysis-logo-200x150.png",
     'github_user': 'MDAnalysis',
     'github_repo': 'mdanalysis',
+    'github_button': False,
     # 'github_type': 'star',
     'github_banner': True,
     'show_related': True,
@@ -117,6 +124,7 @@ html_theme_options = {
     'font_family': "'PT Sans', Helvetica, Arial, 'sans-serif'",
     'head_font_family': "",
     'code_font_family': "Menlo, Monaco, 'Courier New', monospace",
+    'extra_nav_links': extra_nav_links,
 }
 
 # The name of an image file (within the static path) to use as favicon of the
