@@ -36,6 +36,7 @@ from os.path import basename
 import time
 
 os.environ['RADICAL_PILOT_VERBOSE']='DEBUG'
+# os.environ['RADICAL_PILOT_LOG_TGT']='/tmp/rp.log'
 
 import sys
 import radical.pilot as rp
@@ -48,16 +49,17 @@ if __name__ == "__main__":
     MY_STAGING_AREA = 'staging:///'
     SHARED_MDA_SCRIPT = 'mdanalysis_psa_partial.py'
     FILELIST = sys.argv[1]
-    WINDOW_SIZE = int(sys.argv[2])
+    BLOCK_SIZE = int(sys.argv[2])
     cores = int(sys.argv[3])
     session_name = sys.argv[4]
+    MANIFEST_NAME = "manifest.json"
 
     try:
-    	PROJECT = os.environ['RADICAL_PILOT_PROJECT']
+        PROJECT = os.environ['RADICAL_PILOT_PROJECT']
         if not PROJECT:
-	    raise ValueError
+            raise ValueError
     except (KeyError, ValueError):
-	raise RuntimeError("Set RADICAL_PILOT_PROJECT to your XSEDE allocation")        
+        raise RuntimeError("Set RADICAL_PILOT_PROJECT to your XSEDE allocation")
 
     try:
         session   = rp.Session (name=session_name)
@@ -88,6 +90,10 @@ if __name__ == "__main__":
         with open(FILELIST) as inp:
             topologies, trajectories = json.load(inp)
 
+        # list of outputfiles <--> submatrix indices
+        # (built during CU creation)
+        manifest = []
+
         fshared_list   = []
         fname_stage = []
         # stage all files to the staging area
@@ -107,31 +113,24 @@ if __name__ == "__main__":
         # we create one CU for a block of the distance matrix
         cudesc_list = []
 
-        for i in range(0,len(trajectories), WINDOW_SIZE):
-            for j in range(i+1, len(trajectories), WINDOW_SIZE):
+        for i in range(0, len(trajectories), BLOCK_SIZE):
+            for j in range(i+1, len(trajectories), BLOCK_SIZE):
                 fshared = list()
                 shared = {'source': os.path.join(MY_STAGING_AREA, SHARED_MDA_SCRIPT),
-                         'target': SHARED_MDA_SCRIPT,
-                         'action': rp.LINK}
+                          'target': SHARED_MDA_SCRIPT,
+                          'action': rp.LINK}
                 fshared.append(shared)
 
-                if i == j: # never happesn since j >= i+1
-                    shared = [{'source': 'file://{0}'.format(trajectory),
-                              'target' : basename(trajectory),
-                               'action' : rp.LINK}
-                              for trajectory in trajectories[i:i+WINDOW_SIZE]]
-                    fshared.extend(shared)
-                else:
-                    shared = [{'source': 'file://{0}'.format(trajectory),
-                              'target' : basename(trajectory),
-                              'action' : rp.LINK}
-                              for trajectory in trajectories[i:i+WINDOW_SIZE]]
-                    fshared.extend(shared)
-                    shared = [{'source': 'file://{0}'.format(trajectory),
-                              'target' : basename(trajectory),
-                              'action' : rp.LINK}
-                              for trajectory in trajectories[j:j+WINDOW_SIZE]]
-                    fshared.extend(shared)
+                shared = [{'source': 'file://{0}'.format(trajectory),
+                           'target' : basename(trajectory),
+                           'action' : rp.LINK}
+                              for trajectory in trajectories[i:i+BLOCK_SIZE]]
+                fshared.extend(shared)
+                shared = [{'source': 'file://{0}'.format(trajectory),
+                           'target' : basename(trajectory),
+                           'action' : rp.LINK}
+                              for trajectory in trajectories[j:j+BLOCK_SIZE]]
+                fshared.extend(shared)
                 # always copy all unique topology files
                 shared = [{'source': 'file://{0}'.format(topology),
                            'target' : basename(topology),
@@ -142,20 +141,22 @@ if __name__ == "__main__":
                 # block of topology / trajectory pairs
                 #   block[:nsplit] + block[nsplit:]
                 # The MDA script wants one long list of trajectories and the index nsplit
-                # that indicates where to split the list to create the two groups of 
+                # that indicates where to split the list to create the two groups of
                 # trajectories that are compared against each other.
-                block_top = topologies[i:i+WINDOW_SIZE] + topologies[j:j+WINDOW_SIZE]
-                block_trj = trajectories[i:i+WINDOW_SIZE] + trajectories[j:j+WINDOW_SIZE]
+                block_top = topologies[i:i+BLOCK_SIZE] + topologies[j:j+BLOCK_SIZE]
+                block_trj = trajectories[i:i+BLOCK_SIZE] + trajectories[j:j+BLOCK_SIZE]
                 block = [block_top, block_trj]
-                nsplit = len(trajectories[i:i+WINDOW_SIZE])
-                delta_i = len(trajectories[i:i+WINDOW_SIZE]) - i + 1
-                delta_j = len(trajectories[j:j+WINDOW_SIZE]) - j + 1
-                # should remember i, delta_i and j_delta_j because we calculate the
+                nsplit = len(trajectories[i:i+BLOCK_SIZE])
+                imax = i + len(trajectories[i:i+BLOCK_SIZE])
+                jmax = j + len(trajectories[j:j+BLOCK_SIZE])
+                # should remember i, imax and j_jmax because we calculate the
                 # submatrix D[i:i+di, j:j+dj] in this CU.
                 block_json = "block-{0}-{1}__{2}-{3}.json".format(
-                    i, delta_i, j, delta_j)
+                    i, imax, j, jmax)
                 block_matrixfile = 'subdistances_{0}-{1}__{2}-{3}.npy'.format(
-                    i, delta_i, j, delta_j)
+                    i, imax, j, jmax)
+
+                manifest.append((block_matrixfile, block_json, (i, imax), (j, jmax)))
 
                 # create input file for the cu and add share it
                 with open(block_json, "w") as out:
@@ -168,22 +169,32 @@ if __name__ == "__main__":
                 ]
                 fshared.extend(shared)
 
-            # define the compute unit, to compute over the trajectory pair
+                # define the compute unit, to compute over the trajectory submatrix
+                # TODO: store the offsets WITH the returned matrix (pkl or arrach archive) instead
+                #       of encoding in filename
                 cudesc = rp.ComputeUnitDescription()
-                cudesc.executable    = "python"
-                cudesc.pre_exec      = ["module load python"] #Only for Stampede
-                cudesc.input_staging = fshared
-                cudesc.arguments     = [SHARED_MDA_SCRIPT, '--nsplit', nsplit,
-                                        '--inputfile', block_json,
-                                        '--outfile', block_matrixfile,
-                ]
-                cudesc.cores         = 1
+                cudesc.executable     = "python"
+                cudesc.pre_exec       = ["module load python; source activate mdaenv"] #Only for Stampede and with our conda env
+                cudesc.input_staging  = fshared
+                cudesc.output_staging = {'source': block_matrixfile,
+                                         'target': block_matrixfile,
+                                         'action': rp.TRANSFER}
+                cudesc.arguments      = [SHARED_MDA_SCRIPT, '--nsplit', nsplit,
+                                         '--inputfile', block_json,
+                                         '--outfile', block_matrixfile, ]
+                cudesc.cores          = 1
 
-                cudesc_list.append (cudesc)
+                cudesc_list.append(cudesc)
+
+        # write manifest json file: use it later to piece submatrices back
+        # together
+        with open(MANIFEST_NAME, "w") as outfile:
+            json.dump(manifest, outfile)
+        print("Created manifest '{0}': (block_D, block_trj, (i, i+w), (j, j+w))".format(MANIFEST_NAME))
 
         # submit, run and wait and...
         #print "submit units to unit manager ..."
-        units = umgr.submit_units (cudesc_list)
+        units = umgr.submit_units(cudesc_list)
 
         #print "wait for units ..."
         umgr.wait_units()
