@@ -47,8 +47,8 @@ def combine(traj, manifest):
 
     return D
 
-def cluster(distArray, method='ward', count_sort=False,               \
-            distance_sort=False, no_plot=False, no_labels=True,             \
+def cluster(distArray, method='ward', count_sort=False,
+            distance_sort=False, no_plot=False, no_labels=True,
             color_threshold=4):
     """Cluster trajectories and optionally plot the dendrogram.
 
@@ -227,7 +227,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("-o", "--outfile", metavar="FILE",
-                        default= "distance_matrix.npz",
+                        default= "distance_matrix.npy",
                         help="save complete distance matrix to FILE")
     parser.add_argument("-p", "--plot", metavar="FILE",
                         default="psa_distance_matrix.pdf",
