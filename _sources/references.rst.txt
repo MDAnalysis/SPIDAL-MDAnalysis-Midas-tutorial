@@ -27,3 +27,7 @@
    10 2015. doi: `10.1371/journal.pcbi.1004568
    <http://dx.doi.org/10.1371%2Fjournal.pcbi.1004568>`_.
    
+.. [EiterManilla1994] T. Eiter and H. Mannila. Computing discrete
+   Fréchet distance. Technical Report CD-TR 94/64, Christian Doppler
+   Laboratory for Expert Systems, Technische Universität Wien, Wien,
+   1994.
