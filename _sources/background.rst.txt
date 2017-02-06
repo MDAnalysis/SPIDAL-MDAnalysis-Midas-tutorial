@@ -145,6 +145,24 @@ trajectories (they form a *Fréchet pair*).
    "CORE" domain of AdK, as described in more detail in
    [Seyler2015]_.)
 
+Calculating a full Fréchet distance matrix :math:`D_{ij} = \delta(P_i,
+P_j)` just requires more book-keeping in order to perform the above
+steps for the cartesian product of all trajectories :math:`P_i \times
+P_j`.
+
+
+
+Radical.pilot
+-------------
+
+We use :mod:`radical.pilot` to generate one *compute unit* for each
+block matrix computation. The pilot job distributes the individual
+compute units, which includes staging of input trajectories and
+retrieval of the output file (the block matrix), as well as running
+the MDAnalysis script that performs the calculation of the block
+matrix on a compute node.
+
+
 .. rubric:: Footnotes
 
 .. [#inmemory] Instead of using

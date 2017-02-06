@@ -164,6 +164,19 @@ this tutorial were already superimposed appropriately (on the
 &#8220;CORE&#8221; domain of AdK, as described in more detail in
 <a class="reference internal" href="references.html#seyler2015" id="id11">[Seyler2015]</a>.)</p>
 </div>
+<p>Calculating a full Fréchet distance matrix <span class="math">\(D_{ij} = \delta(P_i,
+P_j)\)</span> just requires more book-keeping in order to perform the above
+steps for the cartesian product of all trajectories <span class="math">\(P_i \times
+P_j\)</span>.</p>
+</div>
+<div class="section" id="radical-pilot">
+<h3>Radical.pilot<a class="headerlink" href="#radical-pilot" title="Permalink to this headline">¶</a></h3>
+<p>We use <code class="xref py py-mod docutils literal"><span class="pre">radical.pilot</span></code> to generate one <em>compute unit</em> for each
+block matrix computation. The pilot job distributes the individual
+compute units, which includes staging of input trajectories and
+retrieval of the output file (the block matrix), as well as running
+the MDAnalysis script that performs the calculation of the block
+matrix on a compute node.</p>
 <p class="rubric">Footnotes</p>
 <table class="docutils footnote" frame="void" id="inmemory" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
