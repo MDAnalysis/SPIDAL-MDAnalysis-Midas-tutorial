@@ -49,20 +49,13 @@ def psa_partial(universesA, universesB, metric="discrete_frechet", selection="na
 
     Note
     ----
-    Each universe is transferred to memory
-    (`Universe.transfer_to_memory()`) and this permanently changes the
-    universe, even in the calling code. The advantage is that
-    subsequent calls to `transfer_to_memory()` are no-ops. However,
-    for very big trajectories, memory problems might occur.
-
+    Each universe should be transferred to memory
+    (`Universe.transfer_to_memory()`) in order to speed up extraction
+    of coordinates. However, for very big trajectories, memory
+    problems might occur and then this code is not optimal because it does
+    not cache extracted coordinates.
     """
     _metric = psa.get_path_metric_func(metric)
-
-    # transfer to memory for instantaneous time series extraction
-    # (typically not a problem for these trajectories and submatrix sizes; if memory becomes an
-    # issue then do not transfer to memory and store intermediate trajectories on disk)
-    for u in itertools.chain(universesA, universesB):
-        u.transfer_to_memory()
 
     # submatrix of d[i, j] with i from A and j from B
     D = np.zeros((len(universesA), len(universesB)))
@@ -82,7 +75,7 @@ def psa_partial(universesA, universesB, metric="discrete_frechet", selection="na
     return D
 
 class StopWatch(OrderedDict):
-    fmt = "{0:20s}  {1:8.3f} s"
+    fmt = "{0:30s}  {1:8.3f} s"
 
     def tic(self, label):
         if label in self:
@@ -146,8 +139,16 @@ if __name__ == "__main__":
                  itertools.izip(topologies, trajectories)]
     timer.tic("load Universes")
 
+    # speed up by transferring to memory
+    # transfer to memory for instantaneous time series extraction
+    # (typically not a problem for these trajectories and submatrix sizes; if memory becomes an
+    # issue then do not transfer to memory and store intermediate trajectories on disk)
+    for u in universes:
+        u.transfer_to_memory()
+    timer.tic("universe.transfer_to_memory()")
+
     # run distance calculation and produce submatrix
-         
+
     uA = universes[:args.nsplit]
     uB = universes[args.nsplit:]
     print("Calculating D (shape {0} x {1}) with {2} entries".format(

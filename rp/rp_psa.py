@@ -36,6 +36,7 @@ from os.path import basename
 import time
 
 os.environ['RADICAL_PILOT_VERBOSE']='DEBUG'
+# os.environ['RADICAL_PILOT_LOG_TGT']='/tmp/rp.log'
 
 import sys
 import radical.pilot as rp
