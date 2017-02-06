@@ -13,13 +13,14 @@ in a JSON file. Just check that it can process the data ::
  $RPDIR/mdanalysis_psa_partial.py --inputfile testcase.json -n 5
 
 This means
+
 - use the test case
 - compare the first 5 trajectories against the remaining 5
   trajectories
 
-(The -n (split) argument is important because we are going to use it
-to decompose the full distance matrix into sub-matrices. If you just
-want to do all-vs-all comparisons, use the ``mdanalysis_psa.py``
+(The ``-n`` (split) argument is important because we are going to use
+it to decompose the full distance matrix into sub-matrices. If you
+just want to do all-vs-all comparisons, use the ``mdanalysis_psa.py``
 script.)
 
 You should see output like ::
@@ -109,16 +110,20 @@ The MDAnalysis script is staged
 
 
 In a loop, a CU is set up for each block matrix --- this is the
-**map** step:
+**map** step. In particular, the trajectories are partitioned
+according to the ``BLOCK_SIZE`` (the parameter :math:`w`) and all
+necessary information is written to a JSON file that will be used as
+the input for the ``mdanalysis_psa_partial.py`` script:
 
 .. literalinclude:: /code/rp/rp_psa.py
    :language: python
    :lines: 114-187
+   :emphasize-lines: 28-57,69-71
    :linenos: 
 
-and for the reduce step, all information about the block matrix
-(filename and indices in the distance matrix) are written to a JSON
-file ("manifest"):
+For the :ref:`reduce step <section-reduce-step>`, all information
+about the block matrix (filename and indices in the distance matrix)
+are written to a JSON file ("manifest"):
 
 .. literalinclude:: /code/rp/rp_psa.py
    :language: python
@@ -151,6 +156,7 @@ The ``rp_psa.py`` radical.pilot script takes as input:
 - session name (arbitrary string, spidal_mda_rp_psa)
 
 
+.. _section-reduce-step:
 
 Reduce-step
 ===========

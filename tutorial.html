@@ -54,14 +54,15 @@ in a JSON file. Just check that it can process the data</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span>$RPDIR/mdanalysis_psa_partial.py --inputfile testcase.json -n 5
 </pre></div>
 </div>
-<p>This means
-- use the test case
-- compare the first 5 trajectories against the remaining 5</p>
-<blockquote>
-<div>trajectories</div></blockquote>
-<p>(The -n (split) argument is important because we are going to use it
-to decompose the full distance matrix into sub-matrices. If you just
-want to do all-vs-all comparisons, use the <code class="docutils literal"><span class="pre">mdanalysis_psa.py</span></code>
+<p>This means</p>
+<ul class="simple">
+<li>use the test case</li>
+<li>compare the first 5 trajectories against the remaining 5
+trajectories</li>
+</ul>
+<p>(The <code class="docutils literal"><span class="pre">-n</span></code> (split) argument is important because we are going to use
+it to decompose the full distance matrix into sub-matrices. If you
+just want to do all-vs-all comparisons, use the <code class="docutils literal"><span class="pre">mdanalysis_psa.py</span></code>
 script.)</p>
 <p>You should see output like</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Loading</span> <span class="n">paths</span> <span class="kn">from</span> <span class="nn">JSON</span> <span class="n">file</span> <span class="n">testcase</span><span class="o">.</span><span class="n">json</span>
@@ -212,7 +213,10 @@ cp $RPDIR/{rp_psa.py,mdanalysis_psa_partial.py} .
 </pre></div>
 </td></tr></table></div>
 <p>In a loop, a CU is set up for each block matrix &#8212; this is the
-<strong>map</strong> step:</p>
+<strong>map</strong> step. In particular, the trajectories are partitioned
+according to the <code class="docutils literal"><span class="pre">BLOCK_SIZE</span></code> (the parameter <span class="math">\(w\)</span>) and all
+necessary information is written to a JSON file that will be used as
+the input for the <code class="docutils literal"><span class="pre">mdanalysis_psa_partial.py</span></code> script:</p>
 <div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
@@ -313,37 +317,37 @@ cp $RPDIR/{rp_psa.py,mdanalysis_psa_partial.py} .
                           <span class="k">for</span> <span class="n">topology</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">topologies</span><span class="p">)]</span>
                 <span class="n">fshared</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">shared</span><span class="p">)</span>
 
-                <span class="c1"># block of topology / trajectory pairs</span>
-                <span class="c1">#   block[:nsplit] + block[nsplit:]</span>
-                <span class="c1"># The MDA script wants one long list of trajectories and the index nsplit</span>
-                <span class="c1"># that indicates where to split the list to create the two groups of</span>
-                <span class="c1"># trajectories that are compared against each other.</span>
-                <span class="n">block_top</span> <span class="o">=</span> <span class="n">topologies</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="n">BLOCK_SIZE</span><span class="p">]</span> <span class="o">+</span> <span class="n">topologies</span><span class="p">[</span><span class="n">j</span><span class="p">:</span><span class="n">j</span><span class="o">+</span><span class="n">BLOCK_SIZE</span><span class="p">]</span>
-                <span class="n">block_trj</span> <span class="o">=</span> <span class="n">trajectories</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="n">BLOCK_SIZE</span><span class="p">]</span> <span class="o">+</span> <span class="n">trajectories</span><span class="p">[</span><span class="n">j</span><span class="p">:</span><span class="n">j</span><span class="o">+</span><span class="n">BLOCK_SIZE</span><span class="p">]</span>
-                <span class="n">block</span> <span class="o">=</span> <span class="p">[</span><span class="n">block_top</span><span class="p">,</span> <span class="n">block_trj</span><span class="p">]</span>
-                <span class="n">nsplit</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">trajectories</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="n">BLOCK_SIZE</span><span class="p">])</span>
-                <span class="n">imax</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">trajectories</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="n">BLOCK_SIZE</span><span class="p">])</span>
-                <span class="n">jmax</span> <span class="o">=</span> <span class="n">j</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">trajectories</span><span class="p">[</span><span class="n">j</span><span class="p">:</span><span class="n">j</span><span class="o">+</span><span class="n">BLOCK_SIZE</span><span class="p">])</span>
-                <span class="c1"># should remember i, imax and j_jmax because we calculate the</span>
-                <span class="c1"># submatrix D[i:i+di, j:j+dj] in this CU.</span>
-                <span class="n">block_json</span> <span class="o">=</span> <span class="s2">&quot;block-{0}-{1}__{2}-{3}.json&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                    <span class="n">i</span><span class="p">,</span> <span class="n">imax</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">jmax</span><span class="p">)</span>
-                <span class="n">block_matrixfile</span> <span class="o">=</span> <span class="s1">&#39;subdistances_{0}-{1}__{2}-{3}.npy&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                    <span class="n">i</span><span class="p">,</span> <span class="n">imax</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">jmax</span><span class="p">)</span>
-
-                <span class="n">manifest</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">block_matrixfile</span><span class="p">,</span> <span class="n">block_json</span><span class="p">,</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">imax</span><span class="p">),</span> <span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">jmax</span><span class="p">)))</span>
-
-                <span class="c1"># create input file for the cu and add share it</span>
-                <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">block_json</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">out</span><span class="p">:</span>
-                    <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="n">out</span><span class="p">)</span>
-
-                <span class="c1"># share input json file</span>
-                <span class="n">shared</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;source&#39;</span><span class="p">:</span> <span class="s1">&#39;file://{0}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="n">block_json</span><span class="p">)),</span>
-                           <span class="s1">&#39;target&#39;</span> <span class="p">:</span> <span class="n">basename</span><span class="p">(</span><span class="n">block_json</span><span class="p">),</span>
-                           <span class="s1">&#39;action&#39;</span> <span class="p">:</span> <span class="n">rp</span><span class="o">.</span><span class="n">LINK</span><span class="p">}</span>
-                <span class="p">]</span>
-                <span class="n">fshared</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">shared</span><span class="p">)</span>
-
+<span class="hll">                <span class="c1"># block of topology / trajectory pairs</span>
+</span><span class="hll">                <span class="c1">#   block[:nsplit] + block[nsplit:]</span>
+</span><span class="hll">                <span class="c1"># The MDA script wants one long list of trajectories and the index nsplit</span>
+</span><span class="hll">                <span class="c1"># that indicates where to split the list to create the two groups of</span>
+</span><span class="hll">                <span class="c1"># trajectories that are compared against each other.</span>
+</span><span class="hll">                <span class="n">block_top</span> <span class="o">=</span> <span class="n">topologies</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="n">BLOCK_SIZE</span><span class="p">]</span> <span class="o">+</span> <span class="n">topologies</span><span class="p">[</span><span class="n">j</span><span class="p">:</span><span class="n">j</span><span class="o">+</span><span class="n">BLOCK_SIZE</span><span class="p">]</span>
+</span><span class="hll">                <span class="n">block_trj</span> <span class="o">=</span> <span class="n">trajectories</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="n">BLOCK_SIZE</span><span class="p">]</span> <span class="o">+</span> <span class="n">trajectories</span><span class="p">[</span><span class="n">j</span><span class="p">:</span><span class="n">j</span><span class="o">+</span><span class="n">BLOCK_SIZE</span><span class="p">]</span>
+</span><span class="hll">                <span class="n">block</span> <span class="o">=</span> <span class="p">[</span><span class="n">block_top</span><span class="p">,</span> <span class="n">block_trj</span><span class="p">]</span>
+</span><span class="hll">                <span class="n">nsplit</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">trajectories</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="n">BLOCK_SIZE</span><span class="p">])</span>
+</span><span class="hll">                <span class="n">imax</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">trajectories</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="n">BLOCK_SIZE</span><span class="p">])</span>
+</span><span class="hll">                <span class="n">jmax</span> <span class="o">=</span> <span class="n">j</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">trajectories</span><span class="p">[</span><span class="n">j</span><span class="p">:</span><span class="n">j</span><span class="o">+</span><span class="n">BLOCK_SIZE</span><span class="p">])</span>
+</span><span class="hll">                <span class="c1"># should remember i, imax and j_jmax because we calculate the</span>
+</span><span class="hll">                <span class="c1"># submatrix D[i:i+di, j:j+dj] in this CU.</span>
+</span><span class="hll">                <span class="n">block_json</span> <span class="o">=</span> <span class="s2">&quot;block-{0}-{1}__{2}-{3}.json&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+</span><span class="hll">                    <span class="n">i</span><span class="p">,</span> <span class="n">imax</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">jmax</span><span class="p">)</span>
+</span><span class="hll">                <span class="n">block_matrixfile</span> <span class="o">=</span> <span class="s1">&#39;subdistances_{0}-{1}__{2}-{3}.npy&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+</span><span class="hll">                    <span class="n">i</span><span class="p">,</span> <span class="n">imax</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">jmax</span><span class="p">)</span>
+</span><span class="hll">
+</span><span class="hll">                <span class="n">manifest</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">block_matrixfile</span><span class="p">,</span> <span class="n">block_json</span><span class="p">,</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">imax</span><span class="p">),</span> <span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">jmax</span><span class="p">)))</span>
+</span><span class="hll">
+</span><span class="hll">                <span class="c1"># create input file for the cu and add share it</span>
+</span><span class="hll">                <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">block_json</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">out</span><span class="p">:</span>
+</span><span class="hll">                    <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="n">out</span><span class="p">)</span>
+</span><span class="hll">
+</span><span class="hll">                <span class="c1"># share input json file</span>
+</span><span class="hll">                <span class="n">shared</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;source&#39;</span><span class="p">:</span> <span class="s1">&#39;file://{0}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="n">block_json</span><span class="p">)),</span>
+</span><span class="hll">                           <span class="s1">&#39;target&#39;</span> <span class="p">:</span> <span class="n">basename</span><span class="p">(</span><span class="n">block_json</span><span class="p">),</span>
+</span><span class="hll">                           <span class="s1">&#39;action&#39;</span> <span class="p">:</span> <span class="n">rp</span><span class="o">.</span><span class="n">LINK</span><span class="p">}</span>
+</span><span class="hll">                <span class="p">]</span>
+</span><span class="hll">                <span class="n">fshared</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">shared</span><span class="p">)</span>
+</span>
                 <span class="c1"># define the compute unit, to compute over the trajectory submatrix</span>
                 <span class="c1"># TODO: store the offsets WITH the returned matrix (pkl or arrach archive) instead</span>
                 <span class="c1">#       of encoding in filename</span>
@@ -354,17 +358,17 @@ cp $RPDIR/{rp_psa.py,mdanalysis_psa_partial.py} .
                 <span class="n">cudesc</span><span class="o">.</span><span class="n">output_staging</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;source&#39;</span><span class="p">:</span> <span class="n">block_matrixfile</span><span class="p">,</span>
                                          <span class="s1">&#39;target&#39;</span><span class="p">:</span> <span class="n">block_matrixfile</span><span class="p">,</span>
                                          <span class="s1">&#39;action&#39;</span><span class="p">:</span> <span class="n">rp</span><span class="o">.</span><span class="n">TRANSFER</span><span class="p">}</span>
-                <span class="n">cudesc</span><span class="o">.</span><span class="n">arguments</span>      <span class="o">=</span> <span class="p">[</span><span class="n">SHARED_MDA_SCRIPT</span><span class="p">,</span> <span class="s1">&#39;--nsplit&#39;</span><span class="p">,</span> <span class="n">nsplit</span><span class="p">,</span>
-                                         <span class="s1">&#39;--inputfile&#39;</span><span class="p">,</span> <span class="n">block_json</span><span class="p">,</span>
-                                         <span class="s1">&#39;--outfile&#39;</span><span class="p">,</span> <span class="n">block_matrixfile</span><span class="p">,</span> <span class="p">]</span>
-                <span class="n">cudesc</span><span class="o">.</span><span class="n">cores</span>          <span class="o">=</span> <span class="mi">1</span>
+<span class="hll">                <span class="n">cudesc</span><span class="o">.</span><span class="n">arguments</span>      <span class="o">=</span> <span class="p">[</span><span class="n">SHARED_MDA_SCRIPT</span><span class="p">,</span> <span class="s1">&#39;--nsplit&#39;</span><span class="p">,</span> <span class="n">nsplit</span><span class="p">,</span>
+</span><span class="hll">                                         <span class="s1">&#39;--inputfile&#39;</span><span class="p">,</span> <span class="n">block_json</span><span class="p">,</span>
+</span><span class="hll">                                         <span class="s1">&#39;--outfile&#39;</span><span class="p">,</span> <span class="n">block_matrixfile</span><span class="p">,</span> <span class="p">]</span>
+</span>                <span class="n">cudesc</span><span class="o">.</span><span class="n">cores</span>          <span class="o">=</span> <span class="mi">1</span>
 
                 <span class="n">cudesc_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cudesc</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
-<p>and for the reduce step, all information about the block matrix
-(filename and indices in the distance matrix) are written to a JSON
-file (&#8220;manifest&#8221;):</p>
+<p>For the <a class="reference internal" href="#section-reduce-step"><span class="std std-ref">reduce step</span></a>, all information
+about the block matrix (filename and indices in the distance matrix)
+are written to a JSON file (&#8220;manifest&#8221;):</p>
 <div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2</pre></div></td><td class="code"><div class="highlight"><pre><span></span>        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">MANIFEST_NAME</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">outfile</span><span class="p">:</span>
             <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">manifest</span><span class="p">,</span> <span class="n">outfile</span><span class="p">)</span>
@@ -402,7 +406,7 @@ the script waits until they are all complete:</p>
 </div>
 </div>
 <div class="section" id="reduce-step">
-<h2>Reduce-step<a class="headerlink" href="#reduce-step" title="Permalink to this headline">¶</a></h2>
+<span id="section-reduce-step"></span><h2>Reduce-step<a class="headerlink" href="#reduce-step" title="Permalink to this headline">¶</a></h2>
 <p>Once the pilot jobs has completed and all block matrices have been
 computed we combine all data (<strong>reduce</strong>) into the distance matrix
 <span class="math">\(D_{ij}\)</span> and analyze it:</p>
