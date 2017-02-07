@@ -73,15 +73,19 @@ workstation might be sufficient.
 - Make sure all env vars are set (especially MongoDB,
   :envvar:`RADICAL_PILOT_DBURL`) and password-less ssh works.
 - On stampede: Set environment variable  :envvar:`RADICAL_PILOT_PROJECT` to your
-  XSEDE allocation::
+  XSEDE allocation:
 
-    export RADICAL_PILOT_PROJECT=TG-xxxxxx
+  .. code-block:: bash
+  
+     export RADICAL_PILOT_PROJECT=TG-xxxxxx
 
 - Activate the *mdaenv* environment.
 - You should have the JSON files in the ``WORK`` directory.
 
 Copy the two scripts to the WORK directory (at the moment, this is a
-limitation of the scripts to keep them simple) ::
+limitation of the scripts to keep them simple)L
+
+.. code-block:: bash
 
    cd WORK
    cp $RPDIR/{rp_psa.py,mdanalysis_psa_partial.py} .
@@ -186,10 +190,12 @@ Reduce-step
 
 Once the pilot jobs has completed and all block matrices have been
 computed we combine all data (**reduce**) into the distance matrix
-:math:`D_{ij}` and analyze it::
+:math:`D_{ij}` and analyze it:
 
-  psa_reduce.py -t trajectories.json -m manifest.json \
-                -p psa_plot.pdf -o distance_matrix.npy
+.. code-block:: bash
+
+   psa_reduce.py -t trajectories.json -m manifest.json \
+                 -p psa_plot.pdf -o distance_matrix.npy
 
 
 Combine block matrices
