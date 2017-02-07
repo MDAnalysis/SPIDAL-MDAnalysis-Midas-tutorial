@@ -6,6 +6,18 @@
 SPIDAL Tutorial: MDAnalysis with Midas/radical.pilot
 ====================================================
 
+:version: |version|
+:repository: https://github.com/Becksteinlab/SPIDAL-MDAnalysis-Midas-tutorial
+
+The tutorial will showcase how to use Midas with `radical.pilot`_ to
+parallelize the analysis of an ensemble of macromolecular transition
+paths with Path Similarity Analysis (PSA, [Seyler2015]_) as implemented in the
+MDAnalysis_ library.
+
+.. _radical.pilot:
+   http://radical-cybertools.github.io/radical-pilot/
+.. _MDAnalysis: http://mdanalysis.org
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
