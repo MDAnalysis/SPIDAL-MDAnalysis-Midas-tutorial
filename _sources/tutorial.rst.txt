@@ -4,6 +4,12 @@
  Tutorial
 ==========
 
+We will first test that MDAnalysis can perform PSA, using the small
+test set. We will then look in detail into the radical.pilot script
+that implements the map-step. Finally, we condlude with the
+reduce-step and analysis of the data. 
+
+
 Preliminary test
 ================
 
@@ -24,37 +30,38 @@ just want to do all-vs-all comparisons, use the ``mdanalysis_psa.py``
 script.)
 
 You should see output like ::
-   
-   Loading paths from JSON file testcase.json
-   Processing 10 trajectories.
-   Splitting trajectories in two blocks of length 5 and 5
-   Calculating D (shape 5 x 5) with 25 entries
-   ----------[ TIMING ]--------------------
-   load Universes           1.076 s
-   PSA distance matrix      2.700 s
-   saving output            0.019 s
-   ----------------------------------------
-   total time               3.795 s
-   ----------------------------------------
+
+    Loading paths from JSON file testcase.json
+    Processing 10 trajectories.
+    Splitting trajectories in two blocks of length 5 and 5
+    Calculating D (shape 5 x 5) with 25 entries
+    ----------[ TIMING ]--------------------
+    load Universes                     0.448 s
+    universe.transfer_to_memory()      0.178 s
+    PSA distance matrix                1.483 s
+    saving output                      0.001 s
+    ----------------------------------------
+    total time                         2.111 s
+    ----------------------------------------
 
 This indicates that all MDAnalysis parts are working.
 
 Similarly::
 
    (mdaenv) orbeckst@login2:WORK$ $RPDIR/mdanalysis_psa_partial.py --inputfile testcase.json -n 7
-   
-   Loading paths from JSON file testcase.json
-   Processing 10 trajectories.
-   Splitting trajectories in two blocks of length 7 and 3
-   Calculating D (shape 7 x 3) with 21 entries
-   ----------[ TIMING ]--------------------
-   load Universes           0.608 s
-   PSA distance matrix      2.325 s
-   saving output            0.003 s
-   ----------------------------------------
-   total time               2.936 s
-   ----------------------------------------
-
+     
+    Loading paths from JSON file testcase.json
+    Processing 10 trajectories.
+    Splitting trajectories in two blocks of length 7 and 3
+    Calculating D (shape 7 x 3) with 21 entries
+    ----------[ TIMING ]--------------------
+    load Universes                     0.422 s
+    universe.transfer_to_memory()      0.132 s
+    PSA distance matrix                1.436 s
+    saving output                      0.001 s
+    ----------------------------------------
+    total time                         1.991 s
+    ----------------------------------------
 
 Supercomputer environment
 =========================
@@ -66,15 +73,19 @@ workstation might be sufficient.
 - Make sure all env vars are set (especially MongoDB,
   :envvar:`RADICAL_PILOT_DBURL`) and password-less ssh works.
 - On stampede: Set environment variable  :envvar:`RADICAL_PILOT_PROJECT` to your
-  XSEDE allocation::
+  XSEDE allocation:
 
-    export RADICAL_PILOT_PROJECT=TG-xxxxxx
+  .. code-block:: bash
+  
+     export RADICAL_PILOT_PROJECT=TG-xxxxxx
 
 - Activate the *mdaenv* environment.
 - You should have the JSON files in the ``WORK`` directory.
 
 Copy the two scripts to the WORK directory (at the moment, this is a
-limitation of the scripts to keep them simple) ::
+limitation of the scripts to keep them simple)L
+
+.. code-block:: bash
 
    cd WORK
    cp $RPDIR/{rp_psa.py,mdanalysis_psa_partial.py} .
@@ -87,25 +98,40 @@ RP script
 ---------
 The pilot script is ``rp/rp_psa.py``.
 
-First, a session with a pilot job is created:
+First, a session is created and a Pilot Manager if initialized:
 
 .. literalinclude:: /code/rp/rp_psa.py
    :language: python
-   :lines: 65-87
+   :lines: 65-70
    :linenos: 
+
+Second, a ComputePilot is described and submitted to the Pilot Manager:
+
+.. literalinclude:: /code/rp/rp_psa.py
+   :language: python
+   :lines: 73-82
+   :linenos: 
+
+First, a Unit Manager is created for that session and the Pilot is added:
+
+.. literalinclude:: /code/rp/rp_psa.py
+   :language: python
+   :lines: 85-88
+   :linenos: 
+
 
 The script reads the topology and trajectory files from a JSON file:
 
 .. literalinclude:: /code/rp/rp_psa.py
    :language: python
-   :lines: 90-91
+   :lines: 91-92
    :linenos:
 
 The MDAnalysis script is staged
 
 .. literalinclude:: /code/rp/rp_psa.py
    :language: python
-   :lines: 98-111
+   :lines: 99-112
    :linenos:
 
 
@@ -117,8 +143,8 @@ the input for the ``mdanalysis_psa_partial.py`` script:
 
 .. literalinclude:: /code/rp/rp_psa.py
    :language: python
-   :lines: 114-187
-   :emphasize-lines: 28-57,69-71
+   :lines: 115-189
+   :emphasize-lines: 29-58,70-72
    :linenos: 
 
 For the :ref:`reduce step <section-reduce-step>`, all information
@@ -127,7 +153,7 @@ are written to a JSON file ("manifest"):
 
 .. literalinclude:: /code/rp/rp_psa.py
    :language: python
-   :lines: 191-192
+   :lines: 193-194
    :linenos: 
 
 Finally, the CUs are submitted to execute on the compute resources and
@@ -135,7 +161,7 @@ the script waits until they are all complete:
 
 .. literalinclude:: /code/rp/rp_psa.py
    :language: python
-   :lines: 195-200
+   :lines: 197-202
    :linenos: 
 
 
@@ -143,17 +169,18 @@ the script waits until they are all complete:
 Launch pilot jobs
 -----------------
 
-
-Launch the pilot job::
+Launch the pilot job from the Login node of Stampede::
    
-   python rp_psa.py trajectories.json 20 16 spidal_mda_rp_psa 
+   python rp_psa.py trajectories.json 20 16 SPIDAL.001 
 
 The ``rp_psa.py`` radical.pilot script takes as input:
 
 - the JSON file with the trajectories (trajectories.json)
 - number of trajectories per block (20)
 - number of cores to request (16)
-- session name (arbitrary string, spidal_mda_rp_psa)
+- session name (arbitrary string, "SPIDAL.001"); note that you
+  need to provide a new session name every time you-rerun the command,
+  e.g. "SPIDAL.002", "SPIDAL.003", ...
 
 
 .. _section-reduce-step:
@@ -163,10 +190,12 @@ Reduce-step
 
 Once the pilot jobs has completed and all block matrices have been
 computed we combine all data (**reduce**) into the distance matrix
-:math:`D_{ij}` and analyze it::
+:math:`D_{ij}` and analyze it:
 
-  psa_reduce.py -t trajectories.json -m manifest.json \
-                -p psa_plot.pdf -o distance_matrix.npy
+.. code-block:: bash
+
+   psa_reduce.py -t trajectories.json -m manifest.json \
+                 -p psa_plot.pdf -o distance_matrix.npy
 
 
 Combine block matrices

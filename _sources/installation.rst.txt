@@ -1,4 +1,5 @@
 .. -*- mode: rst; coding: utf-8 -*-
+.. highlight:: bash
 
 ==============
  Installation
@@ -7,12 +8,14 @@
 The tutorial will demonstrate how one can use the Midas framework,
 namely, the `Pilot job`_ abstractions in `radical.pilot`_ in order to
 easily parallelize a large number of calculations with the MDAnalysis_
-library. First we need to install MDAnalysis and radical.pilot.
+library. First we need to install **MDAnalysis** and
+**radical.pilot**.
 
-We will use the ``conda`` package manager and set up a virtual
+We will use the conda_ package manager and set up a virtual
 environment to keep the computational environment (named *mdaenv*)
 clean for the tutorial.
 
+.. _conda: https://conda.io/docs/intro.html
 .. _Pilot job: https://en.wikipedia.org/wiki/Pilot_job
 .. _radical.pilot: https://radicalpilot.readthedocs.io/
 .. _MDAnalysis: http://mdanalysis.org
@@ -26,7 +29,7 @@ clean for the tutorial.
 Installing MDAnalysis
 =====================
 
-MDAnalysis is, in principle, full installable with ``conda``, but in
+MDAnalysis is, in principle, full installable with `conda`_, but in
 this tutorial we will use the latest development version and
 therefore, we will first install pre-requisites with ``conda`` and
 then install MDAnalysis from source.
@@ -68,7 +71,9 @@ installation::
    conda install --yes -n mdaenv matplotlib netcdf4 scikit-learn \
               scipy seaborn coveralls
    conda install --yes -n mdaenv -c biobuilds --yes clustalw=2.1
-   
+
+Activate the installation (has to be done in every shell)::
+
    source activate mdaenv
 
 MDAnalysis source installation
@@ -108,9 +113,8 @@ We follow the `radical.pilot installation instructions`_
 .. _`radical.pilot installation instructions`:
    http://radicalpilot.readthedocs.io/en/latest/installation.html
 
-In the same virtual environment::
+Install in the same virtual environment [#venv]_::
 
-  source activate mdaenv
   pip install radical.pilot
 
 Check success::
@@ -145,9 +149,22 @@ Setting up the environment
 
 Although you don't need to install the software every time, you do
 need to ensure that you always work in the configured virtual
-environment *mdaenv* and that you set set the environment variable for
-the MongoDB::
+environment *mdaenv* [#venv]_ and that you set set the environment
+variable for the MongoDB::
 
   source activate mdaenv
   export RADICAL_PILOT_DBURL="mongodb://user:pass@host:port/dbname"  
 
+
+.. rubric:: Footnotes
+
+.. [#venv] Do not forget to activate the *mdaenv* environment whenever
+           you open a new terminal::
+	  
+            source activate mdaenv
+
+           Otherwise, you will probably find that scripts cannot find
+           MDAnalysis or radical.pilot.
+
+
+.. highlight:: python
