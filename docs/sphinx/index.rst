@@ -7,6 +7,7 @@ SPIDAL Tutorial: MDAnalysis with Midas/radical.pilot
 ====================================================
 
 :version: |version|
+:date: |today|
 :repository: https://github.com/Becksteinlab/SPIDAL-MDAnalysis-Midas-tutorial
 
 The tutorial will showcase how to use Midas with `radical.pilot`_ to
@@ -34,5 +35,4 @@ Indices and tables
 ==================
 
 * :ref:`genindex`
-* :ref:`modindex`
 * :ref:`search`
