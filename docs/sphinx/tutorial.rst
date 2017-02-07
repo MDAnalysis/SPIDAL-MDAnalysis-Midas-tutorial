@@ -4,6 +4,12 @@
  Tutorial
 ==========
 
+We will first test that MDAnalysis can perform PSA, using the small
+test set. We will then look in detail into the radical.pilot script
+that implements the map-step. Finally, we condlude with the
+reduce-step and analysis of the data. 
+
+
 Preliminary test
 ================
 
@@ -24,37 +30,38 @@ just want to do all-vs-all comparisons, use the ``mdanalysis_psa.py``
 script.)
 
 You should see output like ::
-   
-   Loading paths from JSON file testcase.json
-   Processing 10 trajectories.
-   Splitting trajectories in two blocks of length 5 and 5
-   Calculating D (shape 5 x 5) with 25 entries
-   ----------[ TIMING ]--------------------
-   load Universes           1.076 s
-   PSA distance matrix      2.700 s
-   saving output            0.019 s
-   ----------------------------------------
-   total time               3.795 s
-   ----------------------------------------
+
+    Loading paths from JSON file testcase.json
+    Processing 10 trajectories.
+    Splitting trajectories in two blocks of length 5 and 5
+    Calculating D (shape 5 x 5) with 25 entries
+    ----------[ TIMING ]--------------------
+    load Universes                     0.448 s
+    universe.transfer_to_memory()      0.178 s
+    PSA distance matrix                1.483 s
+    saving output                      0.001 s
+    ----------------------------------------
+    total time                         2.111 s
+    ----------------------------------------
 
 This indicates that all MDAnalysis parts are working.
 
 Similarly::
 
    (mdaenv) orbeckst@login2:WORK$ $RPDIR/mdanalysis_psa_partial.py --inputfile testcase.json -n 7
-   
-   Loading paths from JSON file testcase.json
-   Processing 10 trajectories.
-   Splitting trajectories in two blocks of length 7 and 3
-   Calculating D (shape 7 x 3) with 21 entries
-   ----------[ TIMING ]--------------------
-   load Universes           0.608 s
-   PSA distance matrix      2.325 s
-   saving output            0.003 s
-   ----------------------------------------
-   total time               2.936 s
-   ----------------------------------------
-
+     
+    Loading paths from JSON file testcase.json
+    Processing 10 trajectories.
+    Splitting trajectories in two blocks of length 7 and 3
+    Calculating D (shape 7 x 3) with 21 entries
+    ----------[ TIMING ]--------------------
+    load Universes                     0.422 s
+    universe.transfer_to_memory()      0.132 s
+    PSA distance matrix                1.436 s
+    saving output                      0.001 s
+    ----------------------------------------
+    total time                         1.991 s
+    ----------------------------------------
 
 Supercomputer environment
 =========================
@@ -158,17 +165,18 @@ the script waits until they are all complete:
 Launch pilot jobs
 -----------------
 
-
 Launch the pilot job from the Login node of Stampede::
    
-   python rp_psa.py trajectories.json 20 16 spidal_mda_rp_psa 
+   python rp_psa.py trajectories.json 20 16 SPIDAL.001 
 
 The ``rp_psa.py`` radical.pilot script takes as input:
 
 - the JSON file with the trajectories (trajectories.json)
 - number of trajectories per block (20)
 - number of cores to request (16)
-- session name (arbitrary string, spidal_mda_rp_psa)
+- session name (arbitrary string, "SPIDAL.001"); note that you
+  need to provide a new session name every time you-rerun the command,
+  e.g. "SPIDAL.002", "SPIDAL.003", ...
 
 
 .. _section-reduce-step:
