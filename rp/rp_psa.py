@@ -76,6 +76,7 @@ if __name__ == "__main__":
         pdesc.cores    = cores
         pdesc.project  = PROJECT #Project allocation, pass through env var PROJECT
         pdesc.cleanup  = False
+        pdesc.access_schema = 'ssh'
 
         # submit the pilot.
         pilot = pmgr.submit_pilots (pdesc)
@@ -114,7 +115,7 @@ if __name__ == "__main__":
         cudesc_list = []
 
         for i in range(0, len(trajectories), BLOCK_SIZE):
-            for j in range(i+1, len(trajectories), BLOCK_SIZE):
+            for j in range(i, len(trajectories), BLOCK_SIZE):
                 fshared = list()
                 shared = {'source': os.path.join(MY_STAGING_AREA, SHARED_MDA_SCRIPT),
                           'target': SHARED_MDA_SCRIPT,
@@ -126,11 +127,12 @@ if __name__ == "__main__":
                            'action' : rp.LINK}
                               for trajectory in trajectories[i:i+BLOCK_SIZE]]
                 fshared.extend(shared)
-                shared = [{'source': 'file://{0}'.format(trajectory),
-                           'target' : basename(trajectory),
-                           'action' : rp.LINK}
-                              for trajectory in trajectories[j:j+BLOCK_SIZE]]
-                fshared.extend(shared)
+                if i!=j:
+                    shared = [{'source': 'file://{0}'.format(trajectory),
+                               'target' : basename(trajectory),
+                               'action' : rp.LINK}
+                                  for trajectory in trajectories[j:j+BLOCK_SIZE]]
+                    fshared.extend(shared)
                 # always copy all unique topology files
                 shared = [{'source': 'file://{0}'.format(topology),
                            'target' : basename(topology),

@@ -87,25 +87,40 @@ RP script
 ---------
 The pilot script is ``rp/rp_psa.py``.
 
-First, a session with a pilot job is created:
+First, a session is created and a Pilot Manager if initialized:
 
 .. literalinclude:: /code/rp/rp_psa.py
    :language: python
-   :lines: 65-87
+   :lines: 65-70
    :linenos: 
+
+Second, a ComputePilot is described and submitted to the Pilot Manager:
+
+.. literalinclude:: /code/rp/rp_psa.py
+   :language: python
+   :lines: 73-82
+   :linenos: 
+
+First, a Unit Manager is created for that session and the Pilot is added:
+
+.. literalinclude:: /code/rp/rp_psa.py
+   :language: python
+   :lines: 85-88
+   :linenos: 
+
 
 The script reads the topology and trajectory files from a JSON file:
 
 .. literalinclude:: /code/rp/rp_psa.py
    :language: python
-   :lines: 90-91
+   :lines: 91-92
    :linenos:
 
 The MDAnalysis script is staged
 
 .. literalinclude:: /code/rp/rp_psa.py
    :language: python
-   :lines: 98-111
+   :lines: 99-112
    :linenos:
 
 
@@ -117,8 +132,8 @@ the input for the ``mdanalysis_psa_partial.py`` script:
 
 .. literalinclude:: /code/rp/rp_psa.py
    :language: python
-   :lines: 114-187
-   :emphasize-lines: 28-57,69-71
+   :lines: 115-189
+   :emphasize-lines: 29-58,70-72
    :linenos: 
 
 For the :ref:`reduce step <section-reduce-step>`, all information
@@ -127,7 +142,7 @@ are written to a JSON file ("manifest"):
 
 .. literalinclude:: /code/rp/rp_psa.py
    :language: python
-   :lines: 191-192
+   :lines: 193-194
    :linenos: 
 
 Finally, the CUs are submitted to execute on the compute resources and
@@ -135,7 +150,7 @@ the script waits until they are all complete:
 
 .. literalinclude:: /code/rp/rp_psa.py
    :language: python
-   :lines: 195-200
+   :lines: 197-202
    :linenos: 
 
 
@@ -144,7 +159,7 @@ Launch pilot jobs
 -----------------
 
 
-Launch the pilot job::
+Launch the pilot job from the Login node of Stampede::
    
    python rp_psa.py trajectories.json 20 16 spidal_mda_rp_psa 
 
