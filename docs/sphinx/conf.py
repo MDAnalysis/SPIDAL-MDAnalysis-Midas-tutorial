@@ -110,7 +110,7 @@ extra_nav_links['MDAnalysis'] = 'http://mdanalysis.org'
 extra_nav_links['Radical Cybertools'] = 'https://radical-cybertools.github.io/'
 
 html_theme_options = {
-    'logo' : "logos/mdanalysis-logo-200x150.png",
+    'logo' : "logos/mdanalysistutorial-logo-200x150.png",
     'github_user': 'MDAnalysis',
     'github_repo': 'mdanalysis',
     'github_button': False,
