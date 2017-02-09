@@ -10,6 +10,8 @@ In this section you will download all the files that are required for
 the tutorial. This includes Python scripts and real-world datafiles.
 
 
+.. _install-scripts:
+
 Input files and scripts
 -----------------------
 

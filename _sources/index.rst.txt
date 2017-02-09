@@ -1,10 +1,12 @@
+.. -*- mode: rst; coding: utf-8 -*-
 .. SPIDAL Tutorial: MDAnalysis with Midas documentation master file, created by
    sphinx-quickstart on Sat Feb  4 03:35:42 2017.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-SPIDAL Tutorial: MDAnalysis with Midas/radical.pilot
-====================================================
+======================================================
+ SPIDAL Tutorial: MDAnalysis with Midas/radical.pilot
+======================================================
 
 :version: |version|
 :date: |today|
@@ -23,10 +25,11 @@ MDAnalysis_ library.
    :maxdepth: 2
    :caption: Contents:
 
+   background
    installation
    datafiles
-   background
    tutorial
+   code/listings
    references
    
 

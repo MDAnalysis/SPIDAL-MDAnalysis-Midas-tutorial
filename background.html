@@ -28,8 +28,8 @@
     <link rel="shortcut icon" href="_static/mdanalysis-logo.ico"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Tutorial" href="tutorial.html" />
-    <link rel="prev" title="Data files" href="datafiles.html" />
+    <link rel="next" title="Installation" href="installation.html" />
+    <link rel="prev" title="SPIDAL Tutorial: MDAnalysis with Midas/radical.pilot" href="index.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -69,7 +69,8 @@ implemented in
 <a class="reference external" href="http://www.mdanalysis.org/mdanalysis/documentation_pages/analysis/psa.html#MDAnalysis.analysis.psa.discrete_frechet" title="(in MDAnalysis v0.16)"><code class="xref py py-func docutils literal"><span class="pre">MDAnalysis.analysis.psa.discrete_frechet()</span></code></a>. Another good choice
 is the <a class="reference external" href="https://en.wikipedia.org/wiki/Hausdorff_distance">Hausdorff distance</a>
 (<a class="reference external" href="http://www.mdanalysis.org/mdanalysis/documentation_pages/analysis/psa.html#MDAnalysis.analysis.psa.hausdorff" title="(in MDAnalysis v0.16)"><code class="xref py py-func docutils literal"><span class="pre">MDAnalysis.analysis.psa.hausdorff()</span></code></a>), and it is straightforward
-to alter the example code from this tutorial to explore the user of a
+to alter the example code in this tutorial (namely,
+<a class="reference internal" href="code/mdanalysis_psa_partial.html"><span class="doc">mdanalysis_psa_partial.py</span></a>) to explore the use of a
 different distance function.</p>
 </div>
 <div class="section" id="computational-cost">
@@ -157,7 +158,7 @@ trajectories (they form a <em>Fréchet pair</em>).</p>
 and rotational degrees of freedoms for all trajectories by
 superimposing <em>all</em> trajectory frames on a single reference
 structure <a class="reference internal" href="references.html#seyler2015" id="id10">[Seyler2015]</a>. The superposition can be carried out in a
-preprocessing step using, for instance,
+pre-processing step using, for instance,
 <a class="reference external" href="http://www.mdanalysis.org/mdanalysis/documentation_pages/analysis/align.html#MDAnalysis.analysis.align.AlignTraj" title="(in MDAnalysis v0.16)"><code class="xref py py-class docutils literal"><span class="pre">MDAnalysis.analysis.align.AlignTraj</span></code></a> or as part of PSA with
 <a class="reference external" href="http://www.mdanalysis.org/mdanalysis/documentation_pages/analysis/psa.html#MDAnalysis.analysis.psa.PSAnalysis" title="(in MDAnalysis v0.16)"><code class="xref py py-class docutils literal"><span class="pre">MDAnalysis.analysis.psa.PSAnalysis</span></code></a>. The trajectories for
 this tutorial were already superimposed appropriately (on the
@@ -166,7 +167,7 @@ this tutorial were already superimposed appropriately (on the
 </div>
 <p>Calculating a full Fréchet distance matrix <span class="math">\(D_{ij} = \delta(P_i,
 P_j)\)</span> just requires more book-keeping in order to perform the above
-steps for the cartesian product of all trajectories <span class="math">\(P_i \times
+steps for the Cartesian product of all trajectories <span class="math">\(P_i \times
 P_j\)</span>.</p>
 </div>
 <div class="section" id="radical-pilot">
@@ -229,15 +230,16 @@ for using the MemoryReader.</td></tr>
 <h3>Navigation</h3>
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="datafiles.html">Data files</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Background</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#the-psa-distance-metric">The PSA distance metric</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#computational-cost">Computational cost</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#approach">Approach</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datafiles.html">Data files</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="code/listings.html">Available code</a></li>
 <li class="toctree-l1"><a class="reference internal" href="references.html">References</a></li>
 </ul>
 
@@ -256,8 +258,8 @@ for using the MemoryReader.</td></tr>
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="datafiles.html" title="previous chapter">Data files</a></li>
-      <li>Next: <a href="tutorial.html" title="next chapter">Tutorial</a></li>
+      <li>Previous: <a href="index.html" title="previous chapter">SPIDAL Tutorial: MDAnalysis with Midas/radical.pilot</a></li>
+      <li>Next: <a href="installation.html" title="next chapter">Installation</a></li>
   </ul></li>
 </ul>
 </div>
