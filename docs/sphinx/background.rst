@@ -31,7 +31,8 @@ implemented in
 :func:`MDAnalysis.analysis.psa.discrete_frechet`. Another good choice
 is the `Hausdorff distance`_
 (:func:`MDAnalysis.analysis.psa.hausdorff`), and it is straightforward
-to alter the example code from this tutorial to explore the user of a
+to alter the example code in this tutorial (namely,
+:doc:`code/mdanalysis_psa_partial`) to explore the use of a
 different distance function.
 
 .. _MDAnalysis: http://mdanalysis.org
@@ -138,7 +139,7 @@ trajectories (they form a *Fréchet pair*).
    and rotational degrees of freedoms for all trajectories by
    superimposing *all* trajectory frames on a single reference
    structure [Seyler2015]_. The superposition can be carried out in a
-   preprocessing step using, for instance,
+   pre-processing step using, for instance,
    :class:`MDAnalysis.analysis.align.AlignTraj` or as part of PSA with
    :class:`MDAnalysis.analysis.psa.PSAnalysis`. The trajectories for
    this tutorial were already superimposed appropriately (on the
@@ -147,7 +148,7 @@ trajectories (they form a *Fréchet pair*).
 
 Calculating a full Fréchet distance matrix :math:`D_{ij} = \delta(P_i,
 P_j)` just requires more book-keeping in order to perform the above
-steps for the cartesian product of all trajectories :math:`P_i \times
+steps for the Cartesian product of all trajectories :math:`P_i \times
 P_j`.
 
 
