@@ -17,7 +17,7 @@ Input files and scripts
 
 Get the latest version of the tutorial::
 
-  git clone https://github.com/Becksteinlab/SPIDAL-MDAnalysis-Midas-tutorial.git
+  git clone https://github.com/MDAnalysis/SPIDAL-MDAnalysis-Midas-tutorial.git
 
 The Python scripts for the tutorial are located in
 ``SPIDAL-MDAnalysis-Midas-tutorial/rp`` and

@@ -26,7 +26,7 @@ function die () {
     exit $err
 }
 
-GH_REPOSITORY=git@github.com:Becksteinlab/SPIDAL-MDAnalysis-Midas-tutorial.git
+GH_REPOSITORY=git@github.com:MDAnalysis/SPIDAL-MDAnalysis-Midas-tutorial.git
 GH_DOC_BRANCH=master
 # directories relative to repository root
 MDA_BUILDDIR=docs/sphinx

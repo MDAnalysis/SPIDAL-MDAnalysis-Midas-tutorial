@@ -10,7 +10,7 @@
 
 :version: |version|
 :date: |today|
-:repository: https://github.com/Becksteinlab/SPIDAL-MDAnalysis-Midas-tutorial
+:repository: https://github.com/MDAnalysis/SPIDAL-MDAnalysis-Midas-tutorial
 
 The tutorial will showcase how to use Midas with `radical.pilot`_ to
 parallelize the analysis of an ensemble of macromolecular transition
