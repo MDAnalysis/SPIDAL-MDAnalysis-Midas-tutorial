@@ -43,7 +43,7 @@ def combine(traj, manifest):
 
     if missing:
         print("WARNING: Missing data: output files\n{}\n"
-              "could not be found".format(", ".joind(missing)))
+              "could not be found".format(", ".join(missing)))
 
     return D
 
