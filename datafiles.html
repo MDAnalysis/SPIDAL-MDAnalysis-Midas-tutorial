@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Data files &#8212; SPIDAL Tutorial: MDAnalysis with Midas 1.1 documentation</title>
+    <title>Data files &#8212; SPIDAL Tutorial: MDAnalysis with Midas 1.2 documentation</title>
     
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '1.1',
+        VERSION:     '1.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="shortcut icon" href="_static/mdanalysis-logo.ico"/>
-    <link rel="top" title="SPIDAL Tutorial: MDAnalysis with Midas 1.1 documentation" href="index.html" />
+    <link rel="top" title="SPIDAL Tutorial: MDAnalysis with Midas 1.2 documentation" href="index.html" />
     <link rel="next" title="Tutorial" href="tutorial.html" />
     <link rel="prev" title="Installation" href="installation.html" />
    
@@ -46,7 +46,7 @@
   <div class="section" id="data-files">
 <h1>Data files<a class="headerlink" href="#data-files" title="Permalink to this headline">¶</a></h1>
 <p>In this section you will download all the files that are required for
-the tutorial. This includes Python scripts and real-world datafiles.</p>
+the tutorial. This includes Python scripts and real-world data files.</p>
 <div class="section" id="input-files-and-scripts">
 <span id="install-scripts"></span><h2>Input files and scripts<a class="headerlink" href="#input-files-and-scripts" title="Permalink to this headline">¶</a></h2>
 <p>Get the latest version of the tutorial:</p>
@@ -73,13 +73,14 @@ and unpack with</p>
 </div>
 <p>(Alternatively, use the <a class="reference external" href="https://www.dropbox.com/sh/3sfu6x37lieti26/AAB255qzdUgAQia_XdfoIklCa?dl=0">dropbox PSA folder</a>.)</p>
 <p>This should create a directory <code class="docutils literal"><span class="pre">tutorial-data</span></code>. Do not change the
-contents inside the directory because the <code class="docutils literal"><span class="pre">generate_file_list.py</span></code>
-script (see below) has built-in assumptions on the structure.</p>
+contents inside the directory because the primitive
+<strong class="program">generate_file_list.py</strong> script (see below) has built-in
+assumptions on the directory structure.</p>
 <p>Put the <code class="docutils literal"><span class="pre">tutorial-data</span></code> directory in the same directory as the
 tutorial code directory <code class="docutils literal"><span class="pre">SPIDAL-MDAnalysis-Midas-tutorial</span></code>.</p>
 </div>
-<div class="section" id="work-dir">
-<h2>Work dir<a class="headerlink" href="#work-dir" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="work-directory">
+<h2>Work directory<a class="headerlink" href="#work-directory" title="Permalink to this headline">¶</a></h2>
 <p>Perform all runs in a directory <code class="docutils literal"><span class="pre">WORK</span></code> (here we assume that <code class="docutils literal"><span class="pre">WORK</span></code>
 in the same directory as the data and the tutorial code):</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>mkdir WORK
@@ -88,14 +89,14 @@ in the same directory as the data and the tutorial code):</p>
 </div>
 </div>
 <div class="section" id="generate-json-file">
-<h2>Generate json file<a class="headerlink" href="#generate-json-file" title="Permalink to this headline">¶</a></h2>
-<p>We need a starting json file that lists the pairs of (topology,
+<h2>Generate JSON file<a class="headerlink" href="#generate-json-file" title="Permalink to this headline">¶</a></h2>
+<p>We need a starting JSON file that lists the pairs of (topology,
 trajectory) files with absolute paths. This is a short cut for this
 tutorial, in general, managing large collections of simulation
-trajectories are a difficult topic and tools such as <a class="reference external" href="http://mdsynthesis.readthedocs.io/">MDSynthesis</a> can
+trajectories is a difficult topic and tools such as <a class="reference external" href="http://mdsynthesis.readthedocs.io/">MDSynthesis</a> can
 be employed.</p>
-<p>Generate input file for the RP script <code class="docutils literal"><span class="pre">rp/rp_psa.py</span></code> with the helper
-script <code class="docutils literal"><span class="pre">./util/generate_file_list.py</span></code>:</p>
+<p>Generate input file for the RP script <strong class="program">rp/rp_psa.py</strong> with the helper
+script <strong class="program">util/generate_file_list.py</strong>:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nb">cd</span> WORK  <span class="c1"># if you are not already in WORK</span>
 <span class="nv">RPDIR</span><span class="o">=</span><span class="nv">$PWD</span>/../SPIDAL-MDAnalysis-Midas-tutorial/rp
 
@@ -109,6 +110,9 @@ trajectories.</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nv">$RPDIR</span>/../util/generate_file_list.py -T .. -e <span class="m">5</span> testcase.json
 </pre></div>
 </div>
+<p>You can have a look at the JSON files with <strong class="program">less</strong> or a text
+editor. It is important that the files are listed with absolute paths
+to make sure that the radical.pilot script can find them.</p>
 </div>
 </div>
 
@@ -139,13 +143,7 @@ trajectories.</p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="background.html">Background</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Data files</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#input-files-and-scripts">Input files and scripts</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#data">Data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#work-dir">Work dir</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#generate-json-file">Generate json file</a></li>
-</ul>
-</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Data files</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="code/listings.html">Available code</a></li>
 <li class="toctree-l1"><a class="reference internal" href="references.html">References</a></li>

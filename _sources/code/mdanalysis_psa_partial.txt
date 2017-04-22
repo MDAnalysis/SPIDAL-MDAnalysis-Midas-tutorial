@@ -1,5 +1,7 @@
 .. -*- mode: rst; coding: utf-8 -*-
 
+.. _mdanalysis_psa_partial:
+
 ===========================
  mdanalysis_psa_partial.py
 ===========================

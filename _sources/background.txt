@@ -118,7 +118,7 @@ numpy array::
 
 With the coordinates for a second trajectory ``Q`` we can then
 calculate the discrete Fréchet distance using an recursive dynamic
-programmig algorithm [EiterManilla1994]_, implemented in
+programming algorithm [EiterManilla1994]_, implemented in
 :func:`MDAnalysis.analysis.psa.discrete_frechet`::
 
   from MDAnalysis.analysis import psa
@@ -175,14 +175,12 @@ matrix on a compute node.
 
 .. [#memoryreader] Loading trajectory data into memory makes use of
    the new :class:`~MDAnalysis.coordinates.memory.MemoryReader`
-   functionality in :mod:`MDAnalysis.coordinates.memory`; this will be
-   available in the upcoming 0.16.0 release.  The main reason why this
-   tutorial is using the current development version of MDAnalysis is
-   for using the MemoryReader.
+   functionality in :mod:`MDAnalysis.coordinates.memory`; this
+   functionality has been available since the 0.16.0 release.
 
 
 .. _atom selection language:
-   http://devdocs.mdanalysis.org/documentation_pages/selections.html
+   http://docs.mdanalysis.org/documentation_pages/selections.html
 
 .. _In-memory representation of arbitrary trajectories:
-   http:/devdocs.mdanalysis.org/documentation_pages/coordinates/memory.html#in-memory-representation-of-arbitrary-trajectories
+   http:/docs.mdanalysis.org/documentation_pages/coordinates/memory.html#in-memory-representation-of-arbitrary-trajectories

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Background &#8212; SPIDAL Tutorial: MDAnalysis with Midas 1.1 documentation</title>
+    <title>Background &#8212; SPIDAL Tutorial: MDAnalysis with Midas 1.2 documentation</title>
     
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '1.1',
+        VERSION:     '1.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="shortcut icon" href="_static/mdanalysis-logo.ico"/>
-    <link rel="top" title="SPIDAL Tutorial: MDAnalysis with Midas 1.1 documentation" href="index.html" />
+    <link rel="top" title="SPIDAL Tutorial: MDAnalysis with Midas 1.2 documentation" href="index.html" />
     <link rel="next" title="Installation" href="installation.html" />
     <link rel="prev" title="SPIDAL Tutorial: MDAnalysis with Midas/radical.pilot" href="index.html" />
    
@@ -123,7 +123,7 @@ increase performance by first loading the whole trajectory into memory
 atoms, namely the &#8220;C-alpha&#8221; atoms that are distributed along the
 protein backbone and report on the larger conformational changes. The
 C-alpha atoms can be selected as a
-<a class="reference external" href="http://www.mdanalysis.org/mdanalysis/documentation_pages/core/groups.html#MDAnalysis.core.groups.AtomGroup" title="(in MDAnalysis v0.16)"><code class="xref py py-class docutils literal"><span class="pre">AtomGroup</span></code></a> with the <a class="reference external" href="http://devdocs.mdanalysis.org/documentation_pages/selections.html">atom selection
+<a class="reference external" href="http://www.mdanalysis.org/mdanalysis/documentation_pages/core/groups.html#MDAnalysis.core.groups.AtomGroup" title="(in MDAnalysis v0.16)"><code class="xref py py-class docutils literal"><span class="pre">AtomGroup</span></code></a> with the <a class="reference external" href="http://docs.mdanalysis.org/documentation_pages/selections.html">atom selection
 language</a>:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ca</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">select_atoms</span><span class="p">(</span><span class="s2">&quot;name CA&quot;</span><span class="p">)</span>
 </pre></div>
@@ -136,7 +136,7 @@ numpy array:</p>
 </div>
 <p>With the coordinates for a second trajectory <code class="docutils literal"><span class="pre">Q</span></code> we can then
 calculate the discrete Fréchet distance using an recursive dynamic
-programmig algorithm <a class="reference internal" href="references.html#eitermanilla1994" id="id8">[EiterManilla1994]</a>, implemented in
+programming algorithm <a class="reference internal" href="references.html#eitermanilla1994" id="id8">[EiterManilla1994]</a>, implemented in
 <a class="reference external" href="http://www.mdanalysis.org/mdanalysis/documentation_pages/analysis/psa.html#MDAnalysis.analysis.psa.discrete_frechet" title="(in MDAnalysis v0.16)"><code class="xref py py-func docutils literal"><span class="pre">MDAnalysis.analysis.psa.discrete_frechet()</span></code></a>:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">MDAnalysis.analysis</span> <span class="k">import</span> <span class="n">psa</span>
 <span class="n">dF</span> <span class="o">=</span> <span class="n">psa</span><span class="o">.</span><span class="n">discrete_frechet</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">Q</span><span class="p">)</span>
@@ -183,7 +183,7 @@ matrix on a compute node.</p>
 <tr><td class="label"><a class="fn-backref" href="#id6">[1]</a></td><td>Instead of using
 <a class="reference external" href="http://www.mdanalysis.org/mdanalysis/documentation_pages/core/universe.html#MDAnalysis.core.universe.Universe.transfer_to_memory" title="(in MDAnalysis v0.16)"><code class="xref py py-meth docutils literal"><span class="pre">transfer_to_memory()</span></code></a> one
 could also simply set the <code class="docutils literal"><span class="pre">in_memory=True</span></code> keyword argument of
-<a class="reference external" href="http://www.mdanalysis.org/mdanalysis/documentation_pages/core/universe.html#MDAnalysis.core.universe.Universe" title="(in MDAnalysis v0.16)"><code class="xref py py-class docutils literal"><span class="pre">Universe</span></code></a> as shown for <a class="reference external" href="http:/devdocs.mdanalysis.org/documentation_pages/coordinates/memory.html#in-memory-representation-of-arbitrary-trajectories">in-memory
+<a class="reference external" href="http://www.mdanalysis.org/mdanalysis/documentation_pages/core/universe.html#MDAnalysis.core.universe.Universe" title="(in MDAnalysis v0.16)"><code class="xref py py-class docutils literal"><span class="pre">Universe</span></code></a> as shown for <a class="reference external" href="http:/docs.mdanalysis.org/documentation_pages/coordinates/memory.html#in-memory-representation-of-arbitrary-trajectories">in-memory
 representation of arbitrary trajectories</a>. However, here we keep
 the two steps separate for conceptual clarity.</td></tr>
 </tbody>
@@ -193,10 +193,8 @@ the two steps separate for conceptual clarity.</td></tr>
 <tbody valign="top">
 <tr><td class="label"><a class="fn-backref" href="#id7">[2]</a></td><td>Loading trajectory data into memory makes use of
 the new <a class="reference external" href="http://www.mdanalysis.org/mdanalysis/documentation_pages/coordinates/memory.html#MDAnalysis.coordinates.memory.MemoryReader" title="(in MDAnalysis v0.16)"><code class="xref py py-class docutils literal"><span class="pre">MemoryReader</span></code></a>
-functionality in <a class="reference external" href="http://www.mdanalysis.org/mdanalysis/documentation_pages/coordinates/memory.html#module-MDAnalysis.coordinates.memory" title="(in MDAnalysis v0.16)"><code class="xref py py-mod docutils literal"><span class="pre">MDAnalysis.coordinates.memory</span></code></a>; this will be
-available in the upcoming 0.16.0 release.  The main reason why this
-tutorial is using the current development version of MDAnalysis is
-for using the MemoryReader.</td></tr>
+functionality in <a class="reference external" href="http://www.mdanalysis.org/mdanalysis/documentation_pages/coordinates/memory.html#module-MDAnalysis.coordinates.memory" title="(in MDAnalysis v0.16)"><code class="xref py py-mod docutils literal"><span class="pre">MDAnalysis.coordinates.memory</span></code></a>; this
+functionality has been available since the 0.16.0 release.</td></tr>
 </tbody>
 </table>
 </div>
