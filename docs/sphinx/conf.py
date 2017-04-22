@@ -61,7 +61,7 @@ copyright = u'2017, ' + author
 # built documents.
 #
 # The short X.Y version.
-version = u'1.1'
+version = u'1.2'
 # The full version, including alpha/beta/rc tags.
 release = version
 
@@ -213,12 +213,8 @@ texinfo_documents = [
 # Configuration for intersphinx: refer to the Python standard library
 # MDAnalysis, radical.pilot, and other packages used by MDAnalysis
 #
-# MDA: use devdocs for the moment
-intersphinx_mapping = {'http://docs.python.org/': None,
-                       'http://docs.scipy.org/doc/numpy/': None,
-                       'http://devdocs.mdanalysis.org/': None,
+intersphinx_mapping = {'https://docs.python.org/': None,
+                       'https://docs.scipy.org/doc/numpy/': None,
+                       'http://docs.mdanalysis.org/': None,
                        'https://radicalpilot.readthedocs.io/en/latest/': None,
-                       #'http://docs.scipy.org/doc/scipy/reference/': None,
-                       #'http://matplotlib.org': None,
-                       #'https://networkx.readthedocs.io/en/stable/': None,
                        }

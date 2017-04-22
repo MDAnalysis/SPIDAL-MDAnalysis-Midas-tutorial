@@ -1,5 +1,7 @@
 .. -*- mode: rst; coding: utf-8 -*-
 
+.. _psa_reduce:
+
 ===============
  psa_reduce.py
 ===============

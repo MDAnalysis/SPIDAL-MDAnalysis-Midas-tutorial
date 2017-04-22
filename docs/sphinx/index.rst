@@ -22,7 +22,7 @@ MDAnalysis_ library.
 .. _MDAnalysis: http://mdanalysis.org
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: Contents:
 
    background

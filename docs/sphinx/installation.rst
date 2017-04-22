@@ -29,10 +29,8 @@ clean for the tutorial.
 Installing MDAnalysis
 =====================
 
-MDAnalysis is, in principle, full installable with `conda`_, but in
-this tutorial we will use the latest development version and
-therefore, we will first install pre-requisites with ``conda`` and
-then install MDAnalysis from source.
+MDAnalysis is full installable with `conda`_ (but if you want to, you
+can also install it directly from source [#devinstall]_).
 
 conda
 -----
@@ -51,76 +49,56 @@ For example, on Linux::
 Accept the modification of your start-up files; if you later do not
 want to use the anaconda distribution, remove a line like ::
 
-  export PATH=/home1/02102/orbeckst/miniconda2/bin:$PATH
+  export PATH=/home/USERNAME/miniconda2/bin:$PATH
 
 from your :file:`~/.bashrc` file.
 
 
-Dependencies of MDAnalysis
---------------------------
+MDAnalysis and dependencies
+---------------------------
 
-Install numpy and other packages for a feature-complete ("full")
-installation::
+The current MDAnalysis 0.16.x only fully supports Python 2.7 so we
+will create a Python 2.7 environment. By installing the *MDAnalysis*
+and *MDAnalysisTests* packages we automatically install all
+dependencies as well (such as numpy and scipy as well as various
+plotting and data processing libraries that will be used for plotting
+the results) [#clustalw]_::
   
    conda config --add channels MDAnalysis
    conda config --add channels conda-forge
    conda update --yes conda
-   conda create --yes -n mdaenv python=2.7 numpy mmtf-python \
-              nose=1.3.7 mock sphinx=1.3 six biopython networkx \
-	      cython joblib griddataformats  
-   conda install --yes -n mdaenv matplotlib netcdf4 scikit-learn \
-              scipy seaborn coveralls
-   conda install --yes -n mdaenv -c biobuilds --yes clustalw=2.1
+   
+   conda create --yes -n mdaenv python=2.7
+   conda install --yes -n mdaenv mdanalysis mdanalysistests
 
 Activate the installation (has to be done in every shell)::
 
    source activate mdaenv
 
-MDAnalysis source installation
-------------------------------
+Check success [#prompt]_::
 
-`Install MDAnalysis devel
-<https://github.com/MDAnalysis/mdanalysis/wiki/Setup-Development-Environment>`_
-manually::
-
-  git clone --depth=50 https://github.com/MDAnalysis/mdanalysis.git
-  cd mdanalysis
-  
-Check that you are on the development branch::
-
-  git branch
-
-Should show::
-
-  * develop
-
-Install development version::
-  
-  pip install package/
-  pip install testsuite/
-
-Check success::
-
-  $ python -c 'import MDAnalysis as mda; print(mda.__version__)'
-  0.16.0-dev0
+  (mdaenv) $ python -c 'import MDAnalysis as mda; print(mda.__version__)'
+  0.16.0
   
 
 Installing Radical Pilot
 ========================
 
-We follow the `radical.pilot installation instructions`_
+We follow the `radical.pilot installation instructions`_ — see there
+for details. The following are all the required steps but they leave
+out background details or trouble shooting tips. If something is not
+working, please see `radical.pilot installation instructions`_ or, if
+you are at a workshop, ask an instructor.
 
-.. _`radical.pilot installation instructions`:
-   http://radicalpilot.readthedocs.io/en/latest/installation.html
+Install in the same virtual environment [#venv]_ as MDAnalysis
+[#prompt]_::
 
-Install in the same virtual environment [#venv]_::
+  (mdaenv) $ pip install radical.pilot
 
-  pip install radical.pilot
+Check success [#prompt]_::
 
-Check success::
-
-  $    radicalpilot-version
-  0.44
+  (mdaenv) $ radicalpilot-version
+  0.45.1
   
 You also `need a MongoDB`_ instance and set the environment variable
 :envvar:`RADICAL_PILOT_DBURL` either with full username and password
@@ -134,11 +112,18 @@ or, for open installations, just ::
 
 Note that you can set up a free MongoDB at http://mlab.com.
 
-.. _need a MongoDB:
-   https://radicalpilot.readthedocs.io/en/latest/installation.html#mongodb-service
+If you are doing this tutorial as part of a workshop, the organizers
+will provide you with a working MongoDB installation and instruct you
+what to put into :envvar:`RADICAL_PILOT_DBURL`.
 
 Finally, set up `password-less ssh`_ (or password-less gsissh with
 certificates).
+
+.. _`radical.pilot installation instructions`:
+   http://radicalpilot.readthedocs.io/en/latest/installation.html
+
+.. _need a MongoDB:
+   https://radicalpilot.readthedocs.io/en/latest/installation.html#mongodb-service
 
 .. _password-less ssh:
   http://radicalpilot.readthedocs.io/en/latest/installation.html#setup-ssh-access-to-target-resources
@@ -156,7 +141,73 @@ variable for the MongoDB::
   export RADICAL_PILOT_DBURL="mongodb://user:pass@host:port/dbname"  
 
 
+
+
+
+
 .. rubric:: Footnotes
+
+.. [#devinstall] If for any reason you want to perform a **MDAnalysis
+   source installation**, follow these steps to `install MDAnalysis
+   devel
+   <https://github.com/MDAnalysis/mdanalysis/wiki/Setup-Development-Environment>`_
+   manually.
+
+   The following assumes that you are working in a virtual environment
+   or that you do a user installation (``pip install --user`` but in
+   the following the ``--user`` flag is omitted). It also assumes that
+   you have a complete compiler tool chain installed.
+
+   First get pre-requisites::
+
+     pip install numpy cython
+
+   Get the latest source code from the source code repository (you
+   need to have git_ installed)::
+
+     git clone --depth=50 https://github.com/MDAnalysis/mdanalysis.git
+     cd mdanalysis
+
+   Check that you are on the development branch::
+
+     git branch
+
+   Should show::
+
+     * develop
+
+   Install development version::
+
+     pip install package/
+     pip install testsuite/
+
+   Check as above that you can ``import MDAnalysis`` (see main text)::
+
+     $ python -c 'import MDAnalysis as mda; print(mda.__version__)'
+     0.16.1-dev
+
+   This should show a release number with the *-dev* suffix to
+   indicate a development version.
+
+   .. _git: https://git-scm.com/
+
+.. [#clustalw] Optionally, for a full feature environment you may also
+   install :program:`clustalw2` (for sequence alignments with
+   :func:`MDAnalysis.analysis.align.fasta2select`)::
+
+      conda install --yes -n mdaenv -c biobuilds --yes clustalw=2.1
+
+   This is not required for this tutorial but if you start using
+   MDAnalysis for other projects, you might want to be able to use all
+   features without having to think about installing additional
+   optional dependencies later.
+
+.. [#prompt] In the following, the shell's prompt is shown as
+             ``(mdaenv) $`` and should *not* be typed. It is supposed
+             to remind you that you *must be in the virtual
+             environment* [#venv]_. Only type what follows after the
+             prompt. If the commands give any output, it is shown on
+             the lines following the input.
 
 .. [#venv] Do not forget to activate the *mdaenv* environment whenever
            you open a new terminal::
@@ -168,3 +219,6 @@ variable for the MongoDB::
 
 
 .. highlight:: python
+
+
+

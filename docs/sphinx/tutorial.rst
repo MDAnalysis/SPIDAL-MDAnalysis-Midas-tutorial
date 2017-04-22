@@ -6,17 +6,21 @@
 
 We will first test that MDAnalysis can perform PSA, using the small
 test set. We will then look in detail into the radical.pilot script
-that implements the map-step. Finally, we condlude with the
+that implements the map-step. Finally, we conclude with the
 reduce-step and analysis of the data. 
 
 
 Preliminary test
 ================
 
-Provide topology and trajectory files to the psa script as two lists
-in a JSON file. Just check that it can process the data ::
-  
- $RPDIR/mdanalysis_psa_partial.py --inputfile testcase.json -n 5
+Provide topology and trajectory files to the PSA script
+:program:`mdanalysis_psa_partial.py` as two lists in a JSON file (see
+:ref:`mdanalysis_psa_partial` for more details). Initially we just
+want to check that the script can process the data
+
+.. code-block:: bash
+
+   (mdaenv) $ $RPDIR/mdanalysis_psa_partial.py --inputfile testcase.json -n 5
 
 This means
 
@@ -24,12 +28,14 @@ This means
 - compare the first 5 trajectories against the remaining 5
   trajectories
 
-(The ``-n`` (split) argument is important because we are going to use
-it to decompose the full distance matrix into sub-matrices. If you
-just want to do all-vs-all comparisons, use the ``mdanalysis_psa.py``
-script.)
+The ``-n`` (split) argument is important because we are going to use
+it to decompose the full distance matrix into sub-matrices. (If you
+just want to do all-vs-all comparisons, use the
+:program:`mdanalysis_psa.py` script.)
 
-You should see output like ::
+You should see output like
+
+.. code-block:: none
 
     Loading paths from JSON file testcase.json
     Processing 10 trajectories.
@@ -46,10 +52,16 @@ You should see output like ::
 
 This indicates that all MDAnalysis parts are working.
 
-Similarly::
+Similarly:
 
-   (mdaenv) orbeckst@login2:WORK$ $RPDIR/mdanalysis_psa_partial.py --inputfile testcase.json -n 7
-     
+.. code-block:: bash
+
+   (mdaenv) $ $RPDIR/mdanalysis_psa_partial.py --inputfile testcase.json -n 7
+
+should give something like
+
+.. code-block:: none
+
     Loading paths from JSON file testcase.json
     Processing 10 trajectories.
     Splitting trajectories in two blocks of length 7 and 3
@@ -67,7 +79,7 @@ Supercomputer environment
 =========================
 
 We used `TACC Stampede <https://www.tacc.utexas.edu/stampede/>`_ to
-run the calculations on 32 cores but any cluster or even a multicore
+run the calculations on 32 cores but any cluster or even a multi core
 workstation might be sufficient.
 
 - Make sure all env vars are set (especially MongoDB,
@@ -96,14 +108,18 @@ Map-step: Radical.pilot script
 
 RP script
 ---------
-The pilot script is ``rp/rp_psa.py``.
 
-First, a session is created and a Pilot Manager if initialized:
+The pilot script is :program:`rp/rp_psa.py` (see :ref:`rp_psa` for
+details). In the following, important parts of the script are
+explained.
+
+First, a session is created and a Pilot Manager is initialized:
 
 .. literalinclude:: /code/rp/rp_psa.py
    :language: python
    :lines: 65-70
-   :linenos: 
+   :linenos:
+   :lineno-start: 65   
 
 Second, a ComputePilot is described and submitted to the Pilot Manager:
 
@@ -111,13 +127,15 @@ Second, a ComputePilot is described and submitted to the Pilot Manager:
    :language: python
    :lines: 73-82
    :linenos: 
+   :lineno-start: 73
 
 First, a Unit Manager is created for that session and the Pilot is added:
 
 .. literalinclude:: /code/rp/rp_psa.py
    :language: python
    :lines: 85-88
-   :linenos: 
+   :linenos:
+   :lineno-start: 85   
 
 
 The script reads the topology and trajectory files from a JSON file:
@@ -126,6 +144,7 @@ The script reads the topology and trajectory files from a JSON file:
    :language: python
    :lines: 91-92
    :linenos:
+   :lineno-start: 91
 
 The MDAnalysis script is staged
 
@@ -133,19 +152,20 @@ The MDAnalysis script is staged
    :language: python
    :lines: 99-112
    :linenos:
-
+   :lineno-start: 99
 
 In a loop, a CU is set up for each block matrix --- this is the
 **map** step. In particular, the trajectories are partitioned
 according to the ``BLOCK_SIZE`` (the parameter :math:`w`) and all
 necessary information is written to a JSON file that will be used as
-the input for the ``mdanalysis_psa_partial.py`` script:
+the input for the :program:`mdanalysis_psa_partial.py` script:
 
 .. literalinclude:: /code/rp/rp_psa.py
    :language: python
    :lines: 115-189
    :emphasize-lines: 29-58,70-72
-   :linenos: 
+   :linenos:
+   :lineno-start: 115   
 
 For the :ref:`reduce step <section-reduce-step>`, all information
 about the block matrix (filename and indices in the distance matrix)
@@ -155,6 +175,7 @@ are written to a JSON file ("manifest"):
    :language: python
    :lines: 193-194
    :linenos: 
+   :lineno-start: 193
 
 Finally, the CUs are submitted to execute on the compute resources and
 the script waits until they are all complete:
@@ -162,18 +183,23 @@ the script waits until they are all complete:
 .. literalinclude:: /code/rp/rp_psa.py
    :language: python
    :lines: 197-202
-   :linenos: 
+   :linenos:
+   :lineno-start: 197
 
 
 
 Launch pilot jobs
 -----------------
 
-Launch the pilot job from the Login node of Stampede::
+Launch the pilot job from the login node of stampede (or the cluster
+where you set up your radical.pilot environment):
+
+.. code-block:: bash
    
    python rp_psa.py trajectories.json 20 16 SPIDAL.001 
 
-The ``rp_psa.py`` radical.pilot script takes as input:
+The :program:`rp_psa.py` radical.pilot script takes as input (see
+:ref:`rp_psa` for details):
 
 - the JSON file with the trajectories (trajectories.json)
 - number of trajectories per block (20)
@@ -210,7 +236,7 @@ distance matrix can be built with
    :language: python
    :pyobject: combine
    :emphasize-lines: 4,11,12
-   :linenos: 
+   :linenos:
 
 The matrix is written to a numpy file ``distance_matrix.npy`` (and can
 be loaded with :func:`numpy.load`).
