@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="shortcut icon" href="_static/mdanalysis-logo.ico"/>
     <link rel="top" title="SPIDAL Tutorial: MDAnalysis with Midas 1.2 documentation" href="index.html" />
     <link rel="next" title="Data files" href="datafiles.html" />
@@ -92,7 +92,7 @@ the results) <a class="footnote-reference" href="#clustalw" id="id3">[2]</a>:</p
 conda config --add channels conda-forge
 conda update --yes conda
 
-conda create --yes -n mdaenv <span class="nv">python</span><span class="o">=</span>2.7
+conda create --yes -n mdaenv <span class="nv">python</span><span class="o">=</span><span class="m">2</span>.7
 conda install --yes -n mdaenv mdanalysis mdanalysistests
 </pre></div>
 </div>
@@ -102,7 +102,7 @@ conda install --yes -n mdaenv mdanalysis mdanalysistests
 </div>
 <p>Check success <a class="footnote-reference" href="#prompt" id="id4">[3]</a>:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span><span class="o">(</span>mdaenv<span class="o">)</span> $ python -c <span class="s1">&#39;import MDAnalysis as mda; print(mda.__version__)&#39;</span>
-0.16.0
+<span class="m">0</span>.16.0
 </pre></div>
 </div>
 </div>
@@ -121,7 +121,7 @@ you are at a workshop, ask an instructor.</p>
 </div>
 <p>Check success <a class="footnote-reference" href="#prompt" id="id7">[3]</a>:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span><span class="o">(</span>mdaenv<span class="o">)</span> $ radicalpilot-version
-0.45.1
+<span class="m">0</span>.45.1
 </pre></div>
 </div>
 <p>You also <a class="reference external" href="https://radicalpilot.readthedocs.io/en/latest/installation.html#mongodb-service">need a MongoDB</a> instance and set the environment variable
@@ -188,7 +188,7 @@ pip install testsuite/
 </div>
 <p>Check as above that you can <code class="docutils literal"><span class="pre">import</span> <span class="pre">MDAnalysis</span></code> (see main text):</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>$ python -c <span class="s1">&#39;import MDAnalysis as mda; print(mda.__version__)&#39;</span>
-0.16.1-dev
+<span class="m">0</span>.16.1-dev
 </pre></div>
 </div>
 <p>This should show a release number with the <em>-dev</em> suffix to
@@ -202,7 +202,7 @@ indicate a development version.</p>
 <tr><td class="label"><a class="fn-backref" href="#id3">[2]</a></td><td><p class="first">Optionally, for a full feature environment you may also
 install <strong class="program">clustalw2</strong> (for sequence alignments with
 <a class="reference external" href="http://www.mdanalysis.org/mdanalysis/documentation_pages/analysis/align.html#MDAnalysis.analysis.align.fasta2select" title="(in MDAnalysis v0.16)"><code class="xref py py-func docutils literal"><span class="pre">MDAnalysis.analysis.align.fasta2select()</span></code></a>):</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>conda install --yes -n mdaenv -c biobuilds --yes <span class="nv">clustalw</span><span class="o">=</span>2.1
+<div class="highlight-bash"><div class="highlight"><pre><span></span>conda install --yes -n mdaenv -c biobuilds --yes <span class="nv">clustalw</span><span class="o">=</span><span class="m">2</span>.1
 </pre></div>
 </div>
 <p class="last">This is not required for this tutorial but if you start using

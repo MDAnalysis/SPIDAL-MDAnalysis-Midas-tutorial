@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="shortcut icon" href="_static/mdanalysis-logo.ico"/>
     <link rel="top" title="SPIDAL Tutorial: MDAnalysis with Midas 1.2 documentation" href="index.html" />
     <link rel="next" title="Available code" href="code/listings.html" />
@@ -55,7 +55,7 @@ reduce-step and analysis of the data.</p>
 <strong class="program">mdanalysis_psa_partial.py</strong> as two lists in a JSON file (see
 <a class="reference internal" href="code/mdanalysis_psa_partial.html#mdanalysis-psa-partial"><span class="std std-ref">mdanalysis_psa_partial.py</span></a> for more details). Initially we just
 want to check that the script can process the data</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="o">(</span>mdaenv<span class="o">)</span> $ <span class="nv">$RPDIR</span>/mdanalysis_psa_partial.py --inputfile testcase.json -n 5
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="o">(</span>mdaenv<span class="o">)</span> $ <span class="nv">$RPDIR</span>/mdanalysis_psa_partial.py --inputfile testcase.json -n <span class="m">5</span>
 </pre></div>
 </div>
 <p>This means</p>
@@ -85,7 +85,7 @@ total time                         2.111 s
 </div>
 <p>This indicates that all MDAnalysis parts are working.</p>
 <p>Similarly:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="o">(</span>mdaenv<span class="o">)</span> $ <span class="nv">$RPDIR</span>/mdanalysis_psa_partial.py --inputfile testcase.json -n 7
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="o">(</span>mdaenv<span class="o">)</span> $ <span class="nv">$RPDIR</span>/mdanalysis_psa_partial.py --inputfile testcase.json -n <span class="m">7</span>
 </pre></div>
 </div>
 <p>should give something like</p>
@@ -470,7 +470,7 @@ distance matrix can be built with</p>
 
     <span class="k">if</span> <span class="n">missing</span><span class="p">:</span>
         <span class="k">print</span><span class="p">(</span><span class="s2">&quot;WARNING: Missing data: output files</span><span class="se">\n</span><span class="s2">{}</span><span class="se">\n</span><span class="s2">&quot;</span>
-              <span class="s2">&quot;could not be found&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">joind</span><span class="p">(</span><span class="n">missing</span><span class="p">)))</span>
+              <span class="s2">&quot;could not be found&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">missing</span><span class="p">)))</span>
 
     <span class="k">return</span> <span class="n">D</span>
 </pre></div>
