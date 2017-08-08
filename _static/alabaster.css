@@ -112,13 +112,13 @@ div.footer a {
 
 p.caption {
     font-family: inherit;
-    font-size: inherit;
+    font-size: smaller;
 }
 
 
 
 div.sphinxsidebar a {
-    color: #444;
+    color: #808080;
     text-decoration: none;
     border-bottom: 1px dotted #999;
 }
@@ -156,7 +156,7 @@ div.sphinxsidebarwrapper p.blurb {
 div.sphinxsidebar h3,
 div.sphinxsidebar h4 {
     font-family: ;
-    color: #444;
+    color: #808080;
     font-size: 24px;
     font-weight: normal;
     margin: 0 0 5px 0;
@@ -168,7 +168,7 @@ div.sphinxsidebar h4 {
 }
 
 div.sphinxsidebar h3 a {
-    color: #444;
+    color: #808080;
 }
 
 div.sphinxsidebar p.logo a,
@@ -252,7 +252,7 @@ a.headerlink {
 }
 
 a.headerlink:hover {
-    color: #444;
+    color: #808080;
     background: #EAEAEA;
 }
 
@@ -268,8 +268,13 @@ div.admonition {
 }
 
 div.admonition tt.xref, div.admonition code.xref, div.admonition a tt {
-    background-color: #FBFBFB;
+    background-color: ;
     border-bottom: 1px solid #fafafa;
+}
+
+dd div.admonition {
+    margin-left: -60px;
+    padding-left: 60px;
 }
 
 div.admonition p.admonition-title {
@@ -434,16 +439,6 @@ table.field-list p {
     margin-bottom: 0.8em;
 }
 
-/* Cloned from
- * https://github.com/sphinx-doc/sphinx/commit/ef60dbfce09286b20b7385333d63a60321784e68
- */
-.field-name {
-    -moz-hyphens: manual;
-    -ms-hyphens: manual;
-    -webkit-hyphens: manual;
-    hyphens: manual;
-}
-
 table.footnote td.label {
     width: .1px;
     padding: 0.3em 0 0.3em 0.5em;
@@ -487,6 +482,11 @@ div.viewcode-block:target {
 dl pre, blockquote pre, li pre {
     margin-left: 0;
     padding-left: 30px;
+}
+
+dl dl pre {
+    margin-left: -90px;
+    padding-left: 90px;
 }
 
 tt, code {
@@ -608,8 +608,8 @@ a:hover tt, a:hover code {
         width: 102.5%;
         margin: 50px -30px -20px -30px;
         padding: 10px 20px;
-        background: #333;
-        color: #FFF;
+        background: #808080;
+        color: #FFFFFF;
     }
 
     div.sphinxsidebar h3, div.sphinxsidebar h4, div.sphinxsidebar p,

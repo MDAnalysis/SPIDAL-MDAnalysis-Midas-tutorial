@@ -1,6 +1,6 @@
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
@@ -37,7 +37,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body>
+  <body role="document">
   
 
     <div class="document">
@@ -93,7 +93,7 @@ the results) <a class="footnote-reference" href="#clustalw" id="id3">[2]</a>:</p
 <div class="highlight-bash"><div class="highlight"><pre><span></span>conda config --add channels conda-forge
 conda update --yes conda
 
-conda create --yes -n mdaenv <span class="nv">python</span><span class="o">=</span><span class="m">2</span>.7
+conda create --yes -n mdaenv <span class="nv">python</span><span class="o">=</span>2.7
 conda install --yes -n mdaenv mdanalysis mdanalysistests
 </pre></div>
 </div>
@@ -103,7 +103,7 @@ conda install --yes -n mdaenv mdanalysis mdanalysistests
 </div>
 <p>Check success <a class="footnote-reference" href="#prompt" id="id4">[3]</a>:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span><span class="o">(</span>mdaenv<span class="o">)</span> $ python -c <span class="s1">&#39;import MDAnalysis as mda; print(mda.__version__)&#39;</span>
-<span class="m">0</span>.16.0
+0.16.0
 </pre></div>
 </div>
 <p>(This should show a version of 0.16.0 or higher.)</p>
@@ -123,7 +123,7 @@ you are at a workshop, ask an instructor.</p>
 </div>
 <p>Check success <a class="footnote-reference" href="#prompt" id="id7">[3]</a>:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span><span class="o">(</span>mdaenv<span class="o">)</span> $ radicalpilot-version
-<span class="m">0</span>.45.1
+0.45.1
 </pre></div>
 </div>
 <p>You also <a class="reference external" href="https://radicalpilot.readthedocs.io/en/latest/installation.html#mongodb-service">need a MongoDB</a> instance and set the environment variable
@@ -145,7 +145,7 @@ certificates).</p>
 </div>
 <div class="section" id="setting-up-the-environment">
 <h2>Setting up the environment<a class="headerlink" href="#setting-up-the-environment" title="Permalink to this headline">¶</a></h2>
-<p>Although you don’t need to install the software every time, you do
+<p>Although you don&#8217;t need to install the software every time, you do
 need to ensure that you always work in the configured virtual
 environment <em>mdaenv</em> <a class="footnote-reference" href="#venv" id="id8">[4]</a> and that you set set the environment
 variable for the MongoDB:</p>
@@ -190,7 +190,7 @@ pip install testsuite/
 </div>
 <p>Check as above that you can <code class="docutils literal"><span class="pre">import</span> <span class="pre">MDAnalysis</span></code> (see main text):</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>$ python -c <span class="s1">&#39;import MDAnalysis as mda; print(mda.__version__)&#39;</span>
-<span class="m">0</span>.16.1-dev
+0.16.1-dev
 </pre></div>
 </div>
 <p>This should show a release number with the <em>-dev</em> suffix to
@@ -204,7 +204,7 @@ indicate a development version.</p>
 <tr><td class="label"><a class="fn-backref" href="#id3">[2]</a></td><td><p class="first">Optionally, for a full feature environment you may also
 install <strong class="program">clustalw2</strong> (for sequence alignments with
 <a class="reference external" href="http://www.mdanalysis.org/docs/documentation_pages/analysis/align.html#MDAnalysis.analysis.align.fasta2select" title="(in MDAnalysis v0.16)"><code class="xref py py-func docutils literal"><span class="pre">MDAnalysis.analysis.align.fasta2select()</span></code></a>):</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>conda install --yes -n mdaenv -c biobuilds --yes <span class="nv">clustalw</span><span class="o">=</span><span class="m">2</span>.1
+<div class="highlight-bash"><div class="highlight"><pre><span></span>conda install --yes -n mdaenv -c biobuilds --yes <span class="nv">clustalw</span><span class="o">=</span>2.1
 </pre></div>
 </div>
 <p class="last">This is not required for this tutorial but if you start using
@@ -217,7 +217,7 @@ optional dependencies later.</p>
 <table class="docutils footnote" frame="void" id="prompt" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label">[3]</td><td><em>(<a class="fn-backref" href="#id4">1</a>, <a class="fn-backref" href="#id6">2</a>, <a class="fn-backref" href="#id7">3</a>)</em> In the following, the shell’s prompt is shown as
+<tr><td class="label">[3]</td><td><em>(<a class="fn-backref" href="#id4">1</a>, <a class="fn-backref" href="#id6">2</a>, <a class="fn-backref" href="#id7">3</a>)</em> In the following, the shell&#8217;s prompt is shown as
 <code class="docutils literal"><span class="pre">(mdaenv)</span> <span class="pre">$</span></code> and should <em>not</em> be typed. It is supposed
 to remind you that you <em>must be in the virtual
 environment</em> <a class="footnote-reference" href="#venv" id="id9">[4]</a>. Only type what follows after the
@@ -312,8 +312,8 @@ MDAnalysis or radical.pilot.</p>
       &copy;2017, Oliver Beckstein, Ioannis Paraskevakos, Sean Seyler, Andre Merzky, Andre Luckow, Shantenu Jha.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.2</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
       
       |
       <a href="_sources/installation.rst.txt"

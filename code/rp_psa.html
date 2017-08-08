@@ -1,6 +1,6 @@
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
@@ -37,7 +37,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body>
+  <body role="document">
   
 
     <div class="document">
@@ -51,7 +51,7 @@
 job. It implements the <em>map</em> logic and splits the distance matrix
 computation into sub-blocks (one block per compute unit). It uses
 <a class="reference internal" href="mdanalysis_psa_partial.html"><span class="doc">mdanalysis_psa_partial.py</span></a> to perform the calculation. Importantly,
-it generates a JSON file with the “key/value” pairs (indices into the
+it generates a JSON file with the &#8220;key/value&#8221; pairs (indices into the
 full PSA distance matrix/filenames of the sub-block matrices) that are
 necessary for the <em>reduce</em> step that is performed with
 <a class="reference internal" href="psa_reduce.html"><span class="doc">psa_reduce.py</span></a>.</p>
@@ -344,7 +344,7 @@ necessary for the <em>reduce</em> step that is performed with
 <span class="kn">import</span> <span class="nn">json</span>
 
 <span class="c1">#----------------------------------------------------------------------------</span>
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
 
     <span class="n">MY_STAGING_AREA</span> <span class="o">=</span> <span class="s1">&#39;staging:///&#39;</span>
     <span class="n">SHARED_MDA_SCRIPT</span> <span class="o">=</span> <span class="s1">&#39;mdanalysis_psa_partial.py&#39;</span>
@@ -508,17 +508,17 @@ necessary for the <em>reduce</em> step that is performed with
                 <span class="n">timing_str</span><span class="o">=</span><span class="p">[</span><span class="n">cu</span><span class="o">.</span><span class="n">uid</span><span class="p">,</span><span class="s1">&#39;N/A&#39;</span><span class="p">,</span><span class="s1">&#39;N/A&#39;</span><span class="p">,</span><span class="s1">&#39;N/A&#39;</span><span class="p">,</span><span class="s1">&#39;N/A&#39;</span><span class="p">,</span><span class="s1">&#39;N/A&#39;</span><span class="p">,</span><span class="s1">&#39;N/A&#39;</span><span class="p">]</span>
                 <span class="k">for</span> <span class="n">states</span> <span class="ow">in</span> <span class="n">cu</span><span class="o">.</span><span class="n">state_history</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">states</span><span class="o">.</span><span class="n">as_dict</span><span class="p">()[</span><span class="s1">&#39;state&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;Scheduling&#39;</span><span class="p">:</span>
-                        <span class="n">timing_str</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span> <span class="p">(</span><span class="n">states</span><span class="o">.</span><span class="n">as_dict</span><span class="p">()[</span><span class="s1">&#39;timestamp&#39;</span><span class="p">]</span><span class="o">-</span><span class="n">pilot</span><span class="o">.</span><span class="n">start_time</span><span class="p">)</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span>
+                        <span class="n">timing_str</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span> <span class="p">(</span><span class="n">states</span><span class="o">.</span><span class="n">as_dict</span><span class="p">()[</span><span class="s1">&#39;timestamp&#39;</span><span class="p">]</span><span class="o">-</span><span class="n">pilot</span><span class="o">.</span><span class="n">start_time</span><span class="p">)</span><span class="o">.</span><span class="n">__str__</span><span class="p">()</span>
                     <span class="k">elif</span> <span class="n">states</span><span class="o">.</span><span class="n">as_dict</span><span class="p">()[</span><span class="s1">&#39;state&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;AgentStagingInput&#39;</span><span class="p">:</span>
-                        <span class="n">timing_str</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">=</span> <span class="p">(</span><span class="n">states</span><span class="o">.</span><span class="n">as_dict</span><span class="p">()[</span><span class="s1">&#39;timestamp&#39;</span><span class="p">]</span><span class="o">-</span><span class="n">pilot</span><span class="o">.</span><span class="n">start_time</span><span class="p">)</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span>
+                        <span class="n">timing_str</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">=</span> <span class="p">(</span><span class="n">states</span><span class="o">.</span><span class="n">as_dict</span><span class="p">()[</span><span class="s1">&#39;timestamp&#39;</span><span class="p">]</span><span class="o">-</span><span class="n">pilot</span><span class="o">.</span><span class="n">start_time</span><span class="p">)</span><span class="o">.</span><span class="n">__str__</span><span class="p">()</span>
                     <span class="k">elif</span> <span class="n">states</span><span class="o">.</span><span class="n">as_dict</span><span class="p">()[</span><span class="s1">&#39;state&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;Allocating&#39;</span><span class="p">:</span>
-                        <span class="n">timing_str</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">=</span> <span class="p">(</span><span class="n">states</span><span class="o">.</span><span class="n">as_dict</span><span class="p">()[</span><span class="s1">&#39;timestamp&#39;</span><span class="p">]</span><span class="o">-</span><span class="n">pilot</span><span class="o">.</span><span class="n">start_time</span><span class="p">)</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span>
+                        <span class="n">timing_str</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">=</span> <span class="p">(</span><span class="n">states</span><span class="o">.</span><span class="n">as_dict</span><span class="p">()[</span><span class="s1">&#39;timestamp&#39;</span><span class="p">]</span><span class="o">-</span><span class="n">pilot</span><span class="o">.</span><span class="n">start_time</span><span class="p">)</span><span class="o">.</span><span class="n">__str__</span><span class="p">()</span>
                     <span class="k">elif</span> <span class="n">states</span><span class="o">.</span><span class="n">as_dict</span><span class="p">()[</span><span class="s1">&#39;state&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;Executing&#39;</span><span class="p">:</span>
-                        <span class="n">timing_str</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">=</span> <span class="p">(</span><span class="n">states</span><span class="o">.</span><span class="n">as_dict</span><span class="p">()[</span><span class="s1">&#39;timestamp&#39;</span><span class="p">]</span><span class="o">-</span><span class="n">pilot</span><span class="o">.</span><span class="n">start_time</span><span class="p">)</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span>
+                        <span class="n">timing_str</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">=</span> <span class="p">(</span><span class="n">states</span><span class="o">.</span><span class="n">as_dict</span><span class="p">()[</span><span class="s1">&#39;timestamp&#39;</span><span class="p">]</span><span class="o">-</span><span class="n">pilot</span><span class="o">.</span><span class="n">start_time</span><span class="p">)</span><span class="o">.</span><span class="n">__str__</span><span class="p">()</span>
                     <span class="k">elif</span> <span class="n">states</span><span class="o">.</span><span class="n">as_dict</span><span class="p">()[</span><span class="s1">&#39;state&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;AgentStagingOutput&#39;</span><span class="p">:</span>
-                        <span class="n">timing_str</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">=</span> <span class="p">(</span><span class="n">states</span><span class="o">.</span><span class="n">as_dict</span><span class="p">()[</span><span class="s1">&#39;timestamp&#39;</span><span class="p">]</span><span class="o">-</span><span class="n">pilot</span><span class="o">.</span><span class="n">start_time</span><span class="p">)</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span>
+                        <span class="n">timing_str</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">=</span> <span class="p">(</span><span class="n">states</span><span class="o">.</span><span class="n">as_dict</span><span class="p">()[</span><span class="s1">&#39;timestamp&#39;</span><span class="p">]</span><span class="o">-</span><span class="n">pilot</span><span class="o">.</span><span class="n">start_time</span><span class="p">)</span><span class="o">.</span><span class="n">__str__</span><span class="p">()</span>
                     <span class="k">elif</span> <span class="n">states</span><span class="o">.</span><span class="n">as_dict</span><span class="p">()[</span><span class="s1">&#39;state&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;Done&#39;</span><span class="p">:</span>
-                        <span class="n">timing_str</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">=</span> <span class="p">(</span><span class="n">states</span><span class="o">.</span><span class="n">as_dict</span><span class="p">()[</span><span class="s1">&#39;timestamp&#39;</span><span class="p">]</span><span class="o">-</span><span class="n">pilot</span><span class="o">.</span><span class="n">start_time</span><span class="p">)</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span>
+                        <span class="n">timing_str</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">=</span> <span class="p">(</span><span class="n">states</span><span class="o">.</span><span class="n">as_dict</span><span class="p">()[</span><span class="s1">&#39;timestamp&#39;</span><span class="p">]</span><span class="o">-</span><span class="n">pilot</span><span class="o">.</span><span class="n">start_time</span><span class="p">)</span><span class="o">.</span><span class="n">__str__</span><span class="p">()</span>
 
                 <span class="n">ProfFile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">timing_str</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;,&#39;</span><span class="o">+</span><span class="n">timing_str</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;,&#39;</span><span class="o">+</span>
                                <span class="n">timing_str</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;,&#39;</span><span class="o">+</span><span class="n">timing_str</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;,&#39;</span><span class="o">+</span>
@@ -619,8 +619,8 @@ necessary for the <em>reduce</em> step that is performed with
       &copy;2017, Oliver Beckstein, Ioannis Paraskevakos, Sean Seyler, Andre Merzky, Andre Luckow, Shantenu Jha.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.2</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
       
       |
       <a href="../_sources/code/rp_psa.rst.txt"
