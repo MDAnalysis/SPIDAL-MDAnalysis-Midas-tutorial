@@ -121,10 +121,15 @@ html_theme_options = {
     # style
     'link': color['orange'],
     'link_hover': color['orange'],
+    'gray_1': color['gray'],
+    'narrow_sidebar_bg': color['gray'],
+    'narrow_sidebar_fg': color['white'],
     # typography
     'font_family': "'PT Sans', Helvetica, Arial, 'sans-serif'",
     'head_font_family': "",
     'code_font_family': "Menlo, Monaco, 'Courier New', monospace",
+    'caption_font_size': "smaller",
+    # external links
     'extra_nav_links': extra_nav_links,
 }
 
