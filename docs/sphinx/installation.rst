@@ -64,7 +64,6 @@ dependencies as well (such as numpy and scipy as well as various
 plotting and data processing libraries that will be used for plotting
 the results) [#clustalw]_::
   
-   conda config --add channels MDAnalysis
    conda config --add channels conda-forge
    conda update --yes conda
    
@@ -79,6 +78,8 @@ Check success [#prompt]_::
 
   (mdaenv) $ python -c 'import MDAnalysis as mda; print(mda.__version__)'
   0.16.0
+
+(This should show a version of 0.16.0 or higher.)  
   
 
 Installing Radical Pilot
