@@ -1,6 +1,6 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
@@ -17,7 +17,8 @@
         VERSION:     '1.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
@@ -25,7 +26,8 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="shortcut icon" href="_static/mdanalysis-logo.ico"/>
-    <link rel="top" title="SPIDAL Tutorial: MDAnalysis with Midas 1.2 documentation" href="index.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Available code" href="code/listings.html" />
     <link rel="prev" title="Data files" href="datafiles.html" />
    
@@ -35,7 +37,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">
+  <body>
   
 
     <div class="document">
@@ -220,7 +222,7 @@ explained.</p>
         <span class="n">pilot</span><span class="o">.</span><span class="n">stage_in</span><span class="p">(</span><span class="n">fname_stage</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
-<p>In a loop, a CU is set up for each block matrix &#8212; this is the
+<p>In a loop, a CU is set up for each block matrix — this is the
 <strong>map</strong> step. In particular, the trajectories are partitioned
 according to the <code class="docutils literal"><span class="pre">BLOCK_SIZE</span></code> (the parameter <span class="math">\(w\)</span>) and all
 necessary information is written to a JSON file that will be used as
@@ -378,7 +380,7 @@ the input for the <strong class="program">mdanalysis_psa_partial.py</strong> scr
 </td></tr></table></div>
 <p>For the <a class="reference internal" href="#section-reduce-step"><span class="std std-ref">reduce step</span></a>, all information
 about the block matrix (filename and indices in the distance matrix)
-are written to a JSON file (&#8220;manifest&#8221;):</p>
+are written to a JSON file (“manifest”):</p>
 <div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>193
 194</pre></div></td><td class="code"><div class="highlight"><pre><span></span>        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">MANIFEST_NAME</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">outfile</span><span class="p">:</span>
             <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">manifest</span><span class="p">,</span> <span class="n">outfile</span><span class="p">)</span>
@@ -413,9 +415,9 @@ where you set up your radical.pilot environment):</p>
 <li>the JSON file with the trajectories (trajectories.json)</li>
 <li>number of trajectories per block (20)</li>
 <li>number of cores to request (16)</li>
-<li>session name (arbitrary string, &#8220;SPIDAL.001&#8221;); note that you
+<li>session name (arbitrary string, “SPIDAL.001”); note that you
 need to provide a new session name every time you-rerun the command,
-e.g. &#8220;SPIDAL.002&#8221;, &#8220;SPIDAL.003&#8221;, ...</li>
+e.g. “SPIDAL.002”, “SPIDAL.003”, …</li>
 </ul>
 </div>
 </div>
@@ -476,17 +478,17 @@ distance matrix can be built with</p>
 </pre></div>
 </td></tr></table></div>
 <p>The matrix is written to a numpy file <code class="docutils literal"><span class="pre">distance_matrix.npy</span></code> (and can
-be loaded with <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.load.html#numpy.load" title="(in NumPy v1.12)"><code class="xref py py-func docutils literal"><span class="pre">numpy.load()</span></code></a>).</p>
+be loaded with <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.load.html#numpy.load" title="(in NumPy v1.13)"><code class="xref py py-func docutils literal"><span class="pre">numpy.load()</span></code></a>).</p>
 </div>
 <div class="section" id="analysis">
 <h3>Analysis<a class="headerlink" href="#analysis" title="Permalink to this headline">¶</a></h3>
 <p>The distance matrix can be clustered to reveal patterns in the
-trajectories. Here we use hierarchical clustering with <a class="reference external" href="https://en.wikipedia.org/wiki/Ward's_method">Ward&#8217;s linkage
+trajectories. Here we use hierarchical clustering with <a class="reference external" href="https://en.wikipedia.org/wiki/Ward's_method">Ward’s linkage
 criterion</a> as implemented in <code class="xref py py-mod docutils literal"><span class="pre">scipy.cluster.hierarchy</span></code>
 <a class="reference internal" href="references.html#seyler2015" id="id1">[Seyler2015]</a>. The clustering and plotting code was taken from the
-<a class="reference external" href="http://www.mdanalysis.org/mdanalysis/documentation_pages/analysis/psa.html#MDAnalysis.analysis.psa.PSAnalysis.cluster" title="(in MDAnalysis v0.16)"><code class="xref py py-meth docutils literal"><span class="pre">cluster()</span></code></a> and
-<a class="reference external" href="http://www.mdanalysis.org/mdanalysis/documentation_pages/analysis/psa.html#MDAnalysis.analysis.psa.PSAnalysis.plot" title="(in MDAnalysis v0.16)"><code class="xref py py-meth docutils literal"><span class="pre">plot()</span></code></a> methods of
-<a class="reference external" href="http://www.mdanalysis.org/mdanalysis/documentation_pages/analysis/psa.html#MDAnalysis.analysis.psa.PSAnalysis" title="(in MDAnalysis v0.16)"><code class="xref py py-class docutils literal"><span class="pre">PSAnalysis</span></code></a>. The plotting code is
+<a class="reference external" href="http://www.mdanalysis.org/docs/documentation_pages/analysis/psa.html#MDAnalysis.analysis.psa.PSAnalysis.cluster" title="(in MDAnalysis v0.16)"><code class="xref py py-meth docutils literal"><span class="pre">cluster()</span></code></a> and
+<a class="reference external" href="http://www.mdanalysis.org/docs/documentation_pages/analysis/psa.html#MDAnalysis.analysis.psa.PSAnalysis.plot" title="(in MDAnalysis v0.16)"><code class="xref py py-meth docutils literal"><span class="pre">plot()</span></code></a> methods of
+<a class="reference external" href="http://www.mdanalysis.org/docs/documentation_pages/analysis/psa.html#MDAnalysis.analysis.psa.PSAnalysis" title="(in MDAnalysis v0.16)"><code class="xref py py-class docutils literal"><span class="pre">PSAnalysis</span></code></a>. The plotting code is
 fairly complicated but the clustering is straightforward:</p>
 <div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
@@ -563,7 +565,7 @@ double-bar and DIMS trajectories with a thin single bar.</p>
 the open conformation were generated with the DIMS MD and the FRODA
 method. <em>Path similarity analysis</em> (PSA) was performed by
 hierarchically clustering the matrix of Fréchet distances between
-all trajectories, using <a class="reference external" href="https://en.wikipedia.org/wiki/Ward's_method">Ward&#8217;s linkage criterion</a>.</span></p>
+all trajectories, using <a class="reference external" href="https://en.wikipedia.org/wiki/Ward's_method">Ward’s linkage criterion</a>.</span></p>
 <div class="legend">
 <table border="1" class="docutils">
 <colgroup>
@@ -590,7 +592,7 @@ all trajectories, using <a class="reference external" href="https://en.wikipedia
 are different from each other. Each method produces transitions that
 are characteristic of the method itself. In a comparison of many different
 transition path sampling methods it was also found that this pattern
-generally holds, which indicates that there is likely no &#8220;best&#8221; method
+generally holds, which indicates that there is likely no “best” method
 yet <a class="reference internal" href="references.html#seyler2015" id="id2">[Seyler2015]</a>.</p>
 </div>
 </div>
@@ -667,11 +669,11 @@ yet <a class="reference internal" href="references.html#seyler2015" id="id2">[Se
       &copy;2017, Oliver Beckstein, Ioannis Paraskevakos, Sean Seyler, Andre Merzky, Andre Luckow, Shantenu Jha.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |
-      <a href="_sources/tutorial.txt"
+      <a href="_sources/tutorial.rst.txt"
           rel="nofollow">Page source</a>
     </div>
 

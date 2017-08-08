@@ -1,6 +1,6 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
@@ -17,7 +17,8 @@
         VERSION:     '1.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
@@ -25,8 +26,8 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="shortcut icon" href="../_static/mdanalysis-logo.ico"/>
-    <link rel="top" title="SPIDAL Tutorial: MDAnalysis with Midas 1.2 documentation" href="../index.html" />
-    <link rel="up" title="Available code" href="listings.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="mdanalysis_psa_partial.py" href="mdanalysis_psa_partial.html" />
     <link rel="prev" title="Available code" href="listings.html" />
    
@@ -36,7 +37,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">
+  <body>
   
 
     <div class="document">
@@ -50,7 +51,7 @@
 job. It implements the <em>map</em> logic and splits the distance matrix
 computation into sub-blocks (one block per compute unit). It uses
 <a class="reference internal" href="mdanalysis_psa_partial.html"><span class="doc">mdanalysis_psa_partial.py</span></a> to perform the calculation. Importantly,
-it generates a JSON file with the &#8220;key/value&#8221; pairs (indices into the
+it generates a JSON file with the “key/value” pairs (indices into the
 full PSA distance matrix/filenames of the sub-block matrices) that are
 necessary for the <em>reduce</em> step that is performed with
 <a class="reference internal" href="psa_reduce.html"><span class="doc">psa_reduce.py</span></a>.</p>
@@ -618,11 +619,11 @@ necessary for the <em>reduce</em> step that is performed with
       &copy;2017, Oliver Beckstein, Ioannis Paraskevakos, Sean Seyler, Andre Merzky, Andre Luckow, Shantenu Jha.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |
-      <a href="../_sources/code/rp_psa.txt"
+      <a href="../_sources/code/rp_psa.rst.txt"
           rel="nofollow">Page source</a>
     </div>
 

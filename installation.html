@@ -1,6 +1,6 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
@@ -17,7 +17,8 @@
         VERSION:     '1.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
@@ -25,7 +26,8 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="shortcut icon" href="_static/mdanalysis-logo.ico"/>
-    <link rel="top" title="SPIDAL Tutorial: MDAnalysis with Midas 1.2 documentation" href="index.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Data files" href="datafiles.html" />
     <link rel="prev" title="Background" href="background.html" />
    
@@ -35,7 +37,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">
+  <body>
   
 
     <div class="document">
@@ -88,8 +90,7 @@ and <em>MDAnalysisTests</em> packages we automatically install all
 dependencies as well (such as numpy and scipy as well as various
 plotting and data processing libraries that will be used for plotting
 the results) <a class="footnote-reference" href="#clustalw" id="id3">[2]</a>:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>conda config --add channels MDAnalysis
-conda config --add channels conda-forge
+<div class="highlight-bash"><div class="highlight"><pre><span></span>conda config --add channels conda-forge
 conda update --yes conda
 
 conda create --yes -n mdaenv <span class="nv">python</span><span class="o">=</span><span class="m">2</span>.7
@@ -105,6 +106,7 @@ conda install --yes -n mdaenv mdanalysis mdanalysistests
 <span class="m">0</span>.16.0
 </pre></div>
 </div>
+<p>(This should show a version of 0.16.0 or higher.)</p>
 </div>
 </div>
 <div class="section" id="installing-radical-pilot">
@@ -143,7 +145,7 @@ certificates).</p>
 </div>
 <div class="section" id="setting-up-the-environment">
 <h2>Setting up the environment<a class="headerlink" href="#setting-up-the-environment" title="Permalink to this headline">¶</a></h2>
-<p>Although you don&#8217;t need to install the software every time, you do
+<p>Although you don’t need to install the software every time, you do
 need to ensure that you always work in the configured virtual
 environment <em>mdaenv</em> <a class="footnote-reference" href="#venv" id="id8">[4]</a> and that you set set the environment
 variable for the MongoDB:</p>
@@ -201,7 +203,7 @@ indicate a development version.</p>
 <tbody valign="top">
 <tr><td class="label"><a class="fn-backref" href="#id3">[2]</a></td><td><p class="first">Optionally, for a full feature environment you may also
 install <strong class="program">clustalw2</strong> (for sequence alignments with
-<a class="reference external" href="http://www.mdanalysis.org/mdanalysis/documentation_pages/analysis/align.html#MDAnalysis.analysis.align.fasta2select" title="(in MDAnalysis v0.16)"><code class="xref py py-func docutils literal"><span class="pre">MDAnalysis.analysis.align.fasta2select()</span></code></a>):</p>
+<a class="reference external" href="http://www.mdanalysis.org/docs/documentation_pages/analysis/align.html#MDAnalysis.analysis.align.fasta2select" title="(in MDAnalysis v0.16)"><code class="xref py py-func docutils literal"><span class="pre">MDAnalysis.analysis.align.fasta2select()</span></code></a>):</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>conda install --yes -n mdaenv -c biobuilds --yes <span class="nv">clustalw</span><span class="o">=</span><span class="m">2</span>.1
 </pre></div>
 </div>
@@ -215,7 +217,7 @@ optional dependencies later.</p>
 <table class="docutils footnote" frame="void" id="prompt" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label">[3]</td><td><em>(<a class="fn-backref" href="#id4">1</a>, <a class="fn-backref" href="#id6">2</a>, <a class="fn-backref" href="#id7">3</a>)</em> In the following, the shell&#8217;s prompt is shown as
+<tr><td class="label">[3]</td><td><em>(<a class="fn-backref" href="#id4">1</a>, <a class="fn-backref" href="#id6">2</a>, <a class="fn-backref" href="#id7">3</a>)</em> In the following, the shell’s prompt is shown as
 <code class="docutils literal"><span class="pre">(mdaenv)</span> <span class="pre">$</span></code> and should <em>not</em> be typed. It is supposed
 to remind you that you <em>must be in the virtual
 environment</em> <a class="footnote-reference" href="#venv" id="id9">[4]</a>. Only type what follows after the
@@ -310,11 +312,11 @@ MDAnalysis or radical.pilot.</p>
       &copy;2017, Oliver Beckstein, Ioannis Paraskevakos, Sean Seyler, Andre Merzky, Andre Luckow, Shantenu Jha.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |
-      <a href="_sources/installation.txt"
+      <a href="_sources/installation.rst.txt"
           rel="nofollow">Page source</a>
     </div>
 

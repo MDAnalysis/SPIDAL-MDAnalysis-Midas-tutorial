@@ -1,6 +1,6 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
@@ -17,7 +17,8 @@
         VERSION:     '1.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
@@ -25,7 +26,8 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="shortcut icon" href="_static/mdanalysis-logo.ico"/>
-    <link rel="top" title="SPIDAL Tutorial: MDAnalysis with Midas 1.2 documentation" href="index.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Installation" href="installation.html" />
     <link rel="prev" title="SPIDAL Tutorial: MDAnalysis with Midas/radical.pilot" href="index.html" />
    
@@ -35,7 +37,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">
+  <body>
   
 
     <div class="document">
@@ -60,13 +62,13 @@ pathways, and, perhaps <em>how</em> they differ.</p>
 <span class="math">\(P_i\)</span>, the <em>distance matrix</em></p>
 <div class="math">
 \[D_{ij} = \delta(P_i, P_j)\]</div>
-<p>The <a class="reference external" href="http://www.mdanalysis.org/mdanalysis/documentation_pages/analysis/psa.html#module-MDAnalysis.analysis.psa" title="(in MDAnalysis v0.16)"><code class="xref py py-mod docutils literal"><span class="pre">MDAnalysis.analysis.psa</span></code></a> module in <a class="reference external" href="http://mdanalysis.org">MDAnalysis</a> contains
+<p>The <a class="reference external" href="http://www.mdanalysis.org/docs/documentation_pages/analysis/psa.html#module-MDAnalysis.analysis.psa" title="(in MDAnalysis v0.16)"><code class="xref py py-mod docutils literal"><span class="pre">MDAnalysis.analysis.psa</span></code></a> module in <a class="reference external" href="http://mdanalysis.org">MDAnalysis</a> contains
 implementations for various distance functions <span class="math">\(\delta(P,
 Q)\)</span>. Here we are going to use the discrete <a class="reference external" href="https://en.wikipedia.org/wiki/Fr%C3%A9chet_distance">Fréchet distance</a> as
 implemented in
-<a class="reference external" href="http://www.mdanalysis.org/mdanalysis/documentation_pages/analysis/psa.html#MDAnalysis.analysis.psa.discrete_frechet" title="(in MDAnalysis v0.16)"><code class="xref py py-func docutils literal"><span class="pre">MDAnalysis.analysis.psa.discrete_frechet()</span></code></a>. Another good choice
+<a class="reference external" href="http://www.mdanalysis.org/docs/documentation_pages/analysis/psa.html#MDAnalysis.analysis.psa.discrete_frechet" title="(in MDAnalysis v0.16)"><code class="xref py py-func docutils literal"><span class="pre">MDAnalysis.analysis.psa.discrete_frechet()</span></code></a>. Another good choice
 is the <a class="reference external" href="https://en.wikipedia.org/wiki/Hausdorff_distance">Hausdorff distance</a>
-(<a class="reference external" href="http://www.mdanalysis.org/mdanalysis/documentation_pages/analysis/psa.html#MDAnalysis.analysis.psa.hausdorff" title="(in MDAnalysis v0.16)"><code class="xref py py-func docutils literal"><span class="pre">MDAnalysis.analysis.psa.hausdorff()</span></code></a>), and it is straightforward
+(<a class="reference external" href="http://www.mdanalysis.org/docs/documentation_pages/analysis/psa.html#MDAnalysis.analysis.psa.hausdorff" title="(in MDAnalysis v0.16)"><code class="xref py py-func docutils literal"><span class="pre">MDAnalysis.analysis.psa.hausdorff()</span></code></a>), and it is straightforward
 to alter the example code in this tutorial (namely,
 <a class="reference internal" href="code/mdanalysis_psa_partial.html"><span class="doc">mdanalysis_psa_partial.py</span></a>) to explore the use of a
 different distance function.</p>
@@ -103,7 +105,7 @@ less than <span class="math">\(w\)</span> entries).</p>
 <div class="section" id="id5">
 <h3>MDAnalysis<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
 <p>In MDAnalysis each trajectory is loaded into a
-<a class="reference external" href="http://www.mdanalysis.org/mdanalysis/documentation_pages/core/universe.html#MDAnalysis.core.universe.Universe" title="(in MDAnalysis v0.16)"><code class="xref py py-class docutils literal"><span class="pre">Universe</span></code></a>, using a <em>topology file</em>
+<a class="reference external" href="http://www.mdanalysis.org/docs/documentation_pages/core/universe.html#MDAnalysis.core.universe.Universe" title="(in MDAnalysis v0.16)"><code class="xref py py-class docutils literal"><span class="pre">Universe</span></code></a>, using a <em>topology file</em>
 (which contains static information about the atoms, bonds etc) and a
 <em>trajectory file</em> (which contains the changing coordinates for each
 time step):</p>
@@ -114,16 +116,16 @@ time step):</p>
 <p>Because we need to access all trajectory data for our analysis, we can
 increase performance by first loading the whole trajectory into memory
 <a class="footnote-reference" href="#inmemory" id="id6">[1]</a> with the
-<a class="reference external" href="http://www.mdanalysis.org/mdanalysis/documentation_pages/core/universe.html#MDAnalysis.core.universe.Universe.transfer_to_memory" title="(in MDAnalysis v0.16)"><code class="xref py py-meth docutils literal"><span class="pre">transfer_to_memory()</span></code></a> method
+<a class="reference external" href="http://www.mdanalysis.org/docs/documentation_pages/core/universe.html#MDAnalysis.core.universe.Universe.transfer_to_memory" title="(in MDAnalysis v0.16)"><code class="xref py py-meth docutils literal"><span class="pre">transfer_to_memory()</span></code></a> method
 <a class="footnote-reference" href="#memoryreader" id="id7">[2]</a>:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">universe</span><span class="o">.</span><span class="n">transfer_to_memory</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>We will restrict the calculation of the path distances to a subset of
-atoms, namely the &#8220;C-alpha&#8221; atoms that are distributed along the
+atoms, namely the “C-alpha” atoms that are distributed along the
 protein backbone and report on the larger conformational changes. The
 C-alpha atoms can be selected as a
-<a class="reference external" href="http://www.mdanalysis.org/mdanalysis/documentation_pages/core/groups.html#MDAnalysis.core.groups.AtomGroup" title="(in MDAnalysis v0.16)"><code class="xref py py-class docutils literal"><span class="pre">AtomGroup</span></code></a> with the <a class="reference external" href="http://docs.mdanalysis.org/documentation_pages/selections.html">atom selection
+<a class="reference external" href="http://www.mdanalysis.org/docs/documentation_pages/core/groups.html#MDAnalysis.core.groups.AtomGroup" title="(in MDAnalysis v0.16)"><code class="xref py py-class docutils literal"><span class="pre">AtomGroup</span></code></a> with the <a class="reference external" href="http://docs.mdanalysis.org/documentation_pages/selections.html">atom selection
 language</a>:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ca</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">select_atoms</span><span class="p">(</span><span class="s2">&quot;name CA&quot;</span><span class="p">)</span>
 </pre></div>
@@ -137,7 +139,7 @@ numpy array:</p>
 <p>With the coordinates for a second trajectory <code class="docutils literal"><span class="pre">Q</span></code> we can then
 calculate the discrete Fréchet distance using an recursive dynamic
 programming algorithm <a class="reference internal" href="references.html#eitermanilla1994" id="id8">[EiterManilla1994]</a>, implemented in
-<a class="reference external" href="http://www.mdanalysis.org/mdanalysis/documentation_pages/analysis/psa.html#MDAnalysis.analysis.psa.discrete_frechet" title="(in MDAnalysis v0.16)"><code class="xref py py-func docutils literal"><span class="pre">MDAnalysis.analysis.psa.discrete_frechet()</span></code></a>:</p>
+<a class="reference external" href="http://www.mdanalysis.org/docs/documentation_pages/analysis/psa.html#MDAnalysis.analysis.psa.discrete_frechet" title="(in MDAnalysis v0.16)"><code class="xref py py-func docutils literal"><span class="pre">MDAnalysis.analysis.psa.discrete_frechet()</span></code></a>:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">MDAnalysis.analysis</span> <span class="k">import</span> <span class="n">psa</span>
 <span class="n">dF</span> <span class="o">=</span> <span class="n">psa</span><span class="o">.</span><span class="n">discrete_frechet</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">Q</span><span class="p">)</span>
 </pre></div>
@@ -157,10 +159,10 @@ and rotational degrees of freedoms for all trajectories by
 superimposing <em>all</em> trajectory frames on a single reference
 structure <a class="reference internal" href="references.html#seyler2015" id="id10">[Seyler2015]</a>. The superposition can be carried out in a
 pre-processing step using, for instance,
-<a class="reference external" href="http://www.mdanalysis.org/mdanalysis/documentation_pages/analysis/align.html#MDAnalysis.analysis.align.AlignTraj" title="(in MDAnalysis v0.16)"><code class="xref py py-class docutils literal"><span class="pre">MDAnalysis.analysis.align.AlignTraj</span></code></a> or as part of PSA with
-<a class="reference external" href="http://www.mdanalysis.org/mdanalysis/documentation_pages/analysis/psa.html#MDAnalysis.analysis.psa.PSAnalysis" title="(in MDAnalysis v0.16)"><code class="xref py py-class docutils literal"><span class="pre">MDAnalysis.analysis.psa.PSAnalysis</span></code></a>. The trajectories for
+<a class="reference external" href="http://www.mdanalysis.org/docs/documentation_pages/analysis/align.html#MDAnalysis.analysis.align.AlignTraj" title="(in MDAnalysis v0.16)"><code class="xref py py-class docutils literal"><span class="pre">MDAnalysis.analysis.align.AlignTraj</span></code></a> or as part of PSA with
+<a class="reference external" href="http://www.mdanalysis.org/docs/documentation_pages/analysis/psa.html#MDAnalysis.analysis.psa.PSAnalysis" title="(in MDAnalysis v0.16)"><code class="xref py py-class docutils literal"><span class="pre">MDAnalysis.analysis.psa.PSAnalysis</span></code></a>. The trajectories for
 this tutorial were already superimposed appropriately (on the
-&#8220;CORE&#8221; domain of AdK, as described in more detail in
+“CORE” domain of AdK, as described in more detail in
 <a class="reference internal" href="references.html#seyler2015" id="id11">[Seyler2015]</a>.)</p>
 </div>
 <p>Calculating a full Fréchet distance matrix <span class="math">\(D_{ij} = \delta(P_i,
@@ -181,9 +183,9 @@ matrix on a compute node.</p>
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label"><a class="fn-backref" href="#id6">[1]</a></td><td>Instead of using
-<a class="reference external" href="http://www.mdanalysis.org/mdanalysis/documentation_pages/core/universe.html#MDAnalysis.core.universe.Universe.transfer_to_memory" title="(in MDAnalysis v0.16)"><code class="xref py py-meth docutils literal"><span class="pre">transfer_to_memory()</span></code></a> one
+<a class="reference external" href="http://www.mdanalysis.org/docs/documentation_pages/core/universe.html#MDAnalysis.core.universe.Universe.transfer_to_memory" title="(in MDAnalysis v0.16)"><code class="xref py py-meth docutils literal"><span class="pre">transfer_to_memory()</span></code></a> one
 could also simply set the <code class="docutils literal"><span class="pre">in_memory=True</span></code> keyword argument of
-<a class="reference external" href="http://www.mdanalysis.org/mdanalysis/documentation_pages/core/universe.html#MDAnalysis.core.universe.Universe" title="(in MDAnalysis v0.16)"><code class="xref py py-class docutils literal"><span class="pre">Universe</span></code></a> as shown for <a class="reference external" href="http:/docs.mdanalysis.org/documentation_pages/coordinates/memory.html#in-memory-representation-of-arbitrary-trajectories">in-memory
+<a class="reference external" href="http://www.mdanalysis.org/docs/documentation_pages/core/universe.html#MDAnalysis.core.universe.Universe" title="(in MDAnalysis v0.16)"><code class="xref py py-class docutils literal"><span class="pre">Universe</span></code></a> as shown for <a class="reference external" href="http:/docs.mdanalysis.org/documentation_pages/coordinates/memory.html#in-memory-representation-of-arbitrary-trajectories">in-memory
 representation of arbitrary trajectories</a>. However, here we keep
 the two steps separate for conceptual clarity.</td></tr>
 </tbody>
@@ -192,8 +194,8 @@ the two steps separate for conceptual clarity.</td></tr>
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label"><a class="fn-backref" href="#id7">[2]</a></td><td>Loading trajectory data into memory makes use of
-the new <a class="reference external" href="http://www.mdanalysis.org/mdanalysis/documentation_pages/coordinates/memory.html#MDAnalysis.coordinates.memory.MemoryReader" title="(in MDAnalysis v0.16)"><code class="xref py py-class docutils literal"><span class="pre">MemoryReader</span></code></a>
-functionality in <a class="reference external" href="http://www.mdanalysis.org/mdanalysis/documentation_pages/coordinates/memory.html#module-MDAnalysis.coordinates.memory" title="(in MDAnalysis v0.16)"><code class="xref py py-mod docutils literal"><span class="pre">MDAnalysis.coordinates.memory</span></code></a>; this
+the new <a class="reference external" href="http://www.mdanalysis.org/docs/documentation_pages/coordinates/memory.html#MDAnalysis.coordinates.memory.MemoryReader" title="(in MDAnalysis v0.16)"><code class="xref py py-class docutils literal"><span class="pre">MemoryReader</span></code></a>
+functionality in <a class="reference external" href="http://www.mdanalysis.org/docs/documentation_pages/coordinates/memory.html#module-MDAnalysis.coordinates.memory" title="(in MDAnalysis v0.16)"><code class="xref py py-mod docutils literal"><span class="pre">MDAnalysis.coordinates.memory</span></code></a>; this
 functionality has been available since the 0.16.0 release.</td></tr>
 </tbody>
 </table>
@@ -272,11 +274,11 @@ functionality has been available since the 0.16.0 release.</td></tr>
       &copy;2017, Oliver Beckstein, Ioannis Paraskevakos, Sean Seyler, Andre Merzky, Andre Luckow, Shantenu Jha.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |
-      <a href="_sources/background.txt"
+      <a href="_sources/background.rst.txt"
           rel="nofollow">Page source</a>
     </div>
 

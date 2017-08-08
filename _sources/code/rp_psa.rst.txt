@@ -1,10 +1,12 @@
 .. -*- mode: rst; coding: utf-8 -*-
 
+.. _rp_psa:
+
 ===========
  rp_psa.py
 ===========
 
-The :file:`r/rp_psa.py` script sets up and executes the radical.pilot
+The :file:`rp/rp_psa.py` script sets up and executes the radical.pilot
 job. It implements the *map* logic and splits the distance matrix
 computation into sub-blocks (one block per compute unit). It uses
 :doc:`mdanalysis_psa_partial` to perform the calculation. Importantly,
