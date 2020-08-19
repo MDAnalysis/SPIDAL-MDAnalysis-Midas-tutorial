@@ -220,6 +220,6 @@ texinfo_documents = [
 #
 intersphinx_mapping = {'https://docs.python.org/': None,
                        'https://docs.scipy.org/doc/numpy/': None,
-                       'http://docs.mdanalysis.org/': None,
-                       'https://radicalpilot.readthedocs.io/en/latest/': None,
+                       'https://docs.mdanalysis.org/1.0.0/': None,
+                       'https://radicalpilot.readthedocs.io/en/stable/': None,
                        }
