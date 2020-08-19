@@ -1,31 +1,33 @@
 language: python
+cache: pip
+
 python:
-  - '3.4'
-sudo: false
-before_install:
-  - wget http://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda3.sh
-  - chmod +x miniconda3.sh
-  - ./miniconda3.sh -b -p $(pwd)/miniconda3
-  - export PATH=$(pwd)/miniconda3/bin:$PATH
-  - conda update --yes conda
-install:
-  - conda create --yes -q -n pyenv python=$TRAVIS_PYTHON_VERSION sphinx
-  - source activate pyenv
-script:
-  - |
-    test "${TRAVIS_BUILD_NUMBER}.1" == "${TRAVIS_JOB_NUMBER}" && \
-    (cd ./docs/sphinx && make clean html)
-after_success:
-  - |
-    test ${TRAVIS_PULL_REQUEST} == "false" && \
-    test ${TRAVIS_BRANCH} == ${GH_DOC_BRANCH} && \
-    test "${TRAVIS_BUILD_NUMBER}.1" == "${TRAVIS_JOB_NUMBER}" && \
-    bash ./ci/deploy_docs.sh
+  - '3.7'
+
 env:
   global:
     - secure: "US0I3nlyyWqQr3I4F2SVW8oARdDdfAgJnY4Q3fDTiLXYTNqMFZ59GfTEvwUP6Jpv/o4Nq91TAWOp0nJ58Hg5yJXo4zXr3VFAlXooHbgHf+DAwJRECdwAkCI9HbFJhbSzaqTt5EsHOEgTNJ2WUTY/EYk458+TKhtMQH6Imt8edUHaiM0vePWc+gmGgy82TYN7Heq2aI0OPl9aESJIx994S4vhFs0/On+HnDO++1sreQUaGX33ms2v04KZARBk7m3NFeLJrbdR0b2aK2kHAAkTVEWp4cu5aONdDlCytiTD9rca757j0StyevxE3OBkWs5PV04lNZ1SslkmMlKBAlpLX8skmxJsE+LxjyDLku6FbqFECXWjNjwjtHLUQd9+Q1RpcpP6iEFZVgzeNfYfm2bT/t49wFyTz3/PTAuxdlQW8EYpUTM1MQxDlBHImdBQTFPM7U975l1sgzE8Gia7KsMrifU/x3X6SLsH6jsXTt3lEzLEYtY7pkG2xmkZFQZYAXsR1smkXiIlwuJYxjxWEINEQnsqHd5Vr4JVgcyOuik96N/VxBc95F3Hqjc89NeM+cKq+qchKZmuebmFuXNyFT04lIGToWZgZKT+Yt2FEhpzsuz9InpSuvF+XlxGAo1i7W5vcHFoM8Ovna8ExAc1itz+uysyIy9Ro91WxuBadRvDjFg="
-    - GH_DOC_BRANCH: master
-    - GH_REPOSITORY: github.com/MDAnalysis/SPIDAL-MDAnalysis-Midas-tutorial.git
-    - GIT_CI_USER: TravisCI
-    - GIT_CI_EMAIL: TravisCI@mdanalysis.org
-    - MDA_DOCDIR: docs/sphinx/_build/html
+    - SPHINX_DIR=docs/sphinx
+    - HTML_DIR=docs/sphinx/_build/html
+
+install:
+  - pip install --upgrade sphinx sphinx-sitemap
+
+script:
+  # touch .nojekyll else github-pages messes up theme
+  - make -C ${SPHINX_DIR} html && touch ${HTML_DIR}/.nojekyll
+
+deploy:
+  # stuff related to deploying to gh-pages
+  # GH_TOKEN is set in env:global:secure
+  provider: pages
+  strategy: git
+  cleanup: false
+  token: $GH_TOKEN
+  on:
+    branch: master
+    python: "3.7"
+  local_dir: ${HTML_DIR}
+  project_name: SPIDAL-MDAnalysis-Midas-tutorial
+  # use dpl v2
+  edge: true
