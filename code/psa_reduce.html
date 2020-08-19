@@ -1,30 +1,19 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
+<!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>psa_reduce.py &#8212; SPIDAL Tutorial: MDAnalysis with Midas 1.2 documentation</title>
-    
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../',
-        VERSION:     '1.2',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="shortcut icon" href="../_static/mdanalysis-logo.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -36,22 +25,23 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
-  </head>
-  <body role="document">
+  </head><body>
   
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
+          
+
           <div class="body" role="main">
             
   <div class="section" id="psa-reduce-py">
 <span id="psa-reduce"></span><h1>psa_reduce.py<a class="headerlink" href="#psa-reduce-py" title="Permalink to this headline">¶</a></h1>
-<p>The <code class="file docutils literal"><span class="pre">rp/psa_reduce.py</span></code> implements the <em>reduce</em> step by combining
+<p>The <code class="file docutils literal notranslate"><span class="pre">rp/psa_reduce.py</span></code> implements the <em>reduce</em> step by combining
 the partial results from <a class="reference internal" href="mdanalysis_psa_partial.html"><span class="doc">mdanalysis_psa_partial.py</span></a> into the full
 PSA distance matrix. It also contains analysis code to cluster and
 plot the matrix.</p>
-<div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>  1
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>  1
   2
   3
   4
@@ -331,9 +321,9 @@ plot the matrix.</p>
 
 <span class="kn">import</span> <span class="nn">os.path</span>
 <span class="kn">import</span> <span class="nn">json</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
 <span class="kn">import</span> <span class="nn">matplotlib</span>
 <span class="kn">import</span> <span class="nn">scipy.cluster.hierarchy</span>
@@ -355,13 +345,13 @@ plot the matrix.</p>
             <span class="n">missing</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">subD</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">missing</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;WARNING: Missing data: output files</span><span class="se">\n</span><span class="s2">{}</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;WARNING: Missing data: output files</span><span class="se">\n</span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span>
               <span class="s2">&quot;could not be found&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">missing</span><span class="p">)))</span>
 
     <span class="k">return</span> <span class="n">D</span>
 
-<span class="k">def</span> <span class="nf">cluster</span><span class="p">(</span><span class="n">distArray</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;ward&#39;</span><span class="p">,</span> <span class="n">count_sort</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
-            <span class="n">distance_sort</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">no_plot</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">no_labels</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+<span class="k">def</span> <span class="nf">cluster</span><span class="p">(</span><span class="n">distArray</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;ward&#39;</span><span class="p">,</span> <span class="n">count_sort</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">distance_sort</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">no_plot</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">no_labels</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">color_threshold</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Cluster trajectories and optionally plot the dendrogram.</span>
 
@@ -395,8 +385,8 @@ plot the matrix.</p>
     <span class="k">return</span> <span class="n">Z</span><span class="p">,</span> <span class="n">dgram</span>
 
 
-<span class="k">def</span> <span class="nf">plot_clustered_distances</span><span class="p">(</span><span class="n">dist_matrix</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">linkage</span><span class="o">=</span><span class="s1">&#39;ward&#39;</span><span class="p">,</span> <span class="n">count_sort</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
-                             <span class="n">distance_sort</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+<span class="k">def</span> <span class="nf">plot_clustered_distances</span><span class="p">(</span><span class="n">dist_matrix</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">linkage</span><span class="o">=</span><span class="s1">&#39;ward&#39;</span><span class="p">,</span> <span class="n">count_sort</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                             <span class="n">distance_sort</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                              <span class="n">figsize</span><span class="o">=</span><span class="mf">4.5</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">12</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Plot a clustered distance matrix.</span>
 
@@ -455,8 +445,8 @@ plot the matrix.</p>
                 <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">YlGn</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="n">minDist</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="n">maxDist</span><span class="p">)</span>
     <span class="n">ax_hmap</span><span class="o">.</span><span class="n">invert_yaxis</span><span class="p">()</span> <span class="c1"># Place origin at upper left (from lower left)</span>
     <span class="n">ax_hmap</span><span class="o">.</span><span class="n">locator_params</span><span class="p">(</span><span class="n">nbins</span><span class="o">=</span><span class="n">npaths</span><span class="p">)</span>
-    <span class="n">ax_hmap</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">npaths</span><span class="p">),</span> <span class="n">minor</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="n">ax_hmap</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">npaths</span><span class="p">),</span> <span class="n">minor</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">ax_hmap</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">npaths</span><span class="p">),</span> <span class="n">minor</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">ax_hmap</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">npaths</span><span class="p">),</span> <span class="n">minor</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">ax_hmap</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">labelleft</span><span class="o">=</span><span class="s1">&#39;off&#39;</span><span class="p">,</span>
                         <span class="n">labelright</span><span class="o">=</span><span class="s1">&#39;off&#39;</span><span class="p">,</span> <span class="n">labeltop</span><span class="o">=</span><span class="s1">&#39;on&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
     <span class="n">ax_hmap</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">labelleft</span><span class="o">=</span><span class="s1">&#39;on&#39;</span><span class="p">,</span>
@@ -465,33 +455,33 @@ plot the matrix.</p>
         <span class="n">rowlabels</span> <span class="o">=</span> <span class="p">[</span><span class="n">labels</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">rowidx</span><span class="p">]</span>
         <span class="n">collabels</span> <span class="o">=</span> <span class="p">[</span><span class="n">labels</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">colidx</span><span class="p">]</span>
         <span class="n">ax_hmap</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">collabels</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="s1">&#39;vertical&#39;</span><span class="p">,</span>
-                                <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">labelsize</span><span class="o">-</span><span class="mi">4</span><span class="p">),</span> <span class="n">multialignment</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">minor</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+                                <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">labelsize</span><span class="o">-</span><span class="mi">4</span><span class="p">),</span> <span class="n">multialignment</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">minor</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">ax_hmap</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">(</span><span class="n">rowlabels</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="s1">&#39;horizontal&#39;</span><span class="p">,</span>
                                 <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">labelsize</span><span class="o">-</span><span class="mi">4</span><span class="p">),</span> <span class="n">multialignment</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">,</span>
-                                <span class="n">minor</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+                                <span class="n">minor</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="n">ax_color</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_axes</span><span class="p">(</span><span class="n">cbar_loc</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="n">cax</span><span class="o">=</span><span class="n">ax_color</span><span class="p">,</span> <span class="n">ticks</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">minDist</span><span class="p">,</span> <span class="n">maxDist</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span>
-                 <span class="n">format</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">%0.1f</span><span class="s2">&quot;</span><span class="p">)</span>
+                 <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">%0.1f</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="n">ax_color</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">labelsize</span><span class="o">=</span><span class="n">labelsize</span><span class="p">)</span>
 
     <span class="c1"># Remove major ticks from both heat map axes</span>
     <span class="k">for</span> <span class="n">tic</span> <span class="ow">in</span> <span class="n">ax_hmap</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">get_major_ticks</span><span class="p">():</span>
-        <span class="n">tic</span><span class="o">.</span><span class="n">tick1On</span> <span class="o">=</span> <span class="n">tic</span><span class="o">.</span><span class="n">tick2On</span> <span class="o">=</span> <span class="bp">False</span>
-        <span class="n">tic</span><span class="o">.</span><span class="n">label1On</span> <span class="o">=</span> <span class="n">tic</span><span class="o">.</span><span class="n">label2On</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="n">tic</span><span class="o">.</span><span class="n">tick1On</span> <span class="o">=</span> <span class="n">tic</span><span class="o">.</span><span class="n">tick2On</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">tic</span><span class="o">.</span><span class="n">label1On</span> <span class="o">=</span> <span class="n">tic</span><span class="o">.</span><span class="n">label2On</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="k">for</span> <span class="n">tic</span> <span class="ow">in</span> <span class="n">ax_hmap</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">get_major_ticks</span><span class="p">():</span>
-        <span class="n">tic</span><span class="o">.</span><span class="n">tick1On</span> <span class="o">=</span> <span class="n">tic</span><span class="o">.</span><span class="n">tick2On</span> <span class="o">=</span> <span class="bp">False</span>
-        <span class="n">tic</span><span class="o">.</span><span class="n">label1On</span> <span class="o">=</span> <span class="n">tic</span><span class="o">.</span><span class="n">label2On</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="n">tic</span><span class="o">.</span><span class="n">tick1On</span> <span class="o">=</span> <span class="n">tic</span><span class="o">.</span><span class="n">tick2On</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">tic</span><span class="o">.</span><span class="n">label1On</span> <span class="o">=</span> <span class="n">tic</span><span class="o">.</span><span class="n">label2On</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="c1"># Remove minor ticks from both heat map axes</span>
     <span class="k">for</span> <span class="n">tic</span> <span class="ow">in</span> <span class="n">ax_hmap</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">get_minor_ticks</span><span class="p">():</span>
-        <span class="n">tic</span><span class="o">.</span><span class="n">tick1On</span> <span class="o">=</span> <span class="n">tic</span><span class="o">.</span><span class="n">tick2On</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="n">tic</span><span class="o">.</span><span class="n">tick1On</span> <span class="o">=</span> <span class="n">tic</span><span class="o">.</span><span class="n">tick2On</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="k">for</span> <span class="n">tic</span> <span class="ow">in</span> <span class="n">ax_hmap</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">get_minor_ticks</span><span class="p">():</span>
-        <span class="n">tic</span><span class="o">.</span><span class="n">tick1On</span> <span class="o">=</span> <span class="n">tic</span><span class="o">.</span><span class="n">tick2On</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="n">tic</span><span class="o">.</span><span class="n">tick1On</span> <span class="o">=</span> <span class="n">tic</span><span class="o">.</span><span class="n">tick2On</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="c1"># Remove tickmarks from colorbar</span>
     <span class="k">for</span> <span class="n">tic</span> <span class="ow">in</span> <span class="n">ax_color</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">get_major_ticks</span><span class="p">():</span>
-        <span class="n">tic</span><span class="o">.</span><span class="n">tick1On</span> <span class="o">=</span> <span class="n">tic</span><span class="o">.</span><span class="n">tick2On</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="n">tic</span><span class="o">.</span><span class="n">tick1On</span> <span class="o">=</span> <span class="n">tic</span><span class="o">.</span><span class="n">tick2On</span> <span class="o">=</span> <span class="kc">False</span>
 
-    <span class="k">if</span> <span class="n">filename</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">filename</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">&#39;tight&#39;</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">Z</span><span class="p">,</span> <span class="n">dgram</span><span class="p">,</span> <span class="n">dist_matrix_clus</span>
@@ -535,10 +525,10 @@ plot the matrix.</p>
     <span class="k">return</span> <span class="n">labels</span>
 
 
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
     <span class="kn">import</span> <span class="nn">argparse</span>
 
-    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="n">__doc__</span><span class="p">)</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="vm">__doc__</span><span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-o&quot;</span><span class="p">,</span> <span class="s2">&quot;--outfile&quot;</span><span class="p">,</span> <span class="n">metavar</span><span class="o">=</span><span class="s2">&quot;FILE&quot;</span><span class="p">,</span>
                         <span class="n">default</span><span class="o">=</span> <span class="s2">&quot;distance_matrix.npy&quot;</span><span class="p">,</span>
                         <span class="n">help</span><span class="o">=</span><span class="s2">&quot;save complete distance matrix to FILE&quot;</span><span class="p">)</span>
@@ -559,25 +549,26 @@ plot the matrix.</p>
     <span class="n">D</span> <span class="o">=</span> <span class="n">combine</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">trajectories</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">manifest</span><span class="p">)</span>
 
     <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">outfile</span><span class="p">,</span> <span class="n">D</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Created full distance matrix &#39;{0}&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">outfile</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Created full distance matrix &#39;</span><span class="si">{0}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">outfile</span><span class="p">))</span>
 
     <span class="c1"># analyze: plot clustered distance matrix</span>
     <span class="c1"># Label FRODA trajectories with a double bar and DIMS with a thin single bar</span>
     <span class="n">plot_clustered_distances</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">plot</span><span class="p">,</span>
                              <span class="n">labels</span><span class="o">=</span><span class="n">make_labels</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">trajectories</span><span class="p">,</span>
                                                 <span class="p">{</span><span class="s1">&#39;DIMS&#39;</span><span class="p">:</span> <span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="s1">&#39;FRODA&#39;</span><span class="p">:</span> <span class="s1">&#39;--&#39;</span><span class="p">}))</span>
-    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Plotted clustered distance matrix &#39;{0}&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">plot</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Plotted clustered distance matrix &#39;</span><span class="si">{0}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">plot</span><span class="p">))</span>
 
     <span class="c1"># plot as PNG for tutorial/web</span>
     <span class="n">figpng</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">plot</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;.png&quot;</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">figpng</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Plotted clustered distance matrix &#39;{0}&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">figpng</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Plotted clustered distance matrix &#39;</span><span class="si">{0}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">figpng</span><span class="p">))</span>
 </pre></div>
 </td></tr></table></div>
 </div>
 
 
           </div>
+          
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
@@ -632,25 +623,26 @@ plot the matrix.</p>
 </ul>
 </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
     </form>
+    </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
+
     <div class="footer">
       &copy;2017, Oliver Beckstein, Ioannis Paraskevakos, Sean Seyler, Andre Merzky, Andre Luckow, Shantenu Jha.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
       <a href="../_sources/code/psa_reduce.rst.txt"
@@ -664,5 +656,12 @@ plot the matrix.</p>
     
 
     
+<div class="footer"><p>Please see
+    our <a href="https://www.mdanalysis.org/pages/privacy/">Privacy Policy</a>
+    to learn how <a href="https://www.mdanalysis.org">MDAnalysis</a> collects data.</p>
+    <script data-goatcounter="https://mdanalysis.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+</div>
+
   </body>
 </html>

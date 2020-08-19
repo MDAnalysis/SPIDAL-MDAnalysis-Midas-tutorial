@@ -1,30 +1,19 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
+<!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>mdanalysis_psa_partial.py &#8212; SPIDAL Tutorial: MDAnalysis with Midas 1.2 documentation</title>
-    
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../',
-        VERSION:     '1.2',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="shortcut icon" href="../_static/mdanalysis-logo.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -36,22 +25,23 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
-  </head>
-  <body role="document">
+  </head><body>
   
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
+          
+
           <div class="body" role="main">
             
   <div class="section" id="mdanalysis-psa-partial-py">
 <span id="mdanalysis-psa-partial"></span><h1>mdanalysis_psa_partial.py<a class="headerlink" href="#mdanalysis-psa-partial-py" title="Permalink to this headline">¶</a></h1>
-<p>The <code class="file docutils literal"><span class="pre">rp/mdanalysis_psa_partial.py</span></code> script performs the path
+<p>The <code class="file docutils literal notranslate"><span class="pre">rp/mdanalysis_psa_partial.py</span></code> script performs the path
 similarity analysis on a subset of trajectories and computes a
 sub-block of the distance matrix. All MDAnalysis specific-code is
 confined to this file.</p>
-<div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>  1
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>  1
   2
   3
   4
@@ -238,9 +228,9 @@ confined to this file.</p>
 <span class="kn">import</span> <span class="nn">itertools</span>
 
 <span class="kn">import</span> <span class="nn">json</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="kn">import</span> <span class="nn">MDAnalysis</span> <span class="kn">as</span> <span class="nn">mda</span>
+<span class="kn">import</span> <span class="nn">MDAnalysis</span> <span class="k">as</span> <span class="nn">mda</span>
 <span class="kn">from</span> <span class="nn">MDAnalysis.analysis</span> <span class="kn">import</span> <span class="n">psa</span>
 
 <span class="k">def</span> <span class="nf">psa_partial</span><span class="p">(</span><span class="n">universesA</span><span class="p">,</span> <span class="n">universesB</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s2">&quot;discrete_frechet&quot;</span><span class="p">,</span> <span class="n">selection</span><span class="o">=</span><span class="s2">&quot;name CA&quot;</span><span class="p">):</span>
@@ -282,10 +272,10 @@ confined to this file.</p>
     <span class="c1"># cache results (compare u_i and u_j), and generate 0 for u_i == u_j</span>
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">u_i</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">universesA</span><span class="p">):</span>
         <span class="n">g1</span> <span class="o">=</span> <span class="n">u_i</span><span class="o">.</span><span class="n">select_atoms</span><span class="p">(</span><span class="n">selection</span><span class="p">)</span>
-        <span class="n">P</span> <span class="o">=</span> <span class="n">u_i</span><span class="o">.</span><span class="n">trajectory</span><span class="o">.</span><span class="n">timeseries</span><span class="p">(</span><span class="n">asel</span><span class="o">=</span><span class="n">g1</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s2">&quot;fac&quot;</span><span class="p">)</span>
+        <span class="n">P</span> <span class="o">=</span> <span class="n">u_i</span><span class="o">.</span><span class="n">trajectory</span><span class="o">.</span><span class="n">timeseries</span><span class="p">(</span><span class="n">asel</span><span class="o">=</span><span class="n">g1</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;fac&quot;</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">u_j</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">universesB</span><span class="p">):</span>
             <span class="n">g2</span> <span class="o">=</span> <span class="n">u_j</span><span class="o">.</span><span class="n">select_atoms</span><span class="p">(</span><span class="n">selection</span><span class="p">)</span>
-            <span class="n">Q</span> <span class="o">=</span> <span class="n">u_j</span><span class="o">.</span><span class="n">trajectory</span><span class="o">.</span><span class="n">timeseries</span><span class="p">(</span><span class="n">asel</span><span class="o">=</span><span class="n">g2</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s2">&quot;fac&quot;</span><span class="p">)</span>
+            <span class="n">Q</span> <span class="o">=</span> <span class="n">u_j</span><span class="o">.</span><span class="n">trajectory</span><span class="o">.</span><span class="n">timeseries</span><span class="p">(</span><span class="n">asel</span><span class="o">=</span><span class="n">g2</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;fac&quot;</span><span class="p">)</span>
 
             <span class="c1"># compute distance between paths</span>
             <span class="n">D</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">_metric</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">Q</span><span class="p">)</span>
@@ -293,29 +283,29 @@ confined to this file.</p>
     <span class="k">return</span> <span class="n">D</span>
 
 <span class="k">class</span> <span class="nc">StopWatch</span><span class="p">(</span><span class="n">OrderedDict</span><span class="p">):</span>
-    <span class="n">fmt</span> <span class="o">=</span> <span class="s2">&quot;{0:30s}  {1:8.3f} s&quot;</span>
+    <span class="n">fmt</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{0:30s}</span><span class="s2">  </span><span class="si">{1:8.3f}</span><span class="s2"> s&quot;</span>
 
     <span class="k">def</span> <span class="nf">tic</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">label</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;label {} already exists&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">label</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;label </span><span class="si">{}</span><span class="s2"> already exists&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">label</span><span class="p">))</span>
         <span class="bp">self</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;----------[ TIMING ]--------------------&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;----------[ TIMING ]--------------------&quot;</span><span class="p">)</span>
         <span class="n">labels</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
         <span class="n">start</span> <span class="o">=</span> <span class="n">labels</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">for</span> <span class="n">stop</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
             <span class="n">dt</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="n">stop</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="p">[</span><span class="n">start</span><span class="p">]</span>
-            <span class="k">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">stop</span><span class="p">,</span> <span class="n">dt</span><span class="p">))</span>
+            <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">stop</span><span class="p">,</span> <span class="n">dt</span><span class="p">))</span>
             <span class="n">start</span> <span class="o">=</span> <span class="n">stop</span>
-        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;----------------------------------------&quot;</span><span class="p">)</span>
-        <span class="k">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;total time&quot;</span><span class="p">,</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;----------------------------------------&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;total time&quot;</span><span class="p">,</span>
                               <span class="bp">self</span><span class="p">[</span><span class="n">labels</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span> <span class="o">-</span> <span class="bp">self</span><span class="p">[</span><span class="n">labels</span><span class="p">[</span><span class="mi">0</span><span class="p">]]))</span>
-        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;----------------------------------------&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;----------------------------------------&quot;</span><span class="p">)</span>
 
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="n">__doc__</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-n&quot;</span><span class="p">,</span> <span class="s2">&quot;--nsplit&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="vm">__doc__</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-n&quot;</span><span class="p">,</span> <span class="s2">&quot;--nsplit&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                         <span class="n">metavar</span><span class="o">=</span><span class="s2">&quot;N&quot;</span><span class="p">,</span>
                         <span class="n">help</span><span class="o">=</span><span class="s2">&quot;split list of trajectories T so that the distance &quot;</span>
                         <span class="s2">&quot;submatrix D[i, j] will be calculated over the cartesian &quot;</span>
@@ -323,10 +313,10 @@ confined to this file.</p>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-f&quot;</span><span class="p">,</span> <span class="s2">&quot;--inputfile&quot;</span><span class="p">,</span>
                         <span class="n">help</span><span class="o">=</span><span class="s2">&quot;JSON file with lists of topologies and &quot;</span>
                         <span class="s2">&quot;trajectories (or use --trajectories/--topologies)&quot;</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--topologies&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s2">&quot;+&quot;</span><span class="p">,</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--topologies&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s2">&quot;+&quot;</span><span class="p">,</span>
                         <span class="n">metavar</span><span class="o">=</span><span class="s2">&quot;TOPOLOGY&quot;</span><span class="p">,</span>
                         <span class="n">help</span><span class="o">=</span><span class="s2">&quot;List of topology files&quot;</span><span class="p">),</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--trajectories&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s2">&quot;+&quot;</span><span class="p">,</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--trajectories&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s2">&quot;+&quot;</span><span class="p">,</span>
                         <span class="n">metavar</span><span class="o">=</span><span class="s2">&quot;TRAJ&quot;</span><span class="p">,</span>
                         <span class="n">help</span><span class="o">=</span><span class="s2">&quot;List of trajectory files&quot;</span><span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-o&quot;</span><span class="p">,</span> <span class="s2">&quot;--outfile&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;distances.npy&quot;</span><span class="p">,</span>
@@ -334,19 +324,19 @@ confined to this file.</p>
     <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
 
     <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">inputfile</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Loading paths from JSON file {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">inputfile</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Loading paths from JSON file </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">inputfile</span><span class="p">))</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">inputfile</span><span class="p">)</span> <span class="k">as</span> <span class="n">inp</span><span class="p">:</span>
             <span class="n">topologies</span><span class="p">,</span> <span class="n">trajectories</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">inp</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Using paths from command line&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Using paths from command line&quot;</span><span class="p">)</span>
         <span class="n">topologies</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">topologies</span>
         <span class="n">trajectories</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">trajectories</span>
 
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">topologies</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">trajectories</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Need exactly one topology file for each trajectory&quot;</span><span class="p">)</span>
 
-    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Processing {} trajectories.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">trajectories</span><span class="p">)))</span>
-    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Splitting trajectories in two blocks of length {0} and {1}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Processing </span><span class="si">{}</span><span class="s2"> trajectories.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">trajectories</span><span class="p">)))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Splitting trajectories in two blocks of length </span><span class="si">{0}</span><span class="s2"> and </span><span class="si">{1}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
          <span class="n">args</span><span class="o">.</span><span class="n">nsplit</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">trajectories</span><span class="p">)</span> <span class="o">-</span> <span class="n">args</span><span class="o">.</span><span class="n">nsplit</span><span class="p">))</span>
 
     <span class="n">timer</span> <span class="o">=</span> <span class="n">StopWatch</span><span class="p">()</span>
@@ -369,7 +359,7 @@ confined to this file.</p>
 
     <span class="n">uA</span> <span class="o">=</span> <span class="n">universes</span><span class="p">[:</span><span class="n">args</span><span class="o">.</span><span class="n">nsplit</span><span class="p">]</span>
     <span class="n">uB</span> <span class="o">=</span> <span class="n">universes</span><span class="p">[</span><span class="n">args</span><span class="o">.</span><span class="n">nsplit</span><span class="p">:]</span>
-    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Calculating D (shape {0} x {1}) with {2} entries&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Calculating D (shape </span><span class="si">{0}</span><span class="s2"> x </span><span class="si">{1}</span><span class="s2">) with </span><span class="si">{2}</span><span class="s2"> entries&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
          <span class="nb">len</span><span class="p">(</span><span class="n">uA</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">uB</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">uA</span><span class="p">)</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">uB</span><span class="p">)))</span>
 
     <span class="n">D</span> <span class="o">=</span> <span class="n">psa_partial</span><span class="p">(</span><span class="n">uA</span><span class="p">,</span> <span class="n">uB</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s2">&quot;discrete_frechet&quot;</span><span class="p">,</span> <span class="n">selection</span><span class="o">=</span><span class="s2">&quot;name CA&quot;</span><span class="p">)</span>
@@ -388,6 +378,7 @@ confined to this file.</p>
 
 
           </div>
+          
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
@@ -442,25 +433,26 @@ confined to this file.</p>
 </ul>
 </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
     </form>
+    </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
+
     <div class="footer">
       &copy;2017, Oliver Beckstein, Ioannis Paraskevakos, Sean Seyler, Andre Merzky, Andre Luckow, Shantenu Jha.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
       <a href="../_sources/code/mdanalysis_psa_partial.rst.txt"
@@ -474,5 +466,12 @@ confined to this file.</p>
     
 
     
+<div class="footer"><p>Please see
+    our <a href="https://www.mdanalysis.org/pages/privacy/">Privacy Policy</a>
+    to learn how <a href="https://www.mdanalysis.org">MDAnalysis</a> collects data.</p>
+    <script data-goatcounter="https://mdanalysis.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+</div>
+
   </body>
 </html>

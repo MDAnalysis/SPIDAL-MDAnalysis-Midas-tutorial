@@ -1,30 +1,19 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
+<!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Installation &#8212; SPIDAL Tutorial: MDAnalysis with Midas 1.2 documentation</title>
-    
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
-        VERSION:     '1.2',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="shortcut icon" href="_static/mdanalysis-logo.ico"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -36,13 +25,14 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
-  </head>
-  <body role="document">
+  </head><body>
   
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
+          
+
           <div class="body" role="main">
             
   <div class="section" id="installation">
@@ -56,8 +46,8 @@ library. First we need to install <strong>MDAnalysis</strong> and
 environment to keep the computational environment (named <em>mdaenv</em>)
 clean for the tutorial.</p>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">You need to set up working environments on any machine where
+<p class="admonition-title">Note</p>
+<p>You need to set up working environments on any machine where
 you want to <em>launch</em> jobs (e.g., a cluster head node, a
 workstation, or your laptop) and <em>run</em> jobs (i.e., typically
 the compute nodes of your cluster).</p>
@@ -65,22 +55,22 @@ the compute nodes of your cluster).</p>
 <div class="section" id="installing-mdanalysis">
 <h2>Installing MDAnalysis<a class="headerlink" href="#installing-mdanalysis" title="Permalink to this headline">¶</a></h2>
 <p>MDAnalysis is full installable with <a class="reference external" href="https://conda.io/docs/intro.html">conda</a> (but if you want to, you
-can also install it directly from source <a class="footnote-reference" href="#devinstall" id="id1">[1]</a>).</p>
+can also install it directly from source <a class="footnote-reference brackets" href="#devinstall" id="id1">1</a>).</p>
 <div class="section" id="id2">
 <h3>conda<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
 <p>Install the <a class="reference external" href="https://www.continuum.io/downloads">anaconda</a> or <a class="reference external" href="https://conda.io/miniconda.html">miniconda</a> distribution (Python 2.7) by
 following the links and the instructions. Install Python 2.7.</p>
 <p>For example, on Linux:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh
 bash Miniconda2-latest-Linux-x86_64.sh
 </pre></div>
 </div>
 <p>Accept the modification of your start-up files; if you later do not
 want to use the anaconda distribution, remove a line like</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span>/home/USERNAME/miniconda2/bin:<span class="nv">$PATH</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span>/home/USERNAME/miniconda2/bin:<span class="nv">$PATH</span>
 </pre></div>
 </div>
-<p>from your <code class="file docutils literal"><span class="pre">~/.bashrc</span></code> file.</p>
+<p>from your <code class="file docutils literal notranslate"><span class="pre">~/.bashrc</span></code> file.</p>
 </div>
 <div class="section" id="mdanalysis-and-dependencies">
 <h3>MDAnalysis and dependencies<a class="headerlink" href="#mdanalysis-and-dependencies" title="Permalink to this headline">¶</a></h3>
@@ -89,21 +79,21 @@ will create a Python 2.7 environment. By installing the <em>MDAnalysis</em>
 and <em>MDAnalysisTests</em> packages we automatically install all
 dependencies as well (such as numpy and scipy as well as various
 plotting and data processing libraries that will be used for plotting
-the results) <a class="footnote-reference" href="#clustalw" id="id3">[2]</a>:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>conda config --add channels conda-forge
+the results) <a class="footnote-reference brackets" href="#clustalw" id="id3">2</a>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda config --add channels conda-forge
 conda update --yes conda
 
-conda create --yes -n mdaenv <span class="nv">python</span><span class="o">=</span>2.7
+conda create --yes -n mdaenv <span class="nv">python</span><span class="o">=</span><span class="m">2</span>.7
 conda install --yes -n mdaenv mdanalysis mdanalysistests
 </pre></div>
 </div>
 <p>Activate the installation (has to be done in every shell):</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nb">source</span> activate mdaenv
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span> activate mdaenv
 </pre></div>
 </div>
-<p>Check success <a class="footnote-reference" href="#prompt" id="id4">[3]</a>:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="o">(</span>mdaenv<span class="o">)</span> $ python -c <span class="s1">&#39;import MDAnalysis as mda; print(mda.__version__)&#39;</span>
-0.16.0
+<p>Check success <a class="footnote-reference brackets" href="#prompt" id="id4">3</a>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">(</span>mdaenv<span class="o">)</span> $ python -c <span class="s1">&#39;import MDAnalysis as mda; print(mda.__version__)&#39;</span>
+<span class="m">0</span>.16.0
 </pre></div>
 </div>
 <p>(This should show a version of 0.16.0 or higher.)</p>
@@ -116,133 +106,121 @@ for details. The following are all the required steps but they leave
 out background details or trouble shooting tips. If something is not
 working, please see <a class="reference external" href="http://radicalpilot.readthedocs.io/en/latest/installation.html">radical.pilot installation instructions</a> or, if
 you are at a workshop, ask an instructor.</p>
-<p>Install in the same virtual environment <a class="footnote-reference" href="#venv" id="id5">[4]</a> as MDAnalysis
-<a class="footnote-reference" href="#prompt" id="id6">[3]</a>:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="o">(</span>mdaenv<span class="o">)</span> $ pip install radical.pilot
+<p>Install in the same virtual environment <a class="footnote-reference brackets" href="#venv" id="id5">4</a> as MDAnalysis
+<a class="footnote-reference brackets" href="#prompt" id="id6">3</a>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">(</span>mdaenv<span class="o">)</span> $ pip install radical.pilot
 </pre></div>
 </div>
-<p>Check success <a class="footnote-reference" href="#prompt" id="id7">[3]</a>:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="o">(</span>mdaenv<span class="o">)</span> $ radicalpilot-version
-0.45.1
+<p>Check success <a class="footnote-reference brackets" href="#prompt" id="id7">3</a>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">(</span>mdaenv<span class="o">)</span> $ radicalpilot-version
+<span class="m">0</span>.45.1
 </pre></div>
 </div>
 <p>You also <a class="reference external" href="https://radicalpilot.readthedocs.io/en/latest/installation.html#mongodb-service">need a MongoDB</a> instance and set the environment variable
-<span class="target" id="index-0"></span><code class="xref std std-envvar docutils literal"><span class="pre">RADICAL_PILOT_DBURL</span></code> either with full username and password
+<span class="target" id="index-0"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">RADICAL_PILOT_DBURL</span></code> either with full username and password
 information</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">RADICAL_PILOT_DBURL</span><span class="o">=</span><span class="s2">&quot;mongodb://user:pass@host:port/dbname&quot;</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">RADICAL_PILOT_DBURL</span><span class="o">=</span><span class="s2">&quot;mongodb://user:pass@host:port/dbname&quot;</span>
 </pre></div>
 </div>
 <p>or, for open installations, just</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">RADICAL_PILOT_DBURL</span><span class="o">=</span><span class="s2">&quot;mongodb://host:port/dbname&quot;</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">RADICAL_PILOT_DBURL</span><span class="o">=</span><span class="s2">&quot;mongodb://host:port/dbname&quot;</span>
 </pre></div>
 </div>
 <p>Note that you can set up a free MongoDB at <a class="reference external" href="http://mlab.com">http://mlab.com</a>.</p>
 <p>If you are doing this tutorial as part of a workshop, the organizers
 will provide you with a working MongoDB installation and instruct you
-what to put into <span class="target" id="index-1"></span><code class="xref std std-envvar docutils literal"><span class="pre">RADICAL_PILOT_DBURL</span></code>.</p>
+what to put into <span class="target" id="index-1"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">RADICAL_PILOT_DBURL</span></code>.</p>
 <p>Finally, set up <a class="reference external" href="http://radicalpilot.readthedocs.io/en/latest/installation.html#setup-ssh-access-to-target-resources">password-less ssh</a> (or password-less gsissh with
 certificates).</p>
 </div>
 <div class="section" id="setting-up-the-environment">
 <h2>Setting up the environment<a class="headerlink" href="#setting-up-the-environment" title="Permalink to this headline">¶</a></h2>
-<p>Although you don&#8217;t need to install the software every time, you do
+<p>Although you don’t need to install the software every time, you do
 need to ensure that you always work in the configured virtual
-environment <em>mdaenv</em> <a class="footnote-reference" href="#venv" id="id8">[4]</a> and that you set set the environment
+environment <em>mdaenv</em> <a class="footnote-reference brackets" href="#venv" id="id8">4</a> and that you set set the environment
 variable for the MongoDB:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nb">source</span> activate mdaenv
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span> activate mdaenv
 <span class="nb">export</span> <span class="nv">RADICAL_PILOT_DBURL</span><span class="o">=</span><span class="s2">&quot;mongodb://user:pass@host:port/dbname&quot;</span>
 </pre></div>
 </div>
 <p class="rubric">Footnotes</p>
-<table class="docutils footnote" frame="void" id="devinstall" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td><p class="first">If for any reason you want to perform a <strong>MDAnalysis
+<dl class="footnote brackets">
+<dt class="label" id="devinstall"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>If for any reason you want to perform a <strong>MDAnalysis
 source installation</strong>, follow these steps to <a class="reference external" href="https://github.com/MDAnalysis/mdanalysis/wiki/Setup-Development-Environment">install MDAnalysis
 devel</a>
 manually.</p>
 <p>The following assumes that you are working in a virtual environment
-or that you do a user installation (<code class="docutils literal"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">--user</span></code> but in
-the following the <code class="docutils literal"><span class="pre">--user</span></code> flag is omitted). It also assumes that
+or that you do a user installation (<code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">--user</span></code> but in
+the following the <code class="docutils literal notranslate"><span class="pre">--user</span></code> flag is omitted). It also assumes that
 you have a complete compiler tool chain installed.</p>
 <p>First get pre-requisites:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>pip install numpy cython
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install numpy cython
 </pre></div>
 </div>
 <p>Get the latest source code from the source code repository (you
 need to have <a class="reference external" href="https://git-scm.com/">git</a> installed):</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>git clone --depth<span class="o">=</span><span class="m">50</span> https://github.com/MDAnalysis/mdanalysis.git
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone --depth<span class="o">=</span><span class="m">50</span> https://github.com/MDAnalysis/mdanalysis.git
 <span class="nb">cd</span> mdanalysis
 </pre></div>
 </div>
 <p>Check that you are on the development branch:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>git branch
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git branch
 </pre></div>
 </div>
 <p>Should show:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>* develop
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>* develop
 </pre></div>
 </div>
 <p>Install development version:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>pip install package/
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install package/
 pip install testsuite/
 </pre></div>
 </div>
-<p>Check as above that you can <code class="docutils literal"><span class="pre">import</span> <span class="pre">MDAnalysis</span></code> (see main text):</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>$ python -c <span class="s1">&#39;import MDAnalysis as mda; print(mda.__version__)&#39;</span>
-0.16.1-dev
+<p>Check as above that you can <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">MDAnalysis</span></code> (see main text):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ python -c <span class="s1">&#39;import MDAnalysis as mda; print(mda.__version__)&#39;</span>
+<span class="m">0</span>.16.1-dev
 </pre></div>
 </div>
 <p>This should show a release number with the <em>-dev</em> suffix to
 indicate a development version.</p>
-</td></tr>
-</tbody>
-</table>
-<table class="docutils footnote" frame="void" id="clustalw" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id3">[2]</a></td><td><p class="first">Optionally, for a full feature environment you may also
+</dd>
+<dt class="label" id="clustalw"><span class="brackets"><a class="fn-backref" href="#id3">2</a></span></dt>
+<dd><p>Optionally, for a full feature environment you may also
 install <strong class="program">clustalw2</strong> (for sequence alignments with
-<a class="reference external" href="http://www.mdanalysis.org/docs/documentation_pages/analysis/align.html#MDAnalysis.analysis.align.fasta2select" title="(in MDAnalysis v0.16)"><code class="xref py py-func docutils literal"><span class="pre">MDAnalysis.analysis.align.fasta2select()</span></code></a>):</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>conda install --yes -n mdaenv -c biobuilds --yes <span class="nv">clustalw</span><span class="o">=</span>2.1
+<a class="reference external" href="https://docs.mdanalysis.org/1.0.0/documentation_pages/analysis/align.html#MDAnalysis.analysis.align.fasta2select" title="(in MDAnalysis v1.0.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">MDAnalysis.analysis.align.fasta2select()</span></code></a>):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda install --yes -n mdaenv -c biobuilds --yes <span class="nv">clustalw</span><span class="o">=</span><span class="m">2</span>.1
 </pre></div>
 </div>
-<p class="last">This is not required for this tutorial but if you start using
+<p>This is not required for this tutorial but if you start using
 MDAnalysis for other projects, you might want to be able to use all
 features without having to think about installing additional
 optional dependencies later.</p>
-</td></tr>
-</tbody>
-</table>
-<table class="docutils footnote" frame="void" id="prompt" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label">[3]</td><td><em>(<a class="fn-backref" href="#id4">1</a>, <a class="fn-backref" href="#id6">2</a>, <a class="fn-backref" href="#id7">3</a>)</em> In the following, the shell&#8217;s prompt is shown as
-<code class="docutils literal"><span class="pre">(mdaenv)</span> <span class="pre">$</span></code> and should <em>not</em> be typed. It is supposed
+</dd>
+<dt class="label" id="prompt"><span class="brackets">3</span><span class="fn-backref">(<a href="#id4">1</a>,<a href="#id6">2</a>,<a href="#id7">3</a>)</span></dt>
+<dd><p>In the following, the shell’s prompt is shown as
+<code class="docutils literal notranslate"><span class="pre">(mdaenv)</span> <span class="pre">$</span></code> and should <em>not</em> be typed. It is supposed
 to remind you that you <em>must be in the virtual
-environment</em> <a class="footnote-reference" href="#venv" id="id9">[4]</a>. Only type what follows after the
+environment</em> <a class="footnote-reference brackets" href="#venv" id="id9">4</a>. Only type what follows after the
 prompt. If the commands give any output, it is shown on
-the lines following the input.</td></tr>
-</tbody>
-</table>
-<table class="docutils footnote" frame="void" id="venv" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label">[4]</td><td><em>(<a class="fn-backref" href="#id5">1</a>, <a class="fn-backref" href="#id8">2</a>, <a class="fn-backref" href="#id9">3</a>)</em> <p>Do not forget to activate the <em>mdaenv</em> environment whenever
+the lines following the input.</p>
+</dd>
+<dt class="label" id="venv"><span class="brackets">4</span><span class="fn-backref">(<a href="#id5">1</a>,<a href="#id8">2</a>,<a href="#id9">3</a>)</span></dt>
+<dd><p>Do not forget to activate the <em>mdaenv</em> environment whenever
 you open a new terminal:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nb">source</span> activate mdaenv
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span> activate mdaenv
 </pre></div>
 </div>
-<p class="last">Otherwise, you will probably find that scripts cannot find
+<p>Otherwise, you will probably find that scripts cannot find
 MDAnalysis or radical.pilot.</p>
-</td></tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </div>
 </div>
 
 
           </div>
+          
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
@@ -295,25 +273,26 @@ MDAnalysis or radical.pilot.</p>
 </ul>
 </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
     </form>
+    </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
+
     <div class="footer">
       &copy;2017, Oliver Beckstein, Ioannis Paraskevakos, Sean Seyler, Andre Merzky, Andre Luckow, Shantenu Jha.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
       <a href="_sources/installation.rst.txt"
@@ -327,5 +306,12 @@ MDAnalysis or radical.pilot.</p>
     
 
     
+<div class="footer"><p>Please see
+    our <a href="https://www.mdanalysis.org/pages/privacy/">Privacy Policy</a>
+    to learn how <a href="https://www.mdanalysis.org">MDAnalysis</a> collects data.</p>
+    <script data-goatcounter="https://mdanalysis.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+</div>
+
   </body>
 </html>

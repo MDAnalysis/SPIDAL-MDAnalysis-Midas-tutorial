@@ -1,30 +1,19 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
+<!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tutorial &#8212; SPIDAL Tutorial: MDAnalysis with Midas 1.2 documentation</title>
-    
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
-        VERSION:     '1.2',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="shortcut icon" href="_static/mdanalysis-logo.ico"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -36,13 +25,14 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
-  </head>
-  <body role="document">
+  </head><body>
   
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
+          
+
           <div class="body" role="main">
             
   <div class="section" id="tutorial">
@@ -57,21 +47,21 @@ reduce-step and analysis of the data.</p>
 <strong class="program">mdanalysis_psa_partial.py</strong> as two lists in a JSON file (see
 <a class="reference internal" href="code/mdanalysis_psa_partial.html#mdanalysis-psa-partial"><span class="std std-ref">mdanalysis_psa_partial.py</span></a> for more details). Initially we just
 want to check that the script can process the data</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="o">(</span>mdaenv<span class="o">)</span> $ <span class="nv">$RPDIR</span>/mdanalysis_psa_partial.py --inputfile testcase.json -n 5
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">(</span>mdaenv<span class="o">)</span> $ <span class="nv">$RPDIR</span>/mdanalysis_psa_partial.py --inputfile testcase.json -n <span class="m">5</span>
 </pre></div>
 </div>
 <p>This means</p>
 <ul class="simple">
-<li>use the test case</li>
-<li>compare the first 5 trajectories against the remaining 5
-trajectories</li>
+<li><p>use the test case</p></li>
+<li><p>compare the first 5 trajectories against the remaining 5
+trajectories</p></li>
 </ul>
-<p>The <code class="docutils literal"><span class="pre">-n</span></code> (split) argument is important because we are going to use
+<p>The <code class="docutils literal notranslate"><span class="pre">-n</span></code> (split) argument is important because we are going to use
 it to decompose the full distance matrix into sub-matrices. (If you
 just want to do all-vs-all comparisons, use the
 <strong class="program">mdanalysis_psa.py</strong> script.)</p>
 <p>You should see output like</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>Loading paths from JSON file testcase.json
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Loading paths from JSON file testcase.json
 Processing 10 trajectories.
 Splitting trajectories in two blocks of length 5 and 5
 Calculating D (shape 5 x 5) with 25 entries
@@ -87,11 +77,11 @@ total time                         2.111 s
 </div>
 <p>This indicates that all MDAnalysis parts are working.</p>
 <p>Similarly:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="o">(</span>mdaenv<span class="o">)</span> $ <span class="nv">$RPDIR</span>/mdanalysis_psa_partial.py --inputfile testcase.json -n 7
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">(</span>mdaenv<span class="o">)</span> $ <span class="nv">$RPDIR</span>/mdanalysis_psa_partial.py --inputfile testcase.json -n <span class="m">7</span>
 </pre></div>
 </div>
 <p>should give something like</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>Loading paths from JSON file testcase.json
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Loading paths from JSON file testcase.json
 Processing 10 trajectories.
 Splitting trajectories in two blocks of length 7 and 3
 Calculating D (shape 7 x 3) with 21 entries
@@ -112,23 +102,20 @@ total time                         1.991 s
 run the calculations on 32 cores but any cluster or even a multi core
 workstation might be sufficient.</p>
 <ul>
-<li><p class="first">Make sure all env vars are set (especially MongoDB,
-<span class="target" id="index-0"></span><code class="xref std std-envvar docutils literal"><span class="pre">RADICAL_PILOT_DBURL</span></code>) and password-less ssh works.</p>
-</li>
-<li><p class="first">On stampede: Set environment variable  <span class="target" id="index-1"></span><code class="xref std std-envvar docutils literal"><span class="pre">RADICAL_PILOT_PROJECT</span></code> to your
+<li><p>Make sure all env vars are set (especially MongoDB,
+<span class="target" id="index-0"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">RADICAL_PILOT_DBURL</span></code>) and password-less ssh works.</p></li>
+<li><p>On stampede: Set environment variable  <span class="target" id="index-1"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">RADICAL_PILOT_PROJECT</span></code> to your
 XSEDE allocation:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">RADICAL_PILOT_PROJECT</span><span class="o">=</span>TG-xxxxxx
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">RADICAL_PILOT_PROJECT</span><span class="o">=</span>TG-xxxxxx
 </pre></div>
 </div>
 </li>
-<li><p class="first">Activate the <em>mdaenv</em> environment.</p>
-</li>
-<li><p class="first">You should have the JSON files in the <code class="docutils literal"><span class="pre">WORK</span></code> directory.</p>
-</li>
+<li><p>Activate the <em>mdaenv</em> environment.</p></li>
+<li><p>You should have the JSON files in the <code class="docutils literal notranslate"><span class="pre">WORK</span></code> directory.</p></li>
 </ul>
 <p>Copy the two scripts to the WORK directory (at the moment, this is a
 limitation of the scripts to keep them simple)L</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nb">cd</span> WORK
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> WORK
 cp <span class="nv">$RPDIR</span>/<span class="o">{</span>rp_psa.py,mdanalysis_psa_partial.py<span class="o">}</span> .
 </pre></div>
 </div>
@@ -141,7 +128,7 @@ cp <span class="nv">$RPDIR</span>/<span class="o">{</span>rp_psa.py,mdanalysis_p
 details). In the following, important parts of the script are
 explained.</p>
 <p>First, a session is created and a Pilot Manager is initialized:</p>
-<div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>65
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>65
 66
 67
 68
@@ -150,12 +137,12 @@ explained.</p>
         <span class="n">c</span>         <span class="o">=</span> <span class="n">rp</span><span class="o">.</span><span class="n">Context</span> <span class="p">(</span><span class="s1">&#39;ssh&#39;</span><span class="p">)</span>
         <span class="n">session</span><span class="o">.</span><span class="n">add_context</span> <span class="p">(</span><span class="n">c</span><span class="p">)</span>
 
-        <span class="k">print</span> <span class="s2">&quot;initialize pilot manager ...&quot;</span>
+        <span class="nb">print</span> <span class="s2">&quot;initialize pilot manager ...&quot;</span>
         <span class="n">pmgr</span> <span class="o">=</span> <span class="n">rp</span><span class="o">.</span><span class="n">PilotManager</span> <span class="p">(</span><span class="n">session</span><span class="o">=</span><span class="n">session</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <p>Second, a ComputePilot is described and submitted to the Pilot Manager:</p>
-<div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>73
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>73
 74
 75
 76
@@ -169,7 +156,7 @@ explained.</p>
         <span class="n">pdesc</span><span class="o">.</span><span class="n">runtime</span>  <span class="o">=</span> <span class="mi">20</span> <span class="c1"># minutes</span>
         <span class="n">pdesc</span><span class="o">.</span><span class="n">cores</span>    <span class="o">=</span> <span class="n">cores</span>
         <span class="n">pdesc</span><span class="o">.</span><span class="n">project</span>  <span class="o">=</span> <span class="n">PROJECT</span> <span class="c1">#Project allocation, pass through env var PROJECT</span>
-        <span class="n">pdesc</span><span class="o">.</span><span class="n">cleanup</span>  <span class="o">=</span> <span class="bp">False</span>
+        <span class="n">pdesc</span><span class="o">.</span><span class="n">cleanup</span>  <span class="o">=</span> <span class="kc">False</span>
         <span class="n">pdesc</span><span class="o">.</span><span class="n">access_schema</span> <span class="o">=</span> <span class="s1">&#39;ssh&#39;</span>
 
         <span class="c1"># submit the pilot.</span>
@@ -177,7 +164,7 @@ explained.</p>
 </pre></div>
 </td></tr></table></div>
 <p>First, a Unit Manager is created for that session and the Pilot is added:</p>
-<div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>85
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>85
 86
 87
 88</pre></div></td><td class="code"><div class="highlight"><pre><span></span>        <span class="n">umgr</span> <span class="o">=</span> <span class="n">rp</span><span class="o">.</span><span class="n">UnitManager</span>  <span class="p">(</span><span class="n">session</span><span class="o">=</span><span class="n">session</span><span class="p">,</span> <span class="n">scheduler</span><span class="o">=</span><span class="n">rp</span><span class="o">.</span><span class="n">SCHED_DIRECT_SUBMISSION</span><span class="p">)</span>
@@ -187,13 +174,13 @@ explained.</p>
 </pre></div>
 </td></tr></table></div>
 <p>The script reads the topology and trajectory files from a JSON file:</p>
-<div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>91
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>91
 92</pre></div></td><td class="code"><div class="highlight"><pre><span></span>        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">FILELIST</span><span class="p">)</span> <span class="k">as</span> <span class="n">inp</span><span class="p">:</span>
             <span class="n">topologies</span><span class="p">,</span> <span class="n">trajectories</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">inp</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <p>The MDAnalysis script is staged</p>
-<div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 99
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 99
 100
 101
 102
@@ -222,12 +209,12 @@ explained.</p>
         <span class="n">pilot</span><span class="o">.</span><span class="n">stage_in</span><span class="p">(</span><span class="n">fname_stage</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
-<p>In a loop, a CU is set up for each block matrix &#8212; this is the
+<p>In a loop, a CU is set up for each block matrix — this is the
 <strong>map</strong> step. In particular, the trajectories are partitioned
-according to the <code class="docutils literal"><span class="pre">BLOCK_SIZE</span></code> (the parameter <span class="math">\(w\)</span>) and all
+according to the <code class="docutils literal notranslate"><span class="pre">BLOCK_SIZE</span></code> (the parameter <span class="math notranslate nohighlight">\(w\)</span>) and all
 necessary information is written to a JSON file that will be used as
 the input for the <strong class="program">mdanalysis_psa_partial.py</strong> script:</p>
-<div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>115
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>115
 116
 117
 118
@@ -311,19 +298,19 @@ the input for the <strong class="program">mdanalysis_psa_partial.py</strong> scr
                           <span class="s1">&#39;action&#39;</span><span class="p">:</span> <span class="n">rp</span><span class="o">.</span><span class="n">LINK</span><span class="p">}</span>
                 <span class="n">fshared</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">shared</span><span class="p">)</span>
 
-                <span class="n">shared</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;source&#39;</span><span class="p">:</span> <span class="s1">&#39;file://{0}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">trajectory</span><span class="p">),</span>
+                <span class="n">shared</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;source&#39;</span><span class="p">:</span> <span class="s1">&#39;file://</span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">trajectory</span><span class="p">),</span>
                            <span class="s1">&#39;target&#39;</span> <span class="p">:</span> <span class="n">basename</span><span class="p">(</span><span class="n">trajectory</span><span class="p">),</span>
                            <span class="s1">&#39;action&#39;</span> <span class="p">:</span> <span class="n">rp</span><span class="o">.</span><span class="n">LINK</span><span class="p">}</span>
                               <span class="k">for</span> <span class="n">trajectory</span> <span class="ow">in</span> <span class="n">trajectories</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="n">BLOCK_SIZE</span><span class="p">]]</span>
                 <span class="n">fshared</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">shared</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">i</span><span class="o">!=</span><span class="n">j</span><span class="p">:</span>
-                    <span class="n">shared</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;source&#39;</span><span class="p">:</span> <span class="s1">&#39;file://{0}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">trajectory</span><span class="p">),</span>
+                    <span class="n">shared</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;source&#39;</span><span class="p">:</span> <span class="s1">&#39;file://</span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">trajectory</span><span class="p">),</span>
                                <span class="s1">&#39;target&#39;</span> <span class="p">:</span> <span class="n">basename</span><span class="p">(</span><span class="n">trajectory</span><span class="p">),</span>
                                <span class="s1">&#39;action&#39;</span> <span class="p">:</span> <span class="n">rp</span><span class="o">.</span><span class="n">LINK</span><span class="p">}</span>
                                   <span class="k">for</span> <span class="n">trajectory</span> <span class="ow">in</span> <span class="n">trajectories</span><span class="p">[</span><span class="n">j</span><span class="p">:</span><span class="n">j</span><span class="o">+</span><span class="n">BLOCK_SIZE</span><span class="p">]]</span>
                     <span class="n">fshared</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">shared</span><span class="p">)</span>
                 <span class="c1"># always copy all unique topology files</span>
-                <span class="n">shared</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;source&#39;</span><span class="p">:</span> <span class="s1">&#39;file://{0}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">topology</span><span class="p">),</span>
+                <span class="n">shared</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;source&#39;</span><span class="p">:</span> <span class="s1">&#39;file://</span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">topology</span><span class="p">),</span>
                            <span class="s1">&#39;target&#39;</span> <span class="p">:</span> <span class="n">basename</span><span class="p">(</span><span class="n">topology</span><span class="p">),</span>
                            <span class="s1">&#39;action&#39;</span> <span class="p">:</span> <span class="n">rp</span><span class="o">.</span><span class="n">LINK</span><span class="p">}</span>
                           <span class="k">for</span> <span class="n">topology</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">topologies</span><span class="p">)]</span>
@@ -342,9 +329,9 @@ the input for the <strong class="program">mdanalysis_psa_partial.py</strong> scr
 </span><span class="hll">                <span class="n">jmax</span> <span class="o">=</span> <span class="n">j</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">trajectories</span><span class="p">[</span><span class="n">j</span><span class="p">:</span><span class="n">j</span><span class="o">+</span><span class="n">BLOCK_SIZE</span><span class="p">])</span>
 </span><span class="hll">                <span class="c1"># should remember i, imax and j_jmax because we calculate the</span>
 </span><span class="hll">                <span class="c1"># submatrix D[i:i+di, j:j+dj] in this CU.</span>
-</span><span class="hll">                <span class="n">block_json</span> <span class="o">=</span> <span class="s2">&quot;block-{0}-{1}__{2}-{3}.json&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+</span><span class="hll">                <span class="n">block_json</span> <span class="o">=</span> <span class="s2">&quot;block-</span><span class="si">{0}</span><span class="s2">-</span><span class="si">{1}</span><span class="s2">__</span><span class="si">{2}</span><span class="s2">-</span><span class="si">{3}</span><span class="s2">.json&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
 </span><span class="hll">                    <span class="n">i</span><span class="p">,</span> <span class="n">imax</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">jmax</span><span class="p">)</span>
-</span><span class="hll">                <span class="n">block_matrixfile</span> <span class="o">=</span> <span class="s1">&#39;subdistances_{0}-{1}__{2}-{3}.npy&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+</span><span class="hll">                <span class="n">block_matrixfile</span> <span class="o">=</span> <span class="s1">&#39;subdistances_</span><span class="si">{0}</span><span class="s1">-</span><span class="si">{1}</span><span class="s1">__</span><span class="si">{2}</span><span class="s1">-</span><span class="si">{3}</span><span class="s1">.npy&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
 </span><span class="hll">                    <span class="n">i</span><span class="p">,</span> <span class="n">imax</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">jmax</span><span class="p">)</span>
 </span><span class="hll">
 </span><span class="hll">                <span class="n">manifest</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">block_matrixfile</span><span class="p">,</span> <span class="n">block_json</span><span class="p">,</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">imax</span><span class="p">),</span> <span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">jmax</span><span class="p">)))</span>
@@ -354,7 +341,7 @@ the input for the <strong class="program">mdanalysis_psa_partial.py</strong> scr
 </span><span class="hll">                    <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="n">out</span><span class="p">)</span>
 </span><span class="hll">
 </span><span class="hll">                <span class="c1"># share input json file</span>
-</span><span class="hll">                <span class="n">shared</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;source&#39;</span><span class="p">:</span> <span class="s1">&#39;file://{0}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="n">block_json</span><span class="p">)),</span>
+</span><span class="hll">                <span class="n">shared</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;source&#39;</span><span class="p">:</span> <span class="s1">&#39;file://</span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="n">block_json</span><span class="p">)),</span>
 </span><span class="hll">                           <span class="s1">&#39;target&#39;</span> <span class="p">:</span> <span class="n">basename</span><span class="p">(</span><span class="n">block_json</span><span class="p">),</span>
 </span><span class="hll">                           <span class="s1">&#39;action&#39;</span> <span class="p">:</span> <span class="n">rp</span><span class="o">.</span><span class="n">LINK</span><span class="p">}</span>
 </span><span class="hll">                <span class="p">]</span>
@@ -380,15 +367,15 @@ the input for the <strong class="program">mdanalysis_psa_partial.py</strong> scr
 </td></tr></table></div>
 <p>For the <a class="reference internal" href="#section-reduce-step"><span class="std std-ref">reduce step</span></a>, all information
 about the block matrix (filename and indices in the distance matrix)
-are written to a JSON file (&#8220;manifest&#8221;):</p>
-<div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>193
+are written to a JSON file (“manifest”):</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>193
 194</pre></div></td><td class="code"><div class="highlight"><pre><span></span>        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">MANIFEST_NAME</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">outfile</span><span class="p">:</span>
             <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">manifest</span><span class="p">,</span> <span class="n">outfile</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <p>Finally, the CUs are submitted to execute on the compute resources and
 the script waits until they are all complete:</p>
-<div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>197
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>197
 198
 199
 200
@@ -406,18 +393,18 @@ the script waits until they are all complete:</p>
 <h3>Launch pilot jobs<a class="headerlink" href="#launch-pilot-jobs" title="Permalink to this headline">¶</a></h3>
 <p>Launch the pilot job from the login node of stampede (or the cluster
 where you set up your radical.pilot environment):</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>python rp_psa.py trajectories.json <span class="m">20</span> <span class="m">16</span> SPIDAL.001
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python rp_psa.py trajectories.json <span class="m">20</span> <span class="m">16</span> SPIDAL.001
 </pre></div>
 </div>
 <p>The <strong class="program">rp_psa.py</strong> radical.pilot script takes as input (see
 <a class="reference internal" href="code/rp_psa.html#rp-psa"><span class="std std-ref">rp_psa.py</span></a> for details):</p>
 <ul class="simple">
-<li>the JSON file with the trajectories (trajectories.json)</li>
-<li>number of trajectories per block (20)</li>
-<li>number of cores to request (16)</li>
-<li>session name (arbitrary string, &#8220;SPIDAL.001&#8221;); note that you
+<li><p>the JSON file with the trajectories (trajectories.json)</p></li>
+<li><p>number of trajectories per block (20)</p></li>
+<li><p>number of cores to request (16)</p></li>
+<li><p>session name (arbitrary string, “SPIDAL.001”); note that you
 need to provide a new session name every time you-rerun the command,
-e.g. &#8220;SPIDAL.002&#8221;, &#8220;SPIDAL.003&#8221;, ...</li>
+e.g. “SPIDAL.002”, “SPIDAL.003”, …</p></li>
 </ul>
 </div>
 </div>
@@ -425,18 +412,18 @@ e.g. &#8220;SPIDAL.002&#8221;, &#8220;SPIDAL.003&#8221;, ...</li>
 <span id="section-reduce-step"></span><h2>Reduce-step<a class="headerlink" href="#reduce-step" title="Permalink to this headline">¶</a></h2>
 <p>Once the pilot jobs has completed and all block matrices have been
 computed we combine all data (<strong>reduce</strong>) into the distance matrix
-<span class="math">\(D_{ij}\)</span> and analyze it:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>psa_reduce.py -t trajectories.json -m manifest.json <span class="se">\</span>
+<span class="math notranslate nohighlight">\(D_{ij}\)</span> and analyze it:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>psa_reduce.py -t trajectories.json -m manifest.json <span class="se">\</span>
               -p psa_plot.pdf -o distance_matrix.npy
 </pre></div>
 </div>
 <div class="section" id="combine-block-matrices">
 <h3>Combine block matrices<a class="headerlink" href="#combine-block-matrices" title="Permalink to this headline">¶</a></h3>
-<p>The <code class="docutils literal"><span class="pre">manifest.json</span></code> file contains all information that is needed to
+<p>The <code class="docutils literal notranslate"><span class="pre">manifest.json</span></code> file contains all information that is needed to
 re-assemble the distance matrix: for each output file it also stores
 the indices of the sub-matrix in the distance matrix and so the full
 distance matrix can be built with</p>
-<div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
  4
@@ -471,26 +458,26 @@ distance matrix can be built with</p>
             <span class="n">missing</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">subD</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">missing</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;WARNING: Missing data: output files</span><span class="se">\n</span><span class="s2">{}</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;WARNING: Missing data: output files</span><span class="se">\n</span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span>
               <span class="s2">&quot;could not be found&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">missing</span><span class="p">)))</span>
 
     <span class="k">return</span> <span class="n">D</span>
 </pre></div>
 </td></tr></table></div>
-<p>The matrix is written to a numpy file <code class="docutils literal"><span class="pre">distance_matrix.npy</span></code> (and can
-be loaded with <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.load.html#numpy.load" title="(in NumPy v1.13)"><code class="xref py py-func docutils literal"><span class="pre">numpy.load()</span></code></a>).</p>
+<p>The matrix is written to a numpy file <code class="docutils literal notranslate"><span class="pre">distance_matrix.npy</span></code> (and can
+be loaded with <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.load.html#numpy.load" title="(in NumPy v1.19)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.load()</span></code></a>).</p>
 </div>
 <div class="section" id="analysis">
 <h3>Analysis<a class="headerlink" href="#analysis" title="Permalink to this headline">¶</a></h3>
 <p>The distance matrix can be clustered to reveal patterns in the
-trajectories. Here we use hierarchical clustering with <a class="reference external" href="https://en.wikipedia.org/wiki/Ward's_method">Ward&#8217;s linkage
-criterion</a> as implemented in <code class="xref py py-mod docutils literal"><span class="pre">scipy.cluster.hierarchy</span></code>
-<a class="reference internal" href="references.html#seyler2015" id="id1">[Seyler2015]</a>. The clustering and plotting code was taken from the
-<a class="reference external" href="http://www.mdanalysis.org/docs/documentation_pages/analysis/psa.html#MDAnalysis.analysis.psa.PSAnalysis.cluster" title="(in MDAnalysis v0.16)"><code class="xref py py-meth docutils literal"><span class="pre">cluster()</span></code></a> and
-<a class="reference external" href="http://www.mdanalysis.org/docs/documentation_pages/analysis/psa.html#MDAnalysis.analysis.psa.PSAnalysis.plot" title="(in MDAnalysis v0.16)"><code class="xref py py-meth docutils literal"><span class="pre">plot()</span></code></a> methods of
-<a class="reference external" href="http://www.mdanalysis.org/docs/documentation_pages/analysis/psa.html#MDAnalysis.analysis.psa.PSAnalysis" title="(in MDAnalysis v0.16)"><code class="xref py py-class docutils literal"><span class="pre">PSAnalysis</span></code></a>. The plotting code is
+trajectories. Here we use hierarchical clustering with <a class="reference external" href="https://en.wikipedia.org/wiki/Ward's_method">Ward’s linkage
+criterion</a> as implemented in <code class="xref py py-mod docutils literal notranslate"><span class="pre">scipy.cluster.hierarchy</span></code>
+<a class="reference internal" href="references.html#seyler2015" id="id1"><span>[Seyler2015]</span></a>. The clustering and plotting code was taken from the
+<a class="reference external" href="https://docs.mdanalysis.org/1.0.0/documentation_pages/analysis/psa.html#MDAnalysis.analysis.psa.PSAnalysis.cluster" title="(in MDAnalysis v1.0.0)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">cluster()</span></code></a> and
+<a class="reference external" href="https://docs.mdanalysis.org/1.0.0/documentation_pages/analysis/psa.html#MDAnalysis.analysis.psa.PSAnalysis.plot" title="(in MDAnalysis v1.0.0)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">plot()</span></code></a> methods of
+<a class="reference external" href="https://docs.mdanalysis.org/1.0.0/documentation_pages/analysis/psa.html#MDAnalysis.analysis.psa.PSAnalysis" title="(in MDAnalysis v1.0.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">PSAnalysis</span></code></a>. The plotting code is
 fairly complicated but the clustering is straightforward:</p>
-<div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
  4
@@ -522,8 +509,8 @@ fairly complicated but the clustering is straightforward:</p>
 30
 31
 32
-33</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">cluster</span><span class="p">(</span><span class="n">distArray</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;ward&#39;</span><span class="p">,</span> <span class="n">count_sort</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
-            <span class="n">distance_sort</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">no_plot</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">no_labels</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+33</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">cluster</span><span class="p">(</span><span class="n">distArray</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;ward&#39;</span><span class="p">,</span> <span class="n">count_sort</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">distance_sort</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">no_plot</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">no_labels</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">color_threshold</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Cluster trajectories and optionally plot the dendrogram.</span>
 
@@ -559,30 +546,30 @@ fairly complicated but the clustering is straightforward:</p>
 </td></tr></table></div>
 <p>In the resulting plot we indicate FRODA trajectories with a heavy
 double-bar and DIMS trajectories with a thin single bar.</p>
-<div class="figure" id="id3">
+<div class="figure align-default" id="id3">
 <span id="figure-psa"></span><img alt="Clustered PSA distance matrix" src="_images/psa_distance_matrix.png" />
 <p class="caption"><span class="caption-text"><strong>PSA of AdK transitions</strong>. Transitions of AdK from the closed to
 the open conformation were generated with the DIMS MD and the FRODA
 method. <em>Path similarity analysis</em> (PSA) was performed by
 hierarchically clustering the matrix of Fréchet distances between
-all trajectories, using <a class="reference external" href="https://en.wikipedia.org/wiki/Ward's_method">Ward&#8217;s linkage criterion</a>.</span></p>
+all trajectories, using <a class="reference external" href="https://en.wikipedia.org/wiki/Ward's_method">Ward’s linkage criterion</a>.</span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
 <div class="legend">
-<table border="1" class="docutils">
+<table class="docutils align-default">
 <colgroup>
-<col width="28%" />
-<col width="72%" />
+<col style="width: 28%" />
+<col style="width: 72%" />
 </colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">Symbol</th>
-<th class="head">Method</th>
+<thead>
+<tr class="row-odd"><th class="head"><p>Symbol</p></th>
+<th class="head"><p>Method</p></th>
 </tr>
 </thead>
-<tbody valign="top">
-<tr class="row-even"><td><cite>||</cite></td>
-<td>FRODA</td>
+<tbody>
+<tr class="row-even"><td><p><cite>||</cite></p></td>
+<td><p>FRODA</p></td>
 </tr>
-<tr class="row-odd"><td><cite>|</cite></td>
-<td>DIMS</td>
+<tr class="row-odd"><td><p><cite>|</cite></p></td>
+<td><p>DIMS</p></td>
 </tr>
 </tbody>
 </table>
@@ -592,14 +579,15 @@ all trajectories, using <a class="reference external" href="https://en.wikipedia
 are different from each other. Each method produces transitions that
 are characteristic of the method itself. In a comparison of many different
 transition path sampling methods it was also found that this pattern
-generally holds, which indicates that there is likely no &#8220;best&#8221; method
-yet <a class="reference internal" href="references.html#seyler2015" id="id2">[Seyler2015]</a>.</p>
+generally holds, which indicates that there is likely no “best” method
+yet <a class="reference internal" href="references.html#seyler2015" id="id2"><span>[Seyler2015]</span></a>.</p>
 </div>
 </div>
 </div>
 
 
           </div>
+          
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
@@ -652,25 +640,26 @@ yet <a class="reference internal" href="references.html#seyler2015" id="id2">[Se
 </ul>
 </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
     </form>
+    </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
+
     <div class="footer">
       &copy;2017, Oliver Beckstein, Ioannis Paraskevakos, Sean Seyler, Andre Merzky, Andre Luckow, Shantenu Jha.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
       <a href="_sources/tutorial.rst.txt"
@@ -684,5 +673,12 @@ yet <a class="reference internal" href="references.html#seyler2015" id="id2">[Se
     
 
     
+<div class="footer"><p>Please see
+    our <a href="https://www.mdanalysis.org/pages/privacy/">Privacy Policy</a>
+    to learn how <a href="https://www.mdanalysis.org">MDAnalysis</a> collects data.</p>
+    <script data-goatcounter="https://mdanalysis.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+</div>
+
   </body>
 </html>

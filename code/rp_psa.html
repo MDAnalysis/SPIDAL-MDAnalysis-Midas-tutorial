@@ -1,30 +1,19 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
+<!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>rp_psa.py &#8212; SPIDAL Tutorial: MDAnalysis with Midas 1.2 documentation</title>
-    
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../',
-        VERSION:     '1.2',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="shortcut icon" href="../_static/mdanalysis-logo.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -36,26 +25,27 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
-  </head>
-  <body role="document">
+  </head><body>
   
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
+          
+
           <div class="body" role="main">
             
   <div class="section" id="rp-psa-py">
 <span id="rp-psa"></span><h1>rp_psa.py<a class="headerlink" href="#rp-psa-py" title="Permalink to this headline">¶</a></h1>
-<p>The <code class="file docutils literal"><span class="pre">rp/rp_psa.py</span></code> script sets up and executes the radical.pilot
+<p>The <code class="file docutils literal notranslate"><span class="pre">rp/rp_psa.py</span></code> script sets up and executes the radical.pilot
 job. It implements the <em>map</em> logic and splits the distance matrix
 computation into sub-blocks (one block per compute unit). It uses
 <a class="reference internal" href="mdanalysis_psa_partial.html"><span class="doc">mdanalysis_psa_partial.py</span></a> to perform the calculation. Importantly,
-it generates a JSON file with the &#8220;key/value&#8221; pairs (indices into the
+it generates a JSON file with the “key/value” pairs (indices into the
 full PSA distance matrix/filenames of the sub-block matrices) that are
 necessary for the <em>reduce</em> step that is performed with
 <a class="reference internal" href="psa_reduce.html"><span class="doc">psa_reduce.py</span></a>.</p>
-<div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>  1
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>  1
   2
   3
   4
@@ -339,12 +329,12 @@ necessary for the <em>reduce</em> step that is performed with
 <span class="c1"># os.environ[&#39;RADICAL_PILOT_LOG_TGT&#39;]=&#39;/tmp/rp.log&#39;</span>
 
 <span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">import</span> <span class="nn">radical.pilot</span> <span class="kn">as</span> <span class="nn">rp</span>
+<span class="kn">import</span> <span class="nn">radical.pilot</span> <span class="k">as</span> <span class="nn">rp</span>
 
 <span class="kn">import</span> <span class="nn">json</span>
 
 <span class="c1">#----------------------------------------------------------------------------</span>
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
 
     <span class="n">MY_STAGING_AREA</span> <span class="o">=</span> <span class="s1">&#39;staging:///&#39;</span>
     <span class="n">SHARED_MDA_SCRIPT</span> <span class="o">=</span> <span class="s1">&#39;mdanalysis_psa_partial.py&#39;</span>
@@ -366,7 +356,7 @@ necessary for the <em>reduce</em> step that is performed with
         <span class="n">c</span>         <span class="o">=</span> <span class="n">rp</span><span class="o">.</span><span class="n">Context</span> <span class="p">(</span><span class="s1">&#39;ssh&#39;</span><span class="p">)</span>
         <span class="n">session</span><span class="o">.</span><span class="n">add_context</span> <span class="p">(</span><span class="n">c</span><span class="p">)</span>
 
-        <span class="k">print</span> <span class="s2">&quot;initialize pilot manager ...&quot;</span>
+        <span class="nb">print</span> <span class="s2">&quot;initialize pilot manager ...&quot;</span>
         <span class="n">pmgr</span> <span class="o">=</span> <span class="n">rp</span><span class="o">.</span><span class="n">PilotManager</span> <span class="p">(</span><span class="n">session</span><span class="o">=</span><span class="n">session</span><span class="p">)</span>
         <span class="c1">#pmgr.register_callback (pilot_state_cb)</span>
 
@@ -375,7 +365,7 @@ necessary for the <em>reduce</em> step that is performed with
         <span class="n">pdesc</span><span class="o">.</span><span class="n">runtime</span>  <span class="o">=</span> <span class="mi">20</span> <span class="c1"># minutes</span>
         <span class="n">pdesc</span><span class="o">.</span><span class="n">cores</span>    <span class="o">=</span> <span class="n">cores</span>
         <span class="n">pdesc</span><span class="o">.</span><span class="n">project</span>  <span class="o">=</span> <span class="n">PROJECT</span> <span class="c1">#Project allocation, pass through env var PROJECT</span>
-        <span class="n">pdesc</span><span class="o">.</span><span class="n">cleanup</span>  <span class="o">=</span> <span class="bp">False</span>
+        <span class="n">pdesc</span><span class="o">.</span><span class="n">cleanup</span>  <span class="o">=</span> <span class="kc">False</span>
         <span class="n">pdesc</span><span class="o">.</span><span class="n">access_schema</span> <span class="o">=</span> <span class="s1">&#39;ssh&#39;</span>
 
         <span class="c1"># submit the pilot.</span>
@@ -422,19 +412,19 @@ necessary for the <em>reduce</em> step that is performed with
                           <span class="s1">&#39;action&#39;</span><span class="p">:</span> <span class="n">rp</span><span class="o">.</span><span class="n">LINK</span><span class="p">}</span>
                 <span class="n">fshared</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">shared</span><span class="p">)</span>
 
-                <span class="n">shared</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;source&#39;</span><span class="p">:</span> <span class="s1">&#39;file://{0}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">trajectory</span><span class="p">),</span>
+                <span class="n">shared</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;source&#39;</span><span class="p">:</span> <span class="s1">&#39;file://</span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">trajectory</span><span class="p">),</span>
                            <span class="s1">&#39;target&#39;</span> <span class="p">:</span> <span class="n">basename</span><span class="p">(</span><span class="n">trajectory</span><span class="p">),</span>
                            <span class="s1">&#39;action&#39;</span> <span class="p">:</span> <span class="n">rp</span><span class="o">.</span><span class="n">LINK</span><span class="p">}</span>
                               <span class="k">for</span> <span class="n">trajectory</span> <span class="ow">in</span> <span class="n">trajectories</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="n">BLOCK_SIZE</span><span class="p">]]</span>
                 <span class="n">fshared</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">shared</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">i</span><span class="o">!=</span><span class="n">j</span><span class="p">:</span>
-                    <span class="n">shared</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;source&#39;</span><span class="p">:</span> <span class="s1">&#39;file://{0}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">trajectory</span><span class="p">),</span>
+                    <span class="n">shared</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;source&#39;</span><span class="p">:</span> <span class="s1">&#39;file://</span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">trajectory</span><span class="p">),</span>
                                <span class="s1">&#39;target&#39;</span> <span class="p">:</span> <span class="n">basename</span><span class="p">(</span><span class="n">trajectory</span><span class="p">),</span>
                                <span class="s1">&#39;action&#39;</span> <span class="p">:</span> <span class="n">rp</span><span class="o">.</span><span class="n">LINK</span><span class="p">}</span>
                                   <span class="k">for</span> <span class="n">trajectory</span> <span class="ow">in</span> <span class="n">trajectories</span><span class="p">[</span><span class="n">j</span><span class="p">:</span><span class="n">j</span><span class="o">+</span><span class="n">BLOCK_SIZE</span><span class="p">]]</span>
                     <span class="n">fshared</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">shared</span><span class="p">)</span>
                 <span class="c1"># always copy all unique topology files</span>
-                <span class="n">shared</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;source&#39;</span><span class="p">:</span> <span class="s1">&#39;file://{0}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">topology</span><span class="p">),</span>
+                <span class="n">shared</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;source&#39;</span><span class="p">:</span> <span class="s1">&#39;file://</span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">topology</span><span class="p">),</span>
                            <span class="s1">&#39;target&#39;</span> <span class="p">:</span> <span class="n">basename</span><span class="p">(</span><span class="n">topology</span><span class="p">),</span>
                            <span class="s1">&#39;action&#39;</span> <span class="p">:</span> <span class="n">rp</span><span class="o">.</span><span class="n">LINK</span><span class="p">}</span>
                           <span class="k">for</span> <span class="n">topology</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">topologies</span><span class="p">)]</span>
@@ -453,9 +443,9 @@ necessary for the <em>reduce</em> step that is performed with
                 <span class="n">jmax</span> <span class="o">=</span> <span class="n">j</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">trajectories</span><span class="p">[</span><span class="n">j</span><span class="p">:</span><span class="n">j</span><span class="o">+</span><span class="n">BLOCK_SIZE</span><span class="p">])</span>
                 <span class="c1"># should remember i, imax and j_jmax because we calculate the</span>
                 <span class="c1"># submatrix D[i:i+di, j:j+dj] in this CU.</span>
-                <span class="n">block_json</span> <span class="o">=</span> <span class="s2">&quot;block-{0}-{1}__{2}-{3}.json&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">block_json</span> <span class="o">=</span> <span class="s2">&quot;block-</span><span class="si">{0}</span><span class="s2">-</span><span class="si">{1}</span><span class="s2">__</span><span class="si">{2}</span><span class="s2">-</span><span class="si">{3}</span><span class="s2">.json&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                     <span class="n">i</span><span class="p">,</span> <span class="n">imax</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">jmax</span><span class="p">)</span>
-                <span class="n">block_matrixfile</span> <span class="o">=</span> <span class="s1">&#39;subdistances_{0}-{1}__{2}-{3}.npy&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">block_matrixfile</span> <span class="o">=</span> <span class="s1">&#39;subdistances_</span><span class="si">{0}</span><span class="s1">-</span><span class="si">{1}</span><span class="s1">__</span><span class="si">{2}</span><span class="s1">-</span><span class="si">{3}</span><span class="s1">.npy&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                     <span class="n">i</span><span class="p">,</span> <span class="n">imax</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">jmax</span><span class="p">)</span>
 
                 <span class="n">manifest</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">block_matrixfile</span><span class="p">,</span> <span class="n">block_json</span><span class="p">,</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">imax</span><span class="p">),</span> <span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">jmax</span><span class="p">)))</span>
@@ -465,7 +455,7 @@ necessary for the <em>reduce</em> step that is performed with
                     <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="n">out</span><span class="p">)</span>
 
                 <span class="c1"># share input json file</span>
-                <span class="n">shared</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;source&#39;</span><span class="p">:</span> <span class="s1">&#39;file://{0}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="n">block_json</span><span class="p">)),</span>
+                <span class="n">shared</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;source&#39;</span><span class="p">:</span> <span class="s1">&#39;file://</span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="n">block_json</span><span class="p">)),</span>
                            <span class="s1">&#39;target&#39;</span> <span class="p">:</span> <span class="n">basename</span><span class="p">(</span><span class="n">block_json</span><span class="p">),</span>
                            <span class="s1">&#39;action&#39;</span> <span class="p">:</span> <span class="n">rp</span><span class="o">.</span><span class="n">LINK</span><span class="p">}</span>
                 <span class="p">]</span>
@@ -492,7 +482,7 @@ necessary for the <em>reduce</em> step that is performed with
         <span class="c1"># together</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">MANIFEST_NAME</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">outfile</span><span class="p">:</span>
             <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">manifest</span><span class="p">,</span> <span class="n">outfile</span><span class="p">)</span>
-        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Created manifest &#39;{0}&#39;: (block_D, block_trj, (i, i+w), (j, j+w))&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">MANIFEST_NAME</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Created manifest &#39;</span><span class="si">{0}</span><span class="s2">&#39;: (block_D, block_trj, (i, i+w), (j, j+w))&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">MANIFEST_NAME</span><span class="p">))</span>
 
         <span class="c1"># submit, run and wait and...</span>
         <span class="c1">#print &quot;submit units to unit manager ...&quot;</span>
@@ -501,24 +491,24 @@ necessary for the <em>reduce</em> step that is performed with
         <span class="c1">#print &quot;wait for units ...&quot;</span>
         <span class="n">umgr</span><span class="o">.</span><span class="n">wait_units</span><span class="p">()</span>
 
-        <span class="k">print</span> <span class="s2">&quot;Creating Profile&quot;</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;{0}.csv&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">session</span><span class="o">.</span><span class="n">name</span><span class="p">),</span><span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ProfFile</span><span class="p">:</span>
+        <span class="nb">print</span> <span class="s2">&quot;Creating Profile&quot;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{0}</span><span class="s1">.csv&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">session</span><span class="o">.</span><span class="n">name</span><span class="p">),</span><span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ProfFile</span><span class="p">:</span>
             <span class="n">ProfFile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;CU,New,StageIn,Allocate,Exec,StageOut,Done</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">cu</span> <span class="ow">in</span> <span class="n">units</span><span class="p">:</span>
                 <span class="n">timing_str</span><span class="o">=</span><span class="p">[</span><span class="n">cu</span><span class="o">.</span><span class="n">uid</span><span class="p">,</span><span class="s1">&#39;N/A&#39;</span><span class="p">,</span><span class="s1">&#39;N/A&#39;</span><span class="p">,</span><span class="s1">&#39;N/A&#39;</span><span class="p">,</span><span class="s1">&#39;N/A&#39;</span><span class="p">,</span><span class="s1">&#39;N/A&#39;</span><span class="p">,</span><span class="s1">&#39;N/A&#39;</span><span class="p">]</span>
                 <span class="k">for</span> <span class="n">states</span> <span class="ow">in</span> <span class="n">cu</span><span class="o">.</span><span class="n">state_history</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">states</span><span class="o">.</span><span class="n">as_dict</span><span class="p">()[</span><span class="s1">&#39;state&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;Scheduling&#39;</span><span class="p">:</span>
-                        <span class="n">timing_str</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span> <span class="p">(</span><span class="n">states</span><span class="o">.</span><span class="n">as_dict</span><span class="p">()[</span><span class="s1">&#39;timestamp&#39;</span><span class="p">]</span><span class="o">-</span><span class="n">pilot</span><span class="o">.</span><span class="n">start_time</span><span class="p">)</span><span class="o">.</span><span class="n">__str__</span><span class="p">()</span>
+                        <span class="n">timing_str</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span> <span class="p">(</span><span class="n">states</span><span class="o">.</span><span class="n">as_dict</span><span class="p">()[</span><span class="s1">&#39;timestamp&#39;</span><span class="p">]</span><span class="o">-</span><span class="n">pilot</span><span class="o">.</span><span class="n">start_time</span><span class="p">)</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span>
                     <span class="k">elif</span> <span class="n">states</span><span class="o">.</span><span class="n">as_dict</span><span class="p">()[</span><span class="s1">&#39;state&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;AgentStagingInput&#39;</span><span class="p">:</span>
-                        <span class="n">timing_str</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">=</span> <span class="p">(</span><span class="n">states</span><span class="o">.</span><span class="n">as_dict</span><span class="p">()[</span><span class="s1">&#39;timestamp&#39;</span><span class="p">]</span><span class="o">-</span><span class="n">pilot</span><span class="o">.</span><span class="n">start_time</span><span class="p">)</span><span class="o">.</span><span class="n">__str__</span><span class="p">()</span>
+                        <span class="n">timing_str</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">=</span> <span class="p">(</span><span class="n">states</span><span class="o">.</span><span class="n">as_dict</span><span class="p">()[</span><span class="s1">&#39;timestamp&#39;</span><span class="p">]</span><span class="o">-</span><span class="n">pilot</span><span class="o">.</span><span class="n">start_time</span><span class="p">)</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span>
                     <span class="k">elif</span> <span class="n">states</span><span class="o">.</span><span class="n">as_dict</span><span class="p">()[</span><span class="s1">&#39;state&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;Allocating&#39;</span><span class="p">:</span>
-                        <span class="n">timing_str</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">=</span> <span class="p">(</span><span class="n">states</span><span class="o">.</span><span class="n">as_dict</span><span class="p">()[</span><span class="s1">&#39;timestamp&#39;</span><span class="p">]</span><span class="o">-</span><span class="n">pilot</span><span class="o">.</span><span class="n">start_time</span><span class="p">)</span><span class="o">.</span><span class="n">__str__</span><span class="p">()</span>
+                        <span class="n">timing_str</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">=</span> <span class="p">(</span><span class="n">states</span><span class="o">.</span><span class="n">as_dict</span><span class="p">()[</span><span class="s1">&#39;timestamp&#39;</span><span class="p">]</span><span class="o">-</span><span class="n">pilot</span><span class="o">.</span><span class="n">start_time</span><span class="p">)</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span>
                     <span class="k">elif</span> <span class="n">states</span><span class="o">.</span><span class="n">as_dict</span><span class="p">()[</span><span class="s1">&#39;state&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;Executing&#39;</span><span class="p">:</span>
-                        <span class="n">timing_str</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">=</span> <span class="p">(</span><span class="n">states</span><span class="o">.</span><span class="n">as_dict</span><span class="p">()[</span><span class="s1">&#39;timestamp&#39;</span><span class="p">]</span><span class="o">-</span><span class="n">pilot</span><span class="o">.</span><span class="n">start_time</span><span class="p">)</span><span class="o">.</span><span class="n">__str__</span><span class="p">()</span>
+                        <span class="n">timing_str</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">=</span> <span class="p">(</span><span class="n">states</span><span class="o">.</span><span class="n">as_dict</span><span class="p">()[</span><span class="s1">&#39;timestamp&#39;</span><span class="p">]</span><span class="o">-</span><span class="n">pilot</span><span class="o">.</span><span class="n">start_time</span><span class="p">)</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span>
                     <span class="k">elif</span> <span class="n">states</span><span class="o">.</span><span class="n">as_dict</span><span class="p">()[</span><span class="s1">&#39;state&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;AgentStagingOutput&#39;</span><span class="p">:</span>
-                        <span class="n">timing_str</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">=</span> <span class="p">(</span><span class="n">states</span><span class="o">.</span><span class="n">as_dict</span><span class="p">()[</span><span class="s1">&#39;timestamp&#39;</span><span class="p">]</span><span class="o">-</span><span class="n">pilot</span><span class="o">.</span><span class="n">start_time</span><span class="p">)</span><span class="o">.</span><span class="n">__str__</span><span class="p">()</span>
+                        <span class="n">timing_str</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">=</span> <span class="p">(</span><span class="n">states</span><span class="o">.</span><span class="n">as_dict</span><span class="p">()[</span><span class="s1">&#39;timestamp&#39;</span><span class="p">]</span><span class="o">-</span><span class="n">pilot</span><span class="o">.</span><span class="n">start_time</span><span class="p">)</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span>
                     <span class="k">elif</span> <span class="n">states</span><span class="o">.</span><span class="n">as_dict</span><span class="p">()[</span><span class="s1">&#39;state&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;Done&#39;</span><span class="p">:</span>
-                        <span class="n">timing_str</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">=</span> <span class="p">(</span><span class="n">states</span><span class="o">.</span><span class="n">as_dict</span><span class="p">()[</span><span class="s1">&#39;timestamp&#39;</span><span class="p">]</span><span class="o">-</span><span class="n">pilot</span><span class="o">.</span><span class="n">start_time</span><span class="p">)</span><span class="o">.</span><span class="n">__str__</span><span class="p">()</span>
+                        <span class="n">timing_str</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">=</span> <span class="p">(</span><span class="n">states</span><span class="o">.</span><span class="n">as_dict</span><span class="p">()[</span><span class="s1">&#39;timestamp&#39;</span><span class="p">]</span><span class="o">-</span><span class="n">pilot</span><span class="o">.</span><span class="n">start_time</span><span class="p">)</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span>
 
                 <span class="n">ProfFile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">timing_str</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;,&#39;</span><span class="o">+</span><span class="n">timing_str</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;,&#39;</span><span class="o">+</span>
                                <span class="n">timing_str</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;,&#39;</span><span class="o">+</span><span class="n">timing_str</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;,&#39;</span><span class="o">+</span>
@@ -531,16 +521,16 @@ necessary for the <em>reduce</em> step that is performed with
         <span class="c1"># corresponding KeyboardInterrupt exception for shutdown.  We also catch</span>
         <span class="c1"># SystemExit (which gets raised if the main threads exits for some other</span>
         <span class="c1"># reason).</span>
-        <span class="k">print</span> <span class="s2">&quot;need to exit now: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">e</span>
+        <span class="nb">print</span> <span class="s2">&quot;need to exit now: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">e</span>
 
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="c1"># Something unexpected happened in the pilot code above</span>
-        <span class="k">print</span> <span class="s2">&quot;caught Exception: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">e</span>
+        <span class="nb">print</span> <span class="s2">&quot;caught Exception: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">e</span>
         <span class="k">raise</span>
 
     <span class="k">finally</span> <span class="p">:</span>
-        <span class="k">print</span> <span class="s2">&quot;Closing session, exiting now ...&quot;</span>
-        <span class="n">session</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">cleanup</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+        <span class="nb">print</span> <span class="s2">&quot;Closing session, exiting now ...&quot;</span>
+        <span class="n">session</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">cleanup</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
 </pre></div>
 </td></tr></table></div>
@@ -548,6 +538,7 @@ necessary for the <em>reduce</em> step that is performed with
 
 
           </div>
+          
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
@@ -602,25 +593,26 @@ necessary for the <em>reduce</em> step that is performed with
 </ul>
 </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
     </form>
+    </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
+
     <div class="footer">
       &copy;2017, Oliver Beckstein, Ioannis Paraskevakos, Sean Seyler, Andre Merzky, Andre Luckow, Shantenu Jha.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
       <a href="../_sources/code/rp_psa.rst.txt"
@@ -634,5 +626,12 @@ necessary for the <em>reduce</em> step that is performed with
     
 
     
+<div class="footer"><p>Please see
+    our <a href="https://www.mdanalysis.org/pages/privacy/">Privacy Policy</a>
+    to learn how <a href="https://www.mdanalysis.org">MDAnalysis</a> collects data.</p>
+    <script data-goatcounter="https://mdanalysis.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+</div>
+
   </body>
 </html>

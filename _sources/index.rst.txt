@@ -9,7 +9,7 @@
 ======================================================
 
 :version: |version|
-:date: |today|
+:date: Aug 08, 2017
 :repository: https://github.com/MDAnalysis/SPIDAL-MDAnalysis-Midas-tutorial
 
 The tutorial will showcase how to use Midas with `radical.pilot`_ to

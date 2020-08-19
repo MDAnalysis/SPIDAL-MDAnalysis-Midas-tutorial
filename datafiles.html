@@ -1,30 +1,19 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
+<!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Data files &#8212; SPIDAL Tutorial: MDAnalysis with Midas 1.2 documentation</title>
-    
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
-        VERSION:     '1.2',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="shortcut icon" href="_static/mdanalysis-logo.ico"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -36,13 +25,14 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
-  </head>
-  <body role="document">
+  </head><body>
   
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
+          
+
           <div class="body" role="main">
             
   <div class="section" id="data-files">
@@ -52,40 +42,40 @@ the tutorial. This includes Python scripts and real-world data files.</p>
 <div class="section" id="input-files-and-scripts">
 <span id="install-scripts"></span><h2>Input files and scripts<a class="headerlink" href="#input-files-and-scripts" title="Permalink to this headline">¶</a></h2>
 <p>Get the latest version of the tutorial:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>git clone https://github.com/MDAnalysis/SPIDAL-MDAnalysis-Midas-tutorial.git
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/MDAnalysis/SPIDAL-MDAnalysis-Midas-tutorial.git
 </pre></div>
 </div>
 <p>The Python scripts for the tutorial are located in
-<code class="docutils literal"><span class="pre">SPIDAL-MDAnalysis-Midas-tutorial/rp</span></code> and
-<code class="docutils literal"><span class="pre">SPIDAL-MDAnalysis-Midas-tutorial/util</span></code>.</p>
+<code class="docutils literal notranslate"><span class="pre">SPIDAL-MDAnalysis-Midas-tutorial/rp</span></code> and
+<code class="docutils literal notranslate"><span class="pre">SPIDAL-MDAnalysis-Midas-tutorial/util</span></code>.</p>
 </div>
 <div class="section" id="data">
 <h2>Data<a class="headerlink" href="#data" title="Permalink to this headline">¶</a></h2>
 <p>A real-world data set of about 1.5 GiB size is made available (and
 should be downloaded well in advance of this tutorial). These are 400
 trajectories of the conformational transition of the enzyme adenylate
-kinase <a class="reference internal" href="references.html#seyler2015" id="id1">[Seyler2015]</a>, sampled with the dynamic importance sampling
-(DIMS) MD method <a class="reference internal" href="references.html#beckstein2009" id="id2">[Beckstein2009]</a> <a class="reference internal" href="references.html#perilla2011" id="id3">[Perilla2011]</a> or the FRODA method
-<a class="reference internal" href="references.html#farrell2010" id="id4">[Farrell2010]</a>.</p>
+kinase <a class="reference internal" href="references.html#seyler2015" id="id1"><span>[Seyler2015]</span></a>, sampled with the dynamic importance sampling
+(DIMS) MD method <a class="reference internal" href="references.html#beckstein2009" id="id2"><span>[Beckstein2009]</span></a> <a class="reference internal" href="references.html#perilla2011" id="id3"><span>[Perilla2011]</span></a> or the FRODA method
+<a class="reference internal" href="references.html#farrell2010" id="id4"><span>[Farrell2010]</span></a>.</p>
 <p>Download the whole archive as a 1.2 GiB tar.bz2 from
 <a class="reference external" href="https://becksteinlab.physics.asu.edu/pages/download/SPIDAL-tutorial-data.tar.bz2">https://becksteinlab.physics.asu.edu/pages/download/SPIDAL-tutorial-data.tar.bz2</a>
 and unpack with</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>tar -jxvf SPIDAL-tutorial-data.tar.bz2
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>tar -jxvf SPIDAL-tutorial-data.tar.bz2
 </pre></div>
 </div>
 <p>(Alternatively, use the <a class="reference external" href="https://www.dropbox.com/sh/3sfu6x37lieti26/AAB255qzdUgAQia_XdfoIklCa?dl=0">dropbox PSA folder</a>.)</p>
-<p>This should create a directory <code class="docutils literal"><span class="pre">tutorial-data</span></code>. Do not change the
+<p>This should create a directory <code class="docutils literal notranslate"><span class="pre">tutorial-data</span></code>. Do not change the
 contents inside the directory because the primitive
 <strong class="program">generate_file_list.py</strong> script (see below) has built-in
 assumptions on the directory structure.</p>
-<p>Put the <code class="docutils literal"><span class="pre">tutorial-data</span></code> directory in the same directory as the
-tutorial code directory <code class="docutils literal"><span class="pre">SPIDAL-MDAnalysis-Midas-tutorial</span></code>.</p>
+<p>Put the <code class="docutils literal notranslate"><span class="pre">tutorial-data</span></code> directory in the same directory as the
+tutorial code directory <code class="docutils literal notranslate"><span class="pre">SPIDAL-MDAnalysis-Midas-tutorial</span></code>.</p>
 </div>
 <div class="section" id="work-directory">
 <h2>Work directory<a class="headerlink" href="#work-directory" title="Permalink to this headline">¶</a></h2>
-<p>Perform all runs in a directory <code class="docutils literal"><span class="pre">WORK</span></code> (here we assume that <code class="docutils literal"><span class="pre">WORK</span></code>
+<p>Perform all runs in a directory <code class="docutils literal notranslate"><span class="pre">WORK</span></code> (here we assume that <code class="docutils literal notranslate"><span class="pre">WORK</span></code>
 in the same directory as the data and the tutorial code):</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>mkdir WORK
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir WORK
 <span class="nb">cd</span> WORK
 </pre></div>
 </div>
@@ -99,7 +89,7 @@ trajectories is a difficult topic and tools such as <a class="reference external
 be employed.</p>
 <p>Generate input file for the RP script <strong class="program">rp/rp_psa.py</strong> with the helper
 script <strong class="program">util/generate_file_list.py</strong>:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nb">cd</span> WORK  <span class="c1"># if you are not already in WORK</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> WORK  <span class="c1"># if you are not already in WORK</span>
 <span class="nv">RPDIR</span><span class="o">=</span><span class="nv">$PWD</span>/../SPIDAL-MDAnalysis-Midas-tutorial/rp
 
 <span class="nv">$RPDIR</span>/../util/generate_file_list.py -T .. trajectories.json
@@ -109,7 +99,7 @@ script <strong class="program">util/generate_file_list.py</strong>:</p>
 output file name.) This creates the list with all 2 x 200 = 400
 trajectories.</p>
 <p>Also create a smaller list for testing (only 2 x 5 = 10 trajectories):</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nv">$RPDIR</span>/../util/generate_file_list.py -T .. -e <span class="m">5</span> testcase.json
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">$RPDIR</span>/../util/generate_file_list.py -T .. -e <span class="m">5</span> testcase.json
 </pre></div>
 </div>
 <p>You can have a look at the JSON files with <strong class="program">less</strong> or a text
@@ -120,6 +110,7 @@ to make sure that the radical.pilot script can find them.</p>
 
 
           </div>
+          
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
@@ -172,25 +163,26 @@ to make sure that the radical.pilot script can find them.</p>
 </ul>
 </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
     </form>
+    </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
+
     <div class="footer">
       &copy;2017, Oliver Beckstein, Ioannis Paraskevakos, Sean Seyler, Andre Merzky, Andre Luckow, Shantenu Jha.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
       <a href="_sources/datafiles.rst.txt"
@@ -204,5 +196,12 @@ to make sure that the radical.pilot script can find them.</p>
     
 
     
+<div class="footer"><p>Please see
+    our <a href="https://www.mdanalysis.org/pages/privacy/">Privacy Policy</a>
+    to learn how <a href="https://www.mdanalysis.org">MDAnalysis</a> collects data.</p>
+    <script data-goatcounter="https://mdanalysis.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+</div>
+
   </body>
 </html>
